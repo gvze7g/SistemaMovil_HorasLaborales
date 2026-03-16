@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seguimiento de Vehículo</title>
+    <link rel="stylesheet" href="css/seguimiento.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/Modos-claro-oscuro.css">
+    </head>
+  <body>
+    <div class="contenedor-aplicacion">
+      <header class="encabezado-seguimiento">
+        <a href="auth-seguimiento.html" class="boton-volver">
+          <i class="fas fa-arrow-left"></i> Volver
+        </a>
+        <h1>Seguimiento del Vehículo</h1>
+        <button id="btnNuevaBusqueda" class="boton-nueva-busqueda" style="display: none;">
+          <i class="fas fa-search"></i> Nueva Búsqueda
+        </button>
+      </header>
+
+      <main class="contenido-principal-seguimiento">
+        <div class="tarjeta-info-vehiculo">
+          <div class="encabezado-tarjeta">
+            <span class="numero-registro"
+              >Registro número: <span id="recordNumber">N/A</span></span
+            >
+          </div>
+          <div class="detalles-vehiculo-contenedor">
+            <div class="imagen-vehiculo-envoltorio">
+              <img src="imgs/audi.jpg" alt="Imagen del Vehículo" id="vehicleImage" />
+            </div>
+            <div class="info-vehiculo-texto">
+              <h2 id="infoModelo">Cargando...</h2>
+              <p class="estado-ajuste" id="adjustmentStatus">
+                Estado del ajuste: Cargando...
+              </p>
+              <p>Placa: <span id="infoPlaca">Cargando...</span></p>
+              <p>Estudiante Asignado: <span id="assignedStudent">Cargando...</span></p>
+              <p>Módulo: <span id="assignedModule">Cargando...</span></p>
+              <div class="info-contacto">
+                <span id="contactName">Cargando...</span>
+                <a href="#" class="boton-contacto">Contactar</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="cuadricula-tareas-reparacion" id="repairTasksGrid">
+            </div>
+
+
+
+        </div>
+
+        <div class="seccion-actualizaciones">
+          <h2>Actualizaciones Recientes</h2>
+          <ul id="updatesList">
+            <li>Cargando actualizaciones...</li> </ul>
+        </div>
+      </main>
+
+      <footer>
+        <p>&copy; 2025 Sistema de Gestión de Mantenimiento Automotríz desarrollado por estudiantes de segundo año de bachillerato</p>
+      </footer>
+    </div>
+
+    <script src="js/seguimiento.js"></script>
+    </body>
+</html>

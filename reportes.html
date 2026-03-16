@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reportes</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/reportes.css">
+</head>
+
+<body>
+
+  <header class="app-header">
+    <!--<a href="coordi-index.html" class="back-button"> <i class="fa-solid fa-arrow-left"></i>
+      <span></span> </a>-->
+    <h1 class="header-title">Reportes</h1>
+    <div class="header-spacer"></div>
+  </header>
+
+  <main>
+    <!-- Statistics Cards Section -->
+    <section class="stats-section">
+      <div class="stat-card">
+        <div class="stat-icon estudiantes">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-info">
+          <div class="stat-number">
+            <span id="estudiantes-count" class="loading-stat">...</span>
+          </div>
+          <div class="stat-label">Estudiantes</div>
+          <div id="estudiantes-change" class="stat-change">...</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon vehiculos">
+          <i class="fas fa-car"></i>
+        </div>
+        <div class="stat-info">
+          <div class="stat-number">
+            <span id="vehiculos-count" class="loading-stat">...</span>
+          </div>
+          <div class="stat-label">Vehículos</div>
+          <div id="vehiculos-change" class="stat-change">...</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon instructores">
+          <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+        <div class="stat-info">
+          <div class="stat-number">
+            <span id="instructores-count" class="loading-stat">...</span>
+          </div>
+          <div class="stat-label">Instructores</div>
+          <div id="instructores-change" class="stat-change">...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Charts Section -->
+    <div class="chart-container" id="chart-container-students">
+      <h2>
+        Estudiantes por Año
+        <button class="print-btn" onclick="printChart('chart-container-students', 'Estudiantes por Año')">
+          <i class="fas fa-print"></i>
+          Imprimir
+        </button>
+      </h2>
+      <div id="chart-alumnos"></div>
+    </div>
+
+    <div class="chart-container" id="chart-container-vehicles">
+      <h2>
+        Vehículos por Tipo
+        <button class="print-btn" onclick="printChart('chart-container-vehicles', 'Vehículos por Tipo')">
+          <i class="fas fa-print"></i>
+          Imprimir
+        </button>
+      </h2>
+      <div id="chart-autos-registrados"></div>
+    </div>
+
+    <div class="chart-container" id="chart-container-instructors-level">
+      <h2>
+        Instructores por Año
+        <button class="print-btn" onclick="printChart('chart-container-instructors-level', 'Instructores por Año')">
+          <i class="fas fa-print"></i>
+          Imprimir
+        </button>
+      </h2>
+      <div id="chart-instructores-level"></div>
+    </div>
+
+    <div class="chart-container" id="chart-container-instructors-role">
+      <h2>
+        Instructores por Rol
+        <button class="print-btn" onclick="printChart('chart-container-instructors-role', 'Instructores por Rol')">
+          <i class="fas fa-print"></i>
+          Imprimir
+        </button>
+      </h2>
+      <div id="chart-instructores-rol"></div>
+    </div>
+
+  </main>
+
+  <nav class="bottom-nav">
+        <ul>
+            <li>
+                <a href="coordi-index.html" class="nav-item">
+                    <i class="fas fa-home nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="1er-año.html" class="nav-item">
+                    <i class="fas fa-graduation-cap nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="reportes.html" class="nav-item active">
+                    <i class="fas fa-chart-bar nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="perfil-coord.html" class="nav-item">
+                    <i class="fas fa-user nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="admin.html" class="nav-item">
+                    <i class="fas fa-wrench nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="authInstructors.html" class="nav-item">
+                    <i class="fas fa-sign-out-alt nav-icon"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="js/reportes.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,675 @@
+/* Asegura que html y body ocupen la altura completa del viewport y permitan el desplazamiento */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Evita el desplazamiento horizontal */
+}
+
+body {
+    overflow-y: auto; /* Permite el desplazamiento vertical cuando el contenido excede la altura */
+    -webkit-overflow-scrolling: touch; /* Mejora el desplazamiento en dispositivos iOS */
+}
+
+:root {
+    /* Variables CSS: Como "atajos" para colores. Si cambiamos un color aquí, se actualiza en toda la página. */
+    --primary-dark: #1a1a1a; /* Color oscuro principal para fondos. */
+    --secondary-dark: #2b2b2b; /* Un gris un poco más claro para elementos secundarios como el encabezado o las tarjetas. */
+    --text-light: #f0f0f0; /* Color de texto claro, ideal para fondos oscuros. */
+    --text-mid: #aaa; /* Un gris medio para texto secundario o menos prominente. */
+    --text-dark: #333; /* Texto oscuro (no muy usado aquí, pero útil). */
+    --status-green: #90ee90; /* Verde brillante para indicar estados positivos o completados. */
+    --contact-blue: #5a7dcb; /* Azul para el botón de contacto. */
+    --contact-blue-hover: #4a6cb1; /* Un azul más oscuro al pasar el mouse sobre el botón de contacto. */
+    --back-button-bg: #444; /* Fondo del botón "Volver". */
+    --back-button-hover: #555; /* Fondo del botón "Volver" al pasar el mouse. */
+    --card-shadow: rgba(0, 0, 0, 0.4); /* Sombra para las tarjetas. */
+    --task-item-bg: #3b3b3b; /* Fondo para los elementos de la lista de tareas. */
+    --task-item-hover: #4a4a4a; /* Fondo al pasar el mouse sobre la tarea. */
+    --progress-bar-bg: #555; /* Fondo de la barra de progreso. */
+    --progress-bar-fill: #A32F2A; /* Color de relleno de la barra de progreso. */
+    --scrollbar-track-color: #333; /* Color de la pista del scrollbar (si aplica) */
+    --scrollbar-thumb-color: #888; /* Color del "pulgar" del scrollbar (si aplica) */
+}
+
+/* Estilos globales */
+* {
+    box-sizing: border-box; /* Incluye padding y border en el ancho/alto total del elemento */
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--primary-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.contenedor-aplicacion {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--primary-dark);
+    box-shadow: 0 0 15px var(--card-shadow);
+    /* No se usa max-width o margin auto aquí para que ocupe todo el ancho en móviles */
+}
+
+.encabezado-seguimiento {
+    background-color: var(--secondary-dark);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.encabezado-seguimiento h1 {
+    font-size: 1.4em;
+    color: var(--text-light);
+    margin: 0;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.boton-volver {
+    background-color: var(--back-button-bg);
+    color: var(--text-light);
+    padding: 0.6em 1em;
+    border-radius: 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    transition: background-color 0.3s ease;
+    font-size: 0.9em;
+}
+
+.boton-volver:hover {
+    background-color: var(--back-button-hover);
+}
+
+.boton-volver i {
+    font-size: 1.1em;
+}
+
+.contenido-principal-seguimiento {
+    flex-grow: 1; /* Permite que el contenido principal ocupe el espacio restante */
+    padding: 1.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.tarjeta-info-vehiculo {
+    background-color: var(--secondary-dark);
+    border-radius: 10px;
+    padding: 1.5em;
+    box-shadow: 0 4px 8px var(--card-shadow);
+    color: var(--text-light);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.encabezado-tarjeta {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.numero-registro {
+    background-color: var(--primary-dark);
+    padding: 0.3em 0.8em;
+    border-radius: 15px;
+    font-size: 0.8em;
+    color: var(--text-mid);
+}
+
+.detalles-vehiculo-contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    text-align: center;
+}
+
+.imagen-vehiculo-envoltorio {
+    width: 150px;
+    height: 150px;
+    border-radius: 10%;
+    overflow: hidden;
+    border: 3px solid var(--status-green);
+    flex-shrink: 0; /* Evita que la imagen se encoja */
+}
+
+.imagen-vehiculo-envoltorio img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info-vehiculo-texto h2 {
+    font-size: 1.6em;
+    color: var(--status-green);
+    margin-bottom: 0.5em;
+}
+
+.info-vehiculo-texto p {
+    font-size: 0.95em;
+    margin-bottom: 0.3em;
+}
+
+.estado-ajuste {
+    font-weight: bold;
+    color: var(--text-light);
+}
+
+.info-contacto {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centrar en móvil */
+    gap: 0.8em;
+    margin-top: 1em;
+}
+
+.info-contacto span {
+    font-weight: bold;
+    color: var(--text-light);
+    font-size: 1em;
+}
+
+.boton-contacto {
+    background-color: var(--contact-blue);
+    color: var(--text-light);
+    padding: 0.6em 1em;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+.boton-contacto:hover {
+    background-color: var(--contact-blue-hover);
+}
+
+.seccion-progreso {
+    margin-top: 1.5em;
+}
+
+.contenedor-barra-progreso {
+    background-color: var(--progress-bar-bg);
+    border-radius: 10px;
+    height: 15px;
+    overflow: hidden;
+    margin-bottom: 0.5em;
+    position: relative;
+}
+
+.barra-progreso {
+    height: 100%;
+    background-color: var(--progress-bar-fill);
+    width: 0%; /* Se controlará con JS */
+    border-radius: 10px;
+    transition: width 0.5s ease-in-out;
+}
+
+#progressPercentage {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    font-size: 0.9em;
+    font-weight: bold;
+    text-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+
+.info-tiempo-progreso {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85em;
+    color: var(--text-mid);
+}
+
+.cuadricula-tareas-reparacion {
+    display: grid;
+    grid-template-columns: 1fr; /* Una columna por defecto para móviles */
+    gap: 1em;
+    margin-top: 1.5em;
+}
+
+.elemento-tarea i, span{
+    padding: 15px;
+}
+
+.elemento-tarea {
+    background-color: var(--task-item-bg);
+    border-radius: 8px;
+    padding: 1em 1.2em;
+    display: flex;
+    align-items: center;
+    gap: 0.7em; /* Espacio entre el icono y el texto */
+    font-size: 1em;
+    color: var(--text-light);
+    transition: background-color 0.3s ease;
+}
+
+.elemento-tarea:hover {
+    background-color: var(--task-item-hover);
+}
+
+.elemento-tarea i {
+    font-size: 1.3em;
+    color: var(--status-green);
+    flex-shrink: 0; /* Evita que el icono se encoja */
+}
+
+.seccion-actualizaciones {
+    background-color: var(--secondary-dark);
+    border-radius: 10px;
+    padding: 1.5em;
+    box-shadow: 0 4px 8px var(--card-shadow);
+    color: var(--text-light);
+    margin-top: 1.5em;
+}
+
+.seccion-actualizaciones h2 {
+    font-size: 1.5em;
+    color: var(--text-light);
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.seccion-actualizaciones ul {
+    list-style: none;
+    padding: 0;
+}
+
+.seccion-actualizaciones ul li {
+    background-color: var(--task-item-bg);
+    border-radius: 5px;
+    padding: 0.8em 1em;
+    margin-bottom: 0.5em;
+    font-size: 0.9em;
+    color: var(--text-mid);
+}
+
+.seccion-actualizaciones ul li:last-child {
+    margin-bottom: 0;
+}
+
+footer {
+    background-color: var(--primary-dark);
+    color: var(--text-mid);
+    text-align: center;
+    padding: 1em;
+    font-size: 0.8em;
+    margin-top: auto; /* Empuja el footer hacia abajo en un contenedor flex */
+}
+
+/* Estilos para el botón de nueva búsqueda */
+.boton-nueva-busqueda {
+    background-color: var(--contact-blue);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.boton-nueva-busqueda:hover {
+    background-color: var(--contact-blue-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(90, 125, 203, 0.3);
+}
+
+.boton-nueva-busqueda i {
+    font-size: 0.8rem;
+}
+
+/* Estilos para la sección de información adicional */
+.seccion-info-adicional {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: var(--secondary-dark);
+    border-radius: 8px;
+    border: 1px solid #444;
+}
+
+.seccion-info-adicional h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--text-light);
+    font-size: 1.1rem;
+}
+
+.seccion-info-adicional h4 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+    font-size: 1rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    padding: 0.6rem;
+    background-color: var(--task-item-bg);
+    border-radius: 6px;
+}
+
+.info-item label {
+    font-weight: bold;
+    color: var(--text-mid);
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+}
+
+.info-item span {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.work-order-image-container {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.boton-toggle-info {
+    background-color: var(--contact-blue);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.boton-toggle-info:hover {
+    background-color: var(--contact-blue-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(90, 125, 203, 0.3);
+}
+
+.boton-toggle-info i {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.boton-toggle-info.expanded i {
+    transform: rotate(180deg);
+}
+
+/* Estilos para botón de debug */
+.boton-debug {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.boton-debug:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+/* --- Media Queries for Responsiveness --- */
+
+/* Para tabletas grandes y escritorios */
+@media (min-width: 768px) {
+    .contenedor-aplicacion {
+        max-width: 800px; /* Mayor ancho para escritorios */
+        height: auto; /* Altura automática para permitir el desplazamiento */
+        min-height: 85vh; /* Mínimo de 85% del viewport height */
+        border-radius: 25px;
+        margin: 0px auto; /* Centrar horizontalmente */
+    }
+
+    .encabezado-seguimiento {
+        padding: 1.5em 2em;
+    }
+
+    .encabezado-seguimiento h1 {
+        font-size: 1.6em;
+        margin-left: 90px; /* Ajuste para centrar el título con el botón "Volver" */
+    }
+
+    .boton-volver {
+        font-size: 1em;
+        padding: 0.7em 1.2em;
+    }
+
+    .contenido-principal-seguimiento {
+        padding: 2em;
+        gap: 2em;
+    }
+
+    .tarjeta-info-vehiculo,
+    .seccion-actualizaciones {
+        padding: 1.8em;
+    }
+
+    .detalles-vehiculo-contenedor {
+        flex-direction: row; /* Vuelve a fila para desktop */
+        gap: 1.8em;
+        flex-wrap: nowrap; /* Evita que los elementos se envuelvan */
+        justify-content: flex-start; /* Alinea a la izquierda */
+        text-align: left; /* Alinea el texto a la izquierda */
+    }
+
+    .imagen-vehiculo-envoltorio {
+        width: 180px;
+        height: 180px;
+    }
+
+    .info-vehiculo-texto {
+        flex: 1;
+        min-width: 250px;
+    }
+
+    .info-vehiculo-texto h2 {
+        font-size: 1.8em;
+    }
+
+    .info-vehiculo-texto p,
+    .estado-ajuste,
+    .info-contacto span,
+    .boton-contacto {
+        font-size: 1.05em;
+    }
+
+    .info-contacto {
+        justify-content: flex-start; /* Alinea a la izquierda en desktop */
+    }
+
+    .boton-contacto {
+        padding: 0.7em 1.3em;
+    }
+
+    .contenedor-barra-progreso {
+        height: 20px;
+    }
+
+    #progressPercentage,
+    .info-tiempo-progreso {
+        font-size: 1em;
+    }
+
+    .cuadricula-tareas-reparacion {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Al menos 2 columnas */
+        gap: 1.5em;
+    }
+
+    .elemento-tarea {
+        font-size: 1.05em;
+        padding: 1.1em 1.4em;
+    }
+
+    .seccion-actualizaciones h2 {
+        font-size: 1.6em;
+    }
+
+    .seccion-actualizaciones ul li {
+        font-size: 0.95em;
+        padding: 0.9em 1.1em;
+    }
+
+    footer {
+        font-size: 0.85em;
+        padding: 1.2em;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .info-item {
+        padding: 0.8rem;
+    }
+
+    .boton-toggle-info {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Para tabletas en orientación vertical (o móviles grandes) */
+@media (max-width: 767px) {
+    .contenedor-aplicacion {
+        border-radius: 0; /* Sin bordes redondeados en pantallas pequeñas */
+    }
+
+    .boton-nueva-busqueda {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+
+    .encabezado-seguimiento {
+        padding: 0.8rem;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+    }
+    
+    .info-item {
+        padding: 0.5rem;
+    }
+    
+    .boton-toggle-info {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Para móviles pequeños (ajustes adicionales) */
+@media (max-width: 550px) {
+    .encabezado-seguimiento h1 {
+        font-size: 1.2em; /* Reduce el tamaño del título del encabezado. */
+    }
+
+    .boton-volver {
+        font-size: 0.8em; /* Reduce el tamaño de fuente del botón "Volver". */
+        padding: 0.5em 0.8em; /* Reduce el relleno del botón. */
+    }
+
+    .cuadricula-tareas-reparacion {
+        grid-template-columns: 1fr; /* Una sola columna para las tareas en pantallas muy pequeñas. */
+    }
+
+    .elemento-tarea {
+        font-size: 0.9em; /* Reduce el tamaño de fuente de las tareas. */
+        padding: 0.8em 1em; /* Reduce el relleno de las tareas. */
+    }
+
+    .seccion-actualizaciones h2 {
+        font-size: 1.3em; /* Reduce el tamaño del título de actualizaciones. */
+    }
+
+    .seccion-actualizaciones ul li {
+        font-size: 0.85em; /* Reduce el tamaño de fuente de los elementos de actualización. */
+    }
+}
+
+@media (max-width: 480px) {
+    /* Estas reglas se aplican cuando la pantalla es de 480px de ancho o menos (para la mayoría de los teléfonos). */
+    .encabezado-seguimiento {
+        padding: 0.8em 1em; /* Reduce aún más el relleno del encabezado. */
+    }
+    .encabezado-seguimiento h1 {
+        margin-left: 0; /* Elimina el margen negativo para centrar mejor en móviles pequeños */
+        text-align: center;
+        flex-grow: 1; /* Permite que el título crezca para ocupar espacio */
+    }
+    .boton-volver {
+        padding: 0.4em 0.6em;
+        font-size: 0.7em;
+    }
+    .contenido-principal-seguimiento {
+        padding: 1em;
+        gap: 1em;
+    }
+    .tarjeta-info-vehiculo,
+    .seccion-actualizaciones {
+        padding: 1.2em;
+    }
+    .info-vehiculo-texto h2 {
+        font-size: 1.4em;
+    }
+    .info-vehiculo-texto p,
+    .estado-ajuste,
+    .info-contacto span,
+    .boton-contacto {
+        font-size: 0.9em;
+    }
+    .cuadricula-tareas-reparacion {
+        gap: 0.8em;
+    }
+    .elemento-tarea {
+        font-size: 0.85em;
+        padding: 0.7em 0.9em;
+    }
+    .seccion-actualizaciones h2 {
+        font-size: 1.2em;
+    }
+    .seccion-actualizaciones ul li {
+        font-size: 0.8em;
+        padding: 0.7em 0.9em;
+    }
+    footer {
+        padding: 1em;
+        font-size: 0.75em;
+    }
+}

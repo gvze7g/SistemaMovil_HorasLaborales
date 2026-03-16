@@ -1,0 +1,389 @@
+/* Variables CSS: Definiciones de colores, tamaños de fuente y espaciados para facilitar la consistencia y el mantenimiento. */
+:root {
+    --primary-red: #A32F2A; /* Color principal para botones y elementos destacados. */
+    --secondary-gray: #4A4A4A; /* Gris secundario (no usado directamente en HTML/CSS, pero podría serlo). */
+    --light-gray: #D9D9D9; /* Gris claro, usado para fondos de campos de entrada y selector. */
+    --text-color-light: #FFFFFF; /* Color de texto claro para fondos oscuros. */
+    --text-color-dark: #333333; /* Color de texto oscuro para fondos claros. */
+    --link-color: #FBB03B; /* Color naranja/dorado para enlaces (no aplicado en este HTML). */
+    --background-color: #333333; /* Color de fondo general de la aplicación. */
+    --header-bg: #3a3a3a; /* Fondo para la cabecera. */
+    --back-button-bg: #444; /* Fondo del botón "Volver". */
+    --back-button-hover: #555; /* Fondo del botón "Volver" al pasar el ratón. */
+    --error-red: #EF5350; /* Color rojo para mensajes de error. */
+    --font-size-title: 29px;
+    --font-size-subtitle: 24px;
+    --font-size-text: 14px;
+    --font-size-button: 18px;
+    --base-font-size: 1.05rem; /* Tamaño de fuente base para texto general. */
+    --input-padding-y: 14px; /* Relleno vertical para campos de entrada. */
+    --input-padding-x: 18px; /* Relleno horizontal para campos de entrada. */
+    --button-padding: 18px; /* Relleno para botones. */
+    --gap-spacing: 22px; /* Espaciado entre elementos de formulario. */
+}
+
+/* Reset de estilos del navegador y estilos generales del cuerpo. */
+* {
+    box-sizing: border-box; /* Incluye padding y border en el ancho/alto total. */
+    margin: 0; /* Elimina márgenes predeterminados. */
+    padding: 0; /* Elimina rellenos predeterminados. */
+    font-family: 'Roboto', sans-serif; /* Establece la fuente principal. */
+}
+
+body {
+    background-color: var(--background-color); /* Aplica el color de fondo definido. */
+    color: var(--text-color-light); /* Aplica el color de texto claro por defecto. */
+    height: 100vh; /* Asegura que el cuerpo ocupe toda la altura de la ventana. */
+    display: flex; /* Habilita Flexbox para centrar el contenido. */
+    justify-content: center; /* Centra el contenido horizontalmente. */
+    align-items: center; /* Centra el contenido verticalmente. */
+    padding: 0; /* Elimina el padding del cuerpo. */
+}
+
+/* Estilos para el contenedor principal de la aplicación (simula la pantalla). */
+.contenedor-aplicacion {
+    background-color: var(--background-color); /* Fondo oscuro para el contenedor de la app. */
+    width: 100%; /* Ocupa todo el ancho disponible. */
+    max-width: 480px; /* Ancho máximo en pantallas grandes. */
+    height: 100vh; /* Ocupa toda la altura de la ventana. */
+    overflow: hidden; /* Asegura que el contenido no se salga de los límites. */
+    display: flex; /* Habilita Flexbox. */
+    flex-direction: column; /* Organiza los elementos hijos en una columna. */
+    /* Compatibilidad para alturas completas en navegadores móviles. */
+    min-height: -webkit-fill-available;
+    min-height: 100vh;
+}
+
+/* Estilos para la cabecera de la aplicación. */
+.encabezado-app {
+    background-color: var(--header-bg); /* Color de fondo de la cabecera. */
+    padding: 1.2em 1.2em; /* Relleno interno. */
+    display: flex; /* Habilita Flexbox para alinear los elementos. */
+    align-items: center; /* Centra los elementos verticalmente. */
+    justify-content: space-between; /* Espacia el botón y el título. */
+    flex-shrink: 0; /* Evita que la cabecera se encoja. */
+}
+
+/* Estilos para el título dentro de la cabecera. */
+.titulo-encabezado {
+    font-size: 1.8rem; /* Tamaño de fuente. */
+    margin: 0; /* Elimina márgenes predeterminados. */
+    color: var(--text-color-light); /* Color de texto claro. */
+    flex-grow: 1; /* Permite que el título ocupe el espacio restante. */
+    text-align: center; /* Centra el texto del título. */
+    margin-left: -40px; /* Ajuste para centrarlo visualmente debido al botón de "Volver". */
+}
+
+/* Estilos para el botón de regresar. */
+.boton-regresar {
+    color: var(--text-color-light); /* Color de texto claro. */
+    text-decoration: none; /* Elimina el subrayado del enlace. */
+    padding: 0.7em 1.2em; /* Relleno interno. */
+    background-color: var(--back-button-bg); /* Fondo del botón. */
+    border-radius: 10px; /* Bordes redondeados. */
+    font-size: 0.95em; /* Tamaño de fuente. */
+    transition: background-color 0.2s ease; /* Transición suave al pasar el ratón. */
+    display: flex; /* Habilita Flexbox para alinear el icono y el texto. */
+    align-items: center; /* Centra el icono y el texto verticalmente. */
+    gap: 0.6em; /* Espacio entre el icono y el texto. */
+    flex-shrink: 0; /* Evita que el botón se encoja. */
+    z-index: 10; /* Asegura que esté por encima de otros elementos si hay superposiciones. */
+}
+
+/* Estilo para el botón de regresar al pasar el ratón. */
+.boton-regresar:hover {
+    background-color: var(--back-button-hover); /* Fondo ligeramente más oscuro. */
+}
+
+/* Estilos para el icono dentro del botón de regresar. */
+.boton-regresar i {
+    font-size: 1.1em; /* Tamaño del icono. */
+}
+
+/* Estilos para la sección principal del contenido de registro. */
+.contenido-principal-registro {
+    flex-grow: 1; /* Permite que esta sección ocupe el espacio vertical restante. */
+    overflow-y: auto; /* Habilita el desplazamiento vertical si el contenido es muy largo. */
+    -webkit-overflow-scrolling: touch; /* Mejora el desplazamiento en dispositivos iOS. */
+    display: flex; /* Habilita Flexbox. */
+    flex-direction: column; /* Organiza los elementos en una columna. */
+    align-items: center; /* Centra los elementos horizontalmente. */
+    padding: 30px; /* Relleno interno. */
+}
+
+/* Estilos para el subtítulo dentro del contenido de registro. */
+.contenido-principal-registro .subtitulo-formulario {
+    color: var(--text-color-light); /* Color de texto claro. */
+    font-size: var(--base-font-size); /* Tamaño de fuente base. */
+    margin-bottom: 35px; /* Margen inferior. */
+    text-align: center; /* Centra el texto. */
+}
+
+/* Estilos para el formulario de registro. */
+.formulario-registro {
+    width: 100%; /* Ocupa todo el ancho disponible. */
+    max-width: 380px; /* Ancho máximo del formulario. */
+    display: flex; /* Habilita Flexbox. */
+    flex-direction: column; /* Organiza los campos en una columna. */
+    gap: var(--gap-spacing); /* Espacio entre los grupos de entrada. */
+}
+
+/* Estilos para cada grupo de entrada (label + input). */
+.grupo-entrada {
+    width: 100%; /* Ocupa todo el ancho de su contenedor. */
+    text-align: left; /* Alinea el texto a la izquierda. */
+}
+
+/* Estilos para las etiquetas de los campos de entrada. */
+.grupo-entrada label {
+    display: block; /* Hace que la etiqueta ocupe su propia línea. */
+    color: var(--text-color-light); /* Color de texto claro. */
+    font-size: var(--base-font-size); /* Tamaño de fuente base. */
+    margin-bottom: 8px; /* Margen inferior. */
+    font-weight: 500; /* Grosor de la fuente. */
+}
+
+/* Estilos para los campos de entrada de texto, email y contraseña. */
+.grupo-entrada input {
+    width: 100%; /* Ocupa todo el ancho disponible. */
+    padding: var(--input-padding-y) var(--input-padding-x); /* Relleno interno. */
+    background-color: var(--light-gray); /* Fondo gris claro. */
+    border: none; /* Sin borde. */
+    border-radius: 8px; /* Bordes redondeados. */
+    color: var(--text-color-dark); /* Color de texto oscuro. */
+    font-size: var(--base-font-size); /* Tamaño de fuente base. */
+    outline: none; /* Elimina el contorno al enfocar. */
+}
+
+/* Estilos para el texto de marcador de posición en los campos de entrada. */
+.grupo-entrada input::placeholder {
+    color: #888; /* Color gris del placeholder. */
+}
+
+/* Estilos para mensajes de error. */
+.mensaje-error {
+    color: var(--error-red); /* Color rojo para errores. */
+    font-size: 0.95rem; /* Tamaño de fuente. */
+    margin-top: 6px; /* Margen superior. */
+    min-height: 1.2em; /* Asegura una altura mínima para evitar saltos de diseño. */
+}
+
+/* Estilos base para todos los botones. */
+.boton-base {
+    width: 100%; /* Ocupa todo el ancho disponible. */
+    padding: var(--button-padding); /* Relleno interno. */
+    border: none; /* Sin borde. */
+    border-radius: 30px; /* Bordes muy redondeados. */
+    font-size: 1.2rem; /* Tamaño de fuente. */
+    cursor: pointer; /* Cambia el cursor a una mano. */
+    transition: background-color 0.3s ease; /* Transición suave del color de fondo. */
+    margin-top: 15px; /* Margen superior. */
+}
+
+/* Estilos para el botón principal (Registrarse). */
+.boton-principal {
+    background-color: var(--primary-red); /* Fondo rojo principal. */
+    color: var(--text-color-light); /* Color de texto claro. */
+}
+
+/* Estilo para el botón principal al pasar el ratón. */
+.boton-principal:hover {
+    background-color: #8a2a26; /* Un rojo un poco más oscuro al pasar el ratón. */
+}
+
+/* Estilos para el selector personalizado (combobox). */
+.selector-personalizado {
+    position: relative; /* Para posicionar las opciones. */
+    width: 100%;
+}
+
+/* Estilos para el gatillo del selector personalizado (el elemento visible). */
+.gatillo-selector-personalizado {
+    width: 100%;
+    padding: var(--input-padding-y) var(--input-padding-x);
+    background-color: var(--light-gray);
+    border-radius: 8px;
+    color: var(--text-color-dark);
+    font-size: var(--base-font-size);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Estilo del gatillo cuando está activo/abierto. */
+.gatillo-selector-personalizado.active {
+    box-shadow: 0 0 0 3px rgba(163, 47, 42, 0.5); /* Sombra de enfoque similar al color principal. */
+}
+
+/* Estilos para el icono de flecha en el selector personalizado. */
+.gatillo-selector-personalizado .icono-flecha {
+    transition: transform 0.3s ease;
+}
+
+/* Rotar el icono de flecha cuando el selector está abierto. */
+.gatillo-selector-personalizado.active .icono-flecha {
+    transform: rotate(180deg);
+}
+
+/* Estilos para el contenedor de opciones del selector personalizado. */
+.opciones-personalizadas {
+    position: absolute;
+    top: 100%; /* Debajo del gatillo. */
+    left: 0;
+    right: 0;
+    background-color: var(--light-gray);
+    border-radius: 8px;
+    overflow: hidden;
+    max-height: 0; /* Ocultar por defecto. */
+    opacity: 0;
+    visibility: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out, visibility 0.3s ease-out;
+    z-index: 100; /* Asegura que esté por encima de otros elementos. */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Mostrar opciones cuando el selector está abierto. */
+.opciones-personalizadas.open {
+    max-height: 200px; /* Altura máxima para permitir el scroll si hay muchas opciones. */
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Estilos para cada opción individual dentro del selector. */
+.opcion-personalizada {
+    padding: 12px 18px;
+    color: var(--text-color-dark);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* Estilo de la opción al pasar el ratón. */
+.opcion-personalizada:hover {
+    background-color: #c0c0c0; /* Gris ligeramente más oscuro. */
+}
+
+/* Estilo de la opción seleccionada. */
+.opcion-personalizada.selected {
+    background-color: #b0b0b0; /* Un gris aún más oscuro para la seleccionada. */
+    font-weight: bold;
+}
+
+/* Media Queries para responsividad */
+@media (max-width: 400px) {
+    .encabezado-app {
+        padding: 1em 1em;
+    }
+    .titulo-encabezado {
+        font-size: 1.3rem;
+        margin-left: -50px;
+    }
+    .boton-regresar {
+        padding: 0.6em 1em;
+        font-size: 0.9em;
+    }
+    .contenido-principal-registro {
+        padding: 20px;
+    }
+    .formulario-registro {
+        gap: 18px;
+    }
+    .grupo-entrada label {
+        font-size: 0.95rem;
+    }
+    .grupo-entrada input,
+    .gatillo-selector-personalizado,
+    .opcion-personalizada {
+        padding: 12px 15px;
+        font-size: 0.95rem;
+    }
+    .boton-base {
+        padding: 15px;
+        font-size: 1.1rem;
+        margin-top: 10px;
+    }
+    .contenido-principal-registro .subtitulo-formulario {
+        margin-bottom: 25px;
+    }
+}
+
+
+@media (max-height: 600px) {
+    .contenido-principal-registro {
+        padding-top: 15px; /* Reduce el relleno superior. */
+        padding-bottom: 15px; /* Reduce el relleno inferior. */
+    }
+    .formulario-registro {
+        gap: 10px; /* Reduce el espacio entre campos. */
+    }
+    .grupo-entrada label {
+        margin-bottom: 4px; /* Reduce el margen inferior de las etiquetas. */
+    }
+    .grupo-entrada input,
+    .gatillo-selector-personalizado, /* Ajuste para el gatillo del selector. */
+    .opcion-personalizada { /* Ajuste para las opciones del selector. */
+        padding: 10px 12px; /* Reduce el relleno. */
+        font-size: 0.9rem; /* Reduce el tamaño de fuente. */
+    }
+    .boton-base {
+        margin-top: 10px; /* Reduce el margen superior del botón. */
+        padding: 12px; /* Reduce el relleno del botón. */
+        font-size: 1rem; /* Reduce el tamaño de fuente del botón. */
+    }
+}
+
+
+@media (min-width: 768px) {
+    .contenedor-aplicacion {
+        max-width: 1024px; /* Incrementa el ancho máximo para pantallas grandes*/
+        height: auto; /* Permite que la altura se ajuste al contenido, no 100vh*/
+        min-height: 120; /* Asegura una altura mínima para el contenedor de la app*/
+        margin: 40px auto; /* Centra el contenedor con margen automático y da espacio */
+    }
+
+    .encabezado-app {
+        padding: 1.2em 2em; /* Ajusta el padding para la cabecera */
+    }
+
+    .titulo-encabezado {
+        font-size: 2.2rem; /* Tamaño de fuente más grande para el título */
+        margin-left: -60px; /* Ajuste para centrar el título con el botón de regreso */
+    }
+
+    .boton-regresar {
+        padding: 0.8em 1.5em; /* Ajusta el padding del botón de regreso */
+        font-size: 1rem;
+    }
+
+    .contenido-principal-registro {
+        padding: 40px; /* Mayor padding para el contenido principal */
+    }
+
+    .contenido-principal-registro .subtitulo-formulario {
+        font-size: 1.15rem; /* Tamaño de fuente más grande para el subtítulo */
+        margin-bottom: 45px;
+    }
+
+    .formulario-registro {
+        max-width: 600px; /* Permite que el formulario sea más ancho */
+        gap: 25px; /* Mayor espacio entre los campos */
+    }
+
+    .grupo-entrada label {
+        font-size: 1.05rem; /* Tamaño de fuente de las etiquetas */
+    }
+
+    .grupo-entrada input,
+    .gatillo-selector-personalizado,
+    .opcion-personalizada {
+        padding: var(--input-padding-y) var(--input-padding-x); /* Usa las variables predefinidas */
+        font-size: 1.05rem; /* Tamaño de fuente para inputs y selectores */
+    }
+
+    .boton-base {
+        padding: 20px; /* Mayor padding para los botones */
+        font-size: 1.3rem; /* Tamaño de fuente más grande para los botones */
+        margin-top: 25px;
+    }
+}

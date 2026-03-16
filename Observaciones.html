@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitácora de Actualización</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="CSS/Observaciones.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <header class="header" class="app-header">
+            <a href="bitacora-actu.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> 
+            </a>
+            <h1>Nueva observacion</h1>
+        </header>
+        
+        <main class="content">
+            <div class="card vehicle-info">
+                <div class="vehicle-details">
+                    <img src="imgs/jeep.webp" alt="Volvo XC40" class="vehicle-image">
+                    <div class="text-details">
+                        <p>Ajustes eléctricos completo</p>
+                        <p>Placa: P28-091</p>
+                        <p>Estudiante Asignado: Manuel M.</p>
+                        <p>Modulo: Sistemas Eléctricos</p>
+                    </div>
+                </div>
+                <div class="contact-section">
+                    <p class="vehicle-model">Volvo – XC40</p>
+                    <p class="driver-name">José E.</p>
+                </div>
+                
+            </div>
+
+            <div class="card observations-card">
+                <h2>Observaciones</h2>
+                <textarea class="observations-textarea" id="observationsTextarea"></textarea>
+            </div>
+        </main>
+
+        <div class="footer-actions">
+            <button type="button" class="btn" id="sendUpdateButton">Enviar Actualización</button>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script src="JS/Observaciones.js"></script>
+</body>
+
+</html>

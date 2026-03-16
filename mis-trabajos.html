@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Trabajos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="CSS/mis-trabajos.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+
+<body>
+
+    <div class="full-screen-app-container">
+        <header class="app-header">
+            <a href="estudiante.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1>Mis trabajos</h1>
+        </header>
+
+        <main class="mis-trabajos-main-content">
+            <div class="orders-header">
+                <h2 class="section-title">Mis Órdenes de Trabajo</h2>
+                <div class="search-container">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="search-orders" placeholder="Buscar por placa, módulo, número de orden..."
+                            class="search-input" />
+                        <button class="clear-search" id="clear-search" style="display: none;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="trabajos-container" class="jobs-list"></div>
+        </main>
+    </div>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li>
+                <a href="estudiante.html" class="nav-item">
+                    <i class="fas fa-home nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="registro-auto.html" class="nav-item">
+                    <i class="fas fa-clipboard-list nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="ordenes-trabajo.html" class="nav-item ">
+                    <i class="fas fa-tasks nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="mis-trabajos.html" class="nav-item active">
+                    <i class="fas fa-chart-bar nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="perfil.html" class="nav-item">
+                    <i class="fas fa-id-badge nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-sign-out-alt nav-icon"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="module" src="js/mis-trabajos.js"></script>
+</body>
+
+</html>

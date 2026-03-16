@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignar Nuevo Trabajo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="CSS/nuevo-trabajo.css">
+</head>
+
+<body>
+
+    <div class="main-container">
+        <header class="app-header">
+            <a href="bitacora-actu.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1>Asignar Nuevo Trabajo</h1>
+        </header>
+    
+        <div class="summary-card">
+            <div class="card-image">
+                <img src="imgs/volvo.jpg" alt="Volvo Gris">
+            </div>
+            <div class="card-details">
+                <h2>Ajustes eléctricos completo</h2>
+                <p class="info-line"><strong>Placa:</strong> P258-654</p>
+                <p class="info-line"><strong>Estudiante Asignado:</strong> Manuel Pérez</p>
+                <p class="info-line"><strong>Módulo:</strong> Sistemas Electricos</p>
+                <a href="#" class="contact-link">
+                    Contactar
+                    <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px"
+                        fill="currentColor">
+                        <path d="M0 0h24v24H0V0z" fill="none" />
+                        <path
+                            d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <form id="assignJobForm" class="assign-job-section">
+            <h2>Detalles del Nuevo Trabajo</h2>
+            <div class="form-group">
+                <label for="descripcion">Descripción</label>
+                <input type="text" id="descripcion" value="Cambio de Motor de Arranque">
+            </div>
+
+            <div class="form-group">
+                <label for="estudiante">Estudiante asignado</label>
+                <input type="text" id="estudiante" value="Cesar Montoya">
+            </div>
+
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="retrasara" checked>
+                <label for="retrasara">¿Retrasará la entrega del vehículo?</label>
+            </div>
+
+            <div class="form-group time-input-group">
+                <label for="tiempo">¿Cuánto tiempo tomará?</label>
+                <input type="text" id="tiempo" value="2hrs">
+            </div>
+
+            <div class="footer-actions">
+                <button type="submit" class="assign-button">Asignar Trabajo</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="JS/nuevo-trabajo.js"></script>
+</body>
+
+</html>

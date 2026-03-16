@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehículos - SGMA</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="imgs/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="imgs/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="imgs/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="imgs/favicon/site.webmanifest" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/vehiculos.css">
+</head>
+
+<body>
+    <div class="mobile-container">
+        <!-- Header -->
+        <header class="mobile-header">
+            <div class="header-content">
+                <button class="back-btn" onclick="history.back()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1>Vehículos</h1>
+                <div class="header-actions">
+                    <span class="badge-contador">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Pending Sidebar (collapsible on mobile) -->
+            <div class="pending-panel" id="pendingPanel">
+                <div class="panel-header">
+                    <h3>Pendientes de Revisión</h3>
+                    <button class="toggle-panel" onclick="togglePanel()">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="panel-content">
+                    <div class="lista-registros">
+                        <!-- Content filled dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vehicle Management Card -->
+            <section class="vehicle-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-clipboard-list"></i> Registro de Vehículos</h2>
+                </div>
+                
+                <!-- Search and Filters -->
+                <div class="controls-section">
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="buscarRegistro" placeholder="Buscar vehículo...">
+                    </div>
+                    <div class="filter-container">
+                        <select id="filtroEstado" class="filter-select">
+                            <option value="all">Todos</option>
+                            <option value="1,2">En aprobación</option>
+                            <option value="3">Aprobado</option>
+                            <option value="4">Rechazado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Mobile Vehicle List -->
+                <div class="vehicle-list mobile-only">
+                    <!-- Content filled dynamically for mobile -->
+                </div>
+
+                <!-- Desktop Table -->
+                <div class="table-container desktop-only">
+                    <table class="vehicle-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" class="checkbox-all"></th>
+                                <th>Placa</th>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                                <th>Tipo</th>
+                                <th>Estado</th>
+                                <th>Estudiante</th>
+                                <th>Propietario</th>
+                                <th>Tel. Propietario</th>
+                                <th>Imagen</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Content filled dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <div class="pagination-info">
+                        Mostrando 1-2 de 24 registros
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="pagination-btn" disabled>
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                        <button class="pagination-btn">3</button>
+                        <button class="pagination-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="perfil.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Perfil</span>
+            </a>
+            <a href="vehiculos.html" class="nav-item active">
+                <i class="fas fa-car"></i>
+                <span>Vehículos</span>
+            </a>
+            <a href="reportes.html" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reportes</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Vehicle Details Modal -->
+    <div id="modalVehiculo" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Detalles del Vehículo</h3>
+                <button class="btn-close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-tabs">
+                    <button class="tab-btn active" data-tab="vehiculo">Información del Vehículo</button>
+                    <button class="tab-btn" data-tab="orden">Orden de Trabajo</button>
+                </div>
+                
+                <div class="tab-content active" id="tab-vehiculo">
+                    <!-- Vehicle content filled dynamically -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-print" id="btn-imprimir-reporte">
+                    <i class="fas fa-print"></i>
+                    Imprimir
+                </button>
+                <button class="btn-modal secondary">Rechazar</button>
+                <button class="btn-modal primary">Aprobar</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/vehiculos.js"></script>
+</body>
+</html>

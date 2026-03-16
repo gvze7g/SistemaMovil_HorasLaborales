@@ -1,0 +1,313 @@
+:root {
+    --bg-app: #121212;
+    /* Fondo de la aplicación */
+    --bg-container: #1E1E1E;
+    /* Fondo del contenedor principal */
+    --card-bg: #2D2D2D;
+    /* Fondo de tarjetas/elementos */
+    --text-light: #FFFFFF;
+    --text-secondary: #B0B0B0;
+    --text-strong: #E0E0E0;
+    --accent-blue: #42A5F5;
+    /* Azul para enlaces */
+    --accent-green: #6DD53D;
+    /* Verde para completado */
+    --accent-red: #E57373;
+    /* Rojo para atraso/rechazo */
+    --border-radius-main: 20px;
+    --border-radius-card: 16px;
+    --border-radius-button: 30px;
+    --border-radius-small: 10px;
+    --spacing-xs: 5px;
+    --spacing-s: 10px;
+    --spacing-m: 15px;
+    --spacing-l: 20px;
+    --spacing-xl: 30px;
+
+    --back-button-bg: #444;
+    /* Un gris oscuro para el fondo del botón */
+
+    /* Variables para SweetAlert2 */
+    --fondo-tarjeta: var(--card-bg);
+    --texto-claro: var(--text-light);
+    --radio-borde-principal: var(--border-radius-main);
+    --texto-fuerte: var(--text-strong);
+    --texto-secundario: var(--text-secondary);
+    --boton-primario: #881F1E;
+    /* Color del botón de enviar */
+    --radio-borde-boton: var(--border-radius-button);
+    --espaciado-s: var(--spacing-s);
+    --espaciado-l: var(--spacing-l);
+}
+
+body {
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #333;
+    /* Fondo oscuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-grow: 1;
+    /* Allow content to take up available space */
+    overflow-y: auto;
+    /* Add vertical scrollbar if content overflows */
+    -webkit-overflow-scrolling: touch;
+    /* Improves scrolling performance on iOS */
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    /* Keep this for the container to fill the screen */
+    max-width: 430px;
+    background-color: #1a1a1a;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    /* Hide any overflow of the container itself */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.header {
+    background-color: var(--header-bg);
+    /* Fondo de la cabecera */
+    padding: 1em 1.5em;
+    /* Espaciado interno */
+    display: flex;
+    align-items: center;
+    /* Alinea verticalmente el botón y el título */
+    justify-content: space-between;
+    /* Espacia el botón a la izquierda y el título al centro */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    /* Separador sutil */
+    flex-shrink: 0;
+    /* Evita que la cabecera se encoja si el contenido es grande */
+}
+
+.header h1 {
+    margin: 0;
+    /* Reinicia el margen del h1 */
+    font-size: 1.3em;
+    /* Tamaño de fuente para el título en la cabecera */
+    font-weight: 700;
+    color: var(--text-light);
+    flex-grow: 1;
+    /* Permite que el título ocupe el espacio restante */
+    text-align: center;
+    /* Centra el título */
+    /* Ajusta el margen si el botón es más grande o más pequeño, o usa absolute positioning para mayor control */
+    margin-left: -20px;
+    /* Un ajuste para que el título se centre mejor teniendo en cuenta el botón */
+}
+
+.back-button {
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 0.6em 1em;
+    background-color: var(--back-button-bg);
+    border-radius: 8px;
+    font-size: 0.85em;
+    transition: background-color 0.2s ease;
+    display: flex;
+    /* Para alinear el icono y el texto */
+    align-items: center;
+    gap: 0.5em;
+    /* Espacio entre el icono y el texto */
+    flex-shrink: 0;
+    /* Evita que el botón se encoja */
+    z-index: 10;
+    /* Asegura que esté por encima del título si hay superposición */
+}
+
+.back-button:hover {
+    background-color: var(--back-button-hover);
+}
+
+.back-button i {
+    font-size: 1em;
+}
+
+.card {
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    padding: 15px;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.vehicle-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.vehicle-details {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.vehicle-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+.text-details p {
+    margin: 3px 0;
+    font-size: 0.9em;
+    color: #ccc;
+}
+
+.contact-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid #444;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.vehicle-model {
+    font-weight: bold;
+    font-size: 1.1em;
+    margin: 0;
+}
+
+.driver-name {
+    font-size: 0.9em;
+    color: #aaa;
+    margin: 0;
+}
+
+.contact-button {
+    background-color: #007bff;
+    /* Color azul para el botón Contactar */
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.contact-button .arrow {
+    font-size: 1.2em;
+}
+
+.observations-card h2 {
+    font-size: 1.1em;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #eee;
+}
+
+.observations-textarea {
+    width: calc(100% - 20px);
+    /* Ajustar el ancho */
+    height: 250px;
+    background-color: #1a1a1a;
+    border: 1px solid #444;
+    border-radius: 5px;
+    padding: 10px;
+    color: white;
+    font-size: 0.9em;
+    resize: vertical;
+    /* Permitir redimensionamiento vertical */
+}
+
+.footer {
+    background-color: #222;
+    padding: 15px;
+    text-align: center;
+    border-top: 1px solid #444;
+}
+
+.send-button {
+    background-color: #dc3545;
+    /* Rojo para el botón Enviar */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn {
+    flex-grow: 1;
+    padding: var(--spacing-m) var(--spacing-l);
+    border: none;
+    border-radius: var(--border-radius-button);
+    /* Bordes muy redondeados para botones */
+    font-size: 1.1em;
+    font-weight: 700;
+    color: white;
+    background-color: #881F1E;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    text-align: center;
+    /* Asegura que el texto esté centrado si no es un bloque completo */
+    text-decoration: none;
+    /* Quita subrayado de los enlaces */
+    margin-top: 0px;
+    /* o el valor que necesites */
+}
+
+
+.footer-actions {
+    margin: 10px;
+    /* Empuja los botones al fondo */
+    display: flex;
+    flex-direction: column;
+    /* Apila los botones en móvil */
+    gap: var(--spacing-s);
+    padding-top: var(--spacing-xs);
+}
+
+.swal-custom-popup {
+    background-color: var(--fondo-tarjeta) !important;
+    color: var(--texto-claro) !important;
+    border-radius: var(--radio-borde-principal) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6) !important;
+}
+
+.swal-custom-title {
+    color: var(--texto-fuerte) !important;
+    font-weight: 700 !important;
+}
+
+.swal-custom-content {
+    color: var(--texto-secundario) !important;
+}
+
+.swal-custom-confirm-button {
+    background-color: var(--boton-primario) !important;
+    /* Uses your existing primary button color */
+    color: white !important;
+    border-radius: var(--radio-borde-boton) !important;
+    font-size: 1.1em !important;
+    padding: var(--espaciado-s) var(--espaciado-l) !important;
+}
+
+.swal-custom-confirm-button:hover {
+    background-color: #ad1414 !important;
+    
+}

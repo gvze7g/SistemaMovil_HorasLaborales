@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario</title>
+    <link rel="stylesheet" href="css/perfil-coordinador.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="contenedor">
+        <header class="encabezado-app">
+            <h1>Tu Perfil</h1>
+        </header>
+
+        <section id="datos-usuario" class="seccion">
+            <div class="tarjeta-info-perfil">
+                <div class="perfil-visualizacion">
+                    <div class="avatar-container">
+                        <img id="fotoPerfil" class="foto-perfil"
+                            src="https://placehold.co/120x120/333333/FFFFFF?text=Sin+Foto" alt="Foto de Perfil">
+                        <div class="avatar-badge">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                    </div>
+                    <p class="nombre-usuario-perfil" id="nombreUsuario">Cargando...</p>
+                    <div class="status-badge">
+                        <i class="fas fa-circle status-indicator"></i>
+                        <span>Activo</span>
+                    </div>
+                </div>
+                
+                <div class="info-grid">
+                    <div class="item-info-perfil">
+                        <i class="fas fa-user"></i>
+                        <div class="info-content">
+                            <label>Nombre Completo:</label>
+                            <span id="nombreCompletoUsuario">Cargando...</span>
+                        </div>
+                    </div>
+                    <div class="item-info-perfil">
+                        <i class="fas fa-id-badge"></i>
+                        <div class="info-content">
+                            <label>Rol:</label>
+                            <span id="rolUsuario">Cargando...</span>
+                        </div>
+                    </div>
+                    <div class="item-info-perfil">
+                        <i class="fas fa-envelope"></i>
+                        <div class="info-content">
+                            <label>Email:</label>
+                            <span id="emailUsuario">Cargando...</span>
+                        </div>
+                    </div>
+                    <div class="item-info-perfil">
+                        <i class="fas fa-phone"></i>
+                        <div class="info-content">
+                            <label>Teléfono:</label>
+                            <span id="telefonoUsuario">No especificado</span>
+                        </div>
+                    </div>
+                    <div class="item-info-perfil item-info-span">
+                        <i class="fas fa-calendar-alt"></i>
+                        <div class="info-content">
+                            <label>Año impartido:</label>
+                            <span id="anioImpartidoUsuario">Cargando...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="separador-seccion">
+
+        <section id="cambiar-contrasena" class="seccion">
+            <div class="seccion-cambiar-contrasena">
+                <div class="form-header">
+                    <i class="fas fa-lock"></i>
+                    <h2>Cambiar Contraseña</h2>
+                </div>
+                <form id="formularioCambioContrasena">
+                    <div class="grupo-formulario">
+                        <label for="contrasenaActual">
+                            <i class="fas fa-key"></i>
+                            Contraseña Actual
+                        </label>
+                        <div class="input-container">
+                            <input type="password" id="contrasenaActual" placeholder="Ingresa tu contraseña actual" required>
+                            <button type="button" class="toggle-password" data-target="contrasenaActual">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label for="nuevaContrasena">
+                            <i class="fas fa-lock"></i>
+                            Nueva Contraseña
+                        </label>
+                        <div class="input-container">
+                            <input type="password" id="nuevaContrasena" placeholder="Tu nueva contraseña (mín. 8 caracteres)" required>
+                            <button type="button" class="toggle-password" data-target="nuevaContrasena">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-bar">
+                                <div class="strength-fill"></div>
+                            </div>
+                            <span class="strength-text">Fuerza de la contraseña</span>
+                        </div>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label for="confirmarNuevaContrasena">
+                            <i class="fas fa-check-double"></i>
+                            Confirmar Nueva Contraseña
+                        </label>
+                        <div class="input-container">
+                            <input type="password" id="confirmarNuevaContrasena" placeholder="Confirma tu nueva contraseña" required>
+                            <button type="button" class="toggle-password" data-target="confirmarNuevaContrasena">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-actualizar-contrasena">
+                        <i class="fas fa-sync-alt"></i>
+                        Actualizar Contraseña
+                    </button>
+                    <div id="mensajeContrasena" class="mensaje-alerta"></div>
+                </form>
+            </div>
+        </section>
+
+    </div>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li>
+                <a href="coordi-index.html" class="nav-item">
+                    <i class="fas fa-home nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="1er-año.html" class="nav-item">
+                    <i class="fas fa-graduation-cap nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="reportes.html" class="nav-item">
+                    <i class="fas fa-chart-bar nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="perfil-coord.html" class="nav-item active">
+                    <i class="fas fa-user nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="admin.html" class="nav-item">
+                    <i class="fas fa-wrench nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="authInstructors.html" class="nav-item">
+                    <i class="fas fa-sign-out-alt nav-icon"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="js/perfil-coord-validation.js"></script>
+</body>
+
+</html>

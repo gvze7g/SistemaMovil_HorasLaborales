@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entradas del vehículo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="CSS/entradas.css">
+</head>
+
+<body>
+
+    <div class="main-container">
+        <header class="app-header">
+            <a href="#" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1>Entradas del vehículo</h1>
+        </header>
+
+        <div class="summary-card">
+            <div class="card-image">
+                <img src="https://via.placeholder.com/600x400?text=Imagen+del+Veh%C3%ADculo" alt="Imagen del Vehículo">
+                <div class="image-overlay">
+                    <p class="car-info">
+                        <span class="car-model">Nissan Rogue</span> • <span class="car-plate">P215-987</span>
+                    </p>
+                    <p class="owner-info">
+                        Propietario: Ana C. <br>
+                        Teléfono: <a href="tel:7915-1811" class="phone-link">7915-1811</a>
+                    </p>
+                </div>
+            </div>
+            <div class="card-details">
+                <p class="info-line"><strong>Tarjeta de Circulación:</strong> #0123456789</p>
+                <p class="info-line"><strong>Instructor:</strong> Ricardo L.</p>
+                <p class="info-line"><strong>Alumno:</strong> Javier G.</p>
+            </div>
+        </div>
+
+        <section class="log-section">
+            <h2>Registro de Entradas</h2>
+            <div class="log-entries-container">
+                <div class="log-entry">
+                    <div class="entry-header">
+                        <p class="entry-date"><strong>Ingreso:</strong> 25 de Agosto, 2025</p>
+                        <p class="entry-user"><strong>Por:</strong> Javier G.</p>
+                    </div>
+                    <div class="entry-details">
+                        <p class="entry-text">
+                            Se realizó diagnóstico inicial del sistema de frenos y se identificó desgaste en las pastillas delanteras.
+                            Se procedió a solicitar las piezas de repuesto.
+                        </p>
+                        <a href="Ordenesdetrabajo.html" class="entry-action-link">
+                            Ver Órdenes de Trabajo <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="log-entry">
+                    <div class="entry-header">
+                        <p class="entry-date"><strong>Ingreso:</strong> 24 de Agosto, 2025</p>
+                        <p class="entry-user"><strong>Por:</strong> Ricardo L.</p>
+                    </div>
+                    <div class="entry-details">
+                        <p class="entry-text">
+                            Revisión general del vehículo y verificación de niveles de fluidos. Se confirmó la ausencia de fugas.
+                        </p>
+                        <a href="Ordenesdetrabajo.html" class="entry-action-link">
+                            Ver Órdenes de Trabajo <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <button class="fab">
+            <i class="fas fa-plus"></i>
+        </button>
+
+    </div>
+
+</body>
+</html>

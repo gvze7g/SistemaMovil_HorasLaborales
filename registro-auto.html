@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Vehículo y Servicio</title>
+    <link rel="stylesheet" href="css/registro-auto.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+
+<body>
+    <div class="contenedor">
+        <header class="app-header">
+            <div class="header-content">
+                <h1>Datos del vehículo</h1>
+                <nav class="breadcrumb-pasos" aria-label="Progreso de registro">
+                    <div class="paso activo" title="Registrar vehículo">
+                        <i class="fa fa-car"></i>
+                    </div>
+                    <div class="paso" title="Entradas">
+                        <i class="fa fa-list"></i>
+                    </div>
+                    <div class="paso" title="Orden de trabajo">
+                        <i class="fa fa-file-alt"></i>
+                    </div>
+                    <div class="linea-progreso">
+                        <div class="relleno"></div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <section id="datos-vehiculo" class="seccion">
+            <form>
+                <div class="grupo-formulario">
+                    <label for="placa">Placa *</label>
+                    <input class="mi-entrada" type="text" id="placa" placeholder="ABC1234" maxlength="10" />
+                    <small>Formato obligatorio: ABC1234 (1-3 letras seguidas de 3-4 números)</small>
+                </div>
+
+                <div class="grupo-formulario">
+                    <label for="marca">Marca *</label>
+                    <input class="mi-entrada" type="text" id="marca" placeholder="Toyota" maxlength="50" />
+                    <small>Mínimo 3 caracteres, máximo 50</small>
+                </div>
+
+                <div class="grupo-formulario">
+                    <label for="modelo">Modelo *</label>
+                    <input class="mi-entrada" type="text" id="modelo" placeholder="Corolla" maxlength="50" />
+                    <small>Mínimo 3 caracteres, máximo 50</small>
+                </div>
+
+                <div class="grupo-formulario">
+                    <label for="tipo">Tipo de Vehículo *</label>
+                    <div class="envoltorio-seleccion">
+                        <select id="tipo">
+                            <option value="">Seleccionar tipo...</option>
+                        </select>
+                    </div>
+                    <small>Campo obligatorio</small>
+                </div>
+
+                <div class="grupo-formulario">
+                    <label for="color">Color *</label>
+                    <input class="mi-entrada" type="text" id="color" placeholder="Blanco" maxlength="30" />
+                    <small>Mínimo 4 caracteres, máximo 30</small>
+                </div>
+
+                <div class="grupo-formulario">
+                    <label for="tarjetaCirculacion">Tarjeta de Circulación *</label>
+                    <input class="mi-entrada" type="text" id="tarjetaCirculacion" placeholder="12345678901234567890" maxlength="20" />
+                    <small>Exactamente 20 caracteres (obligatorio)</small>
+                </div>
+
+                <div class="grupo-formulario">
+                    <label class="contenedor-casilla">
+                        Mantenimiento EXPO
+                        <input class="mi-entrada" type="checkbox" id="mantenimientoExpo" />
+                        <span class="marca-verificacion"></span>
+                    </label>
+                </div>
+
+            </form>
+        </section>
+
+        <hr class="separador-seccion" />
+
+        <hr class="separador-seccion" />
+
+        <section id="fotos-vehiculo" class="seccion">
+            <h1 class="titulo-seccion">Fotos del Vehículo</h1>
+            <div class="grupo-formulario">
+                <label for="foto1">Foto 1 (Frontal)</label>
+                <input class="mi-entrada" type="file" id="foto1" accept="image/*" capture="environment"
+                    class="entrada-foto" required />
+                <div class="contenedor-vista-previa-foto">
+                    <img id="vista-previa-1" class="vista-previa-foto" src="#" alt="Previsualización Foto 1"
+                        style="display: none" />
+                </div>
+            </div>
+        </section>
+
+        <hr class="separador-seccion" />
+
+        <section id="terminos-condiciones" class="seccion">
+            <h1 class="titulo-seccion">Términos y Condiciones Del Servicio</h1>
+            <div class="contenido-terminos">
+                <p>
+                    Las actividades y servicios del taller de Mantenimiento Automotriz
+                    están orientadas a la formación y prácticas técnicas de los
+                    estudiantes en los diferentes niveles académicos de la especialidad.
+                    Por tal motivo se establecen los siguientes términos y condiciones a
+                    considerar al momento de solicitar un servicio para su vehículo:
+                </p>
+                <p>
+                    1. La autorización de órdenes de trabajo queda bajo criterio del
+                    docente asignado a cada nivel formativo, considerando que dicha
+                    solicitud debe ser afín a los módulos formativos en proceso.
+                </p>
+                <p>
+                    2. Únicamente serán autorizadas órdenes de trabajo menores (máximo 2
+                    horas) y medianas (máximo 8 horas).
+                </p>
+                <p>
+                    3. Al finalizar el proceso de Mantenimiento y reparación respectivo,
+                    el vehículo debe ser retirado del taller de forma inmediata. Por
+                    ningún motivo se permite la permanencia de éste después de efectuado
+                    el proceso.
+                </p>
+                <p>
+                    4. Es terminantemente prohibida la permanencia de vehículos por un
+                    periodo mayor jornada formativa. Exceptuando proyectos de exposición
+                    y módulos que conllevan procesos de trabajo complejos.
+                </p>
+                <p>
+                    5. La institución no realiza cobros por servicios de reparación
+                    mantenimiento, por lo cual no se permite realizar pagos a
+                    estudiantes ni instructores en concepto de servicios o compra de
+                    materiales y repuestos.
+                </p>
+                <p>
+                    6. Es obligación del propietario del vehículo proporcionar el
+                    material y repuestos necesarios para la ejecución del proceso a
+                    realizar en su vehículo según diagnóstico.
+                </p>
+                <p>
+                    7. Por tratarse de un proceso de mantenimiento y reparación con
+                    fines formativos para los estudiantes, la institución no responderá
+                    de ninguna consecuencia y no se hace responsable por daños, golpes,
+                    pérdidas o fallas en el vehículo en el ingreso al taller, durante y
+                    después de efectuado el proceso en el vehículo.
+                </p>
+            </div>
+            <form>
+                <div class="grupo-formulario">
+                    <label for="dueñoVehiculo">Nombre del Propietario *</label>
+                    <input class="mi-entrada" type="text" id="dueñoVehiculo" placeholder="Juan Pérez" maxlength="100" />
+                    <small>Mínimo 5 caracteres, máximo 100</small>
+                </div>
+                <div class="grupo-formulario">
+                    <label for="duiDueño">DUI del Propietario *</label>
+                    <input class="mi-entrada" type="text" id="duiDueño" placeholder="12345678-9" maxlength="10" />
+                    <small>Formato: 12345678-9 (exactamente 10 caracteres)</small>
+                </div>
+                <div class="grupo-formulario">
+                    <label for="telDueño">Teléfono del Propietario *</label>
+                    <input class="mi-entrada" type="tel" id="telDueño" placeholder="7890-1234" maxlength="10" />
+                    <small>Entre 7 y 10 caracteres</small>
+                </div>
+
+                <div class="grupo-formulario">
+                    <label class="contenedor-casilla">
+                        Acepto los términos y condiciones de servicio del Taller de
+                        Mantenimiento Automotriz del ITR. *
+                        <input class="mi-entrada" type="checkbox" id="aceptarTerminos" />
+                        <span class="marca-verificacion"></span>
+                    </label>
+                </div>
+
+                <button type="button" id="boton-enviar-solicitud" class="botones">
+                    Pasar al siguiente paso
+                </button>
+            </form>
+        </section>
+    </div>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li>
+                <a href="estudiante.html" class="nav-item">
+                    <i class="fas fa-home nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="registro-auto.html" class="nav-item active">
+                    <i class="fas fa-clipboard-list nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="ordenes-trabajo.html" class="nav-item ">
+                    <i class="fas fa-tasks nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="mis-trabajos.html" class="nav-item">
+                    <i class="fas fa-chart-bar nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="perfil.html" class="nav-item">
+                    <i class="fas fa-id-badge nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-sign-out-alt nav-icon"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="js/controllers/registro-autoController.js"></script>
+</body>
+</html>

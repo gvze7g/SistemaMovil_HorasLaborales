@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración de Módulos</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="imgs/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="imgs/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="imgs/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="imgs/favicon/site.webmanifest" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.0/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="css/admin-modules.css">
+</head>
+
+<body>
+    
+    <!-- Header -->
+    <header class="app-header">
+        <a href="admin.html" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1>Gestión de Módulos</h1>
+        <div style="width: 80px;"></div>
+    </header>
+
+    <main class="contenedor-principal">
+        <!-- Form Card -->
+        <div class="glass-card form-container">
+            <form id="formulario-modulo" class="formulario-moderno">
+                <input type="hidden" id="idModulo" />
+                
+                <div class="campo-moderno codigo-modulo">
+                    <label class="etiqueta-moderna" for="codigoModulo">
+                        <i class="fas fa-code"></i>
+                        Código del Módulo
+                    </label>
+                    <input type="text" id="codigoModulo" class="input-moderno" placeholder="Ingrese el código del módulo" required />
+                </div>
+                
+                <div class="campo-moderno nombre-modulo">
+                    <label class="etiqueta-moderna" for="nombreModulo">
+                        <i class="fas fa-puzzle-piece"></i>
+                        Nombre del Módulo
+                    </label>
+                    <input type="text" id="nombreModulo" class="input-moderno" placeholder="Ingrese el nombre del módulo" required />
+                </div>
+                
+                <div class="campo-moderno nivel-academico">
+                    <label class="etiqueta-moderna" for="comboLevel">
+                        <i class="fas fa-graduation-cap"></i>
+                        Año Académico
+                    </label>
+                    <select id="comboLevel" class="input-moderno" required>
+                        <option value="">Seleccione un nivel</option>
+                    </select>
+                </div>
+                
+                <div class="campo-moderno instructor">
+                    <label class="etiqueta-moderna" for="comboInstructor">
+                        <i class="fas fa-user-tie"></i>
+                        Instructor
+                    </label>
+                    <select id="comboInstructor" class="input-moderno" required>
+                        <option value="">Seleccione un instructor</option>
+                    </select>
+                </div>
+                
+                <div class="grupo-botones">
+                    <button type="submit" id="btn-enviar" class="boton-moderno boton-primario">
+                        <i class="fas fa-plus"></i>
+                        <span>Agregar Módulo</span>
+                    </button>
+                    <button type="button" id="btn-cancelar" class="boton-moderno boton-secundario" style="display: none;">
+                        <i class="fas fa-times"></i>
+                        <span>Cancelar</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="seccion-filtros">
+            <div class="filtros-grid">
+                <div class="buscador-container">
+                    <i class="fas fa-search buscador-icon"></i>
+                    <input type="text" id="buscador-modulos" class="buscador-moderno" placeholder="Buscar módulo..." />
+                </div>
+                <div>
+                    <select id="filtro-ano-modulo" class="input-moderno">
+                        <option value="">Todos los años</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Revolutionary Table -->
+        <div class="tabla-revolucionaria">
+            <div class="tabla-scroll">
+                <table class="tabla-futurista">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-code"></i> Código</th>
+                            <th><i class="fas fa-puzzle-piece"></i> Nombre del Módulo</th>
+                            <th><i class="fas fa-graduation-cap"></i> Año Académico</th>
+                            <th><i class="fas fa-user-tie"></i> Instructor</th>
+                            <th><i class="fas fa-cogs"></i> Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpo-tabla-modulos">
+                        <tr>
+                            <td colspan="5" class="loading-futurista">
+                                <div class="spinner-futurista"></div>
+                                <p>Cargando datos...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination will be dynamically inserted here -->
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.0/dist/sweetalert2.all.min.js"></script>
+    <script type="module" src="js/admin-modules.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Órdenes de Trabajo</title>
+    <link rel="stylesheet" href="css/ordenes-trabajo.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+
+<body>
+    <div class="contenedor">
+        <header class="app-header">
+            <a href="estudiante.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div class="header-content">
+                <h1>Órdenes de Trabajo</h1>
+            </div>
+        </header>
+
+        <section class="seccion-principal">
+            <div class="contenedor-vehiculos">
+                <h2 class="titulo-seccion">Mis Vehículos</h2>
+                <div id="lista-vehiculos" class="lista-vehiculos">
+                    <!-- Los vehículos se cargarán dinámicamente aquí -->
+                    <div class="loading-container">
+                        <div class="spinner"></div>
+                        <p>Cargando vehículos...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contenedor-ordenes">
+                <div class="orders-header">
+                    <h2 class="titulo-seccion">Órdenes de Trabajo Activas</h2>
+                    <div class="search-container">
+                        <div class="search-input-wrapper">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="search-orders" placeholder="Buscar por placa, módulo, número de orden..." class="search-input" />
+                            <button class="clear-search" id="clear-search" style="display: none;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="lista-ordenes" class="lista-ordenes">
+                    <!-- Las órdenes se cargarán dinámicamente aquí -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Botón flotante para agregar nueva orden -->
+        <button class="fab" id="btn-nueva-orden">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+
+    <!-- Modal para crear nueva orden de trabajo -->
+    <div id="modal-nueva-orden" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Nueva Orden de Trabajo</h3>
+                <button class="btn-cerrar-modal" id="btn-cerrar-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+                
+            </div>
+            
+            <div class="modal-body">
+                <nav class="breadcrumb-pasos" aria-label="Progreso de registro">
+                    <div class="paso completado" title="Registrar vehículo">
+                        <i class="fa fa-car"></i>
+                    </div>
+                    <div class="paso activo" title="Entradas">
+                        <i class="fa fa-list"></i>
+                    </div>
+                    <div class="paso" title="Orden de trabajo">
+                        <i class="fa fa-file-alt"></i>
+                    </div>
+                    <div class="linea-progreso">
+                        <div class="relleno2"></div>
+                    </div>
+                </nav>
+
+                <form id="form-nueva-orden">
+                    <div class="grupo-formulario">
+                        <label for="vehiculo-select">Seleccionar Vehículo *</label>
+                        <div class="envoltorio-seleccion">
+                            <select id="vehiculo-select" required>
+                                <option value="">Seleccione un vehículo...</option>
+                            </select>
+                        </div>
+                        <small>Seleccione el vehículo para el cual desea crear la orden (requerido)</small>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label for="modulo-select">Seleccionar Módulo *</label>
+                        <div class="envoltorio-seleccion">
+                            <select id="modulo-select" required>
+                                <option value="">Seleccione un módulo...</option>
+                            </select>
+                        </div>
+                        <small>Seleccione el módulo académico relacionado con el trabajo (requerido)</small>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label for="descripcion-trabajo">Descripción del Trabajo</label>
+                        <textarea id="descripcion-trabajo" name="descripcion-trabajo" class="mi-entrada" placeholder="Describa detalladamente el trabajo a realizar..." rows="4"></textarea>
+                        <small>Descripción completa del trabajo a realizar, si existe algun daño en el vehiculo expresarlo detalladamente en este espacio (requerido)</small>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label for="tiempo-estimado">Tiempo Estimado (horas) *</label>
+                        <input class="mi-entrada" type="number" id="tiempo-estimado" name="tiempo-estimado" placeholder="Ej: 2.5" min="0.5" max="24" step="0.5" required />
+                        <small>Tiempo estimado en horas (requerido)</small>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label for="imagen-trabajo">Imagen del vehiculo</label>
+                        <input class="mi-entrada" type="file" id="imagen-trabajo" accept="image/*" capture="environment" />
+                        <div class="contenedor-vista-previa-foto">
+                            <img id="vista-previa-imagen" class="vista-previa-foto" src="#" alt="Previsualización" style="display: none" />
+                        </div>
+                        <small>Imagen obligatoria del vehiculo, en especial si el vehiculo tiene daños visibles (requerido)</small>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="botones secundario" id="btn-cancelar-orden">
+                    Cancelar
+                </button>
+                <button type="button" class="botones primario" id="btn-crear-orden">
+                    <i class="fas fa-plus"></i>
+                    Crear Orden
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li>
+                <a href="estudiante.html" class="nav-item">
+                    <i class="fas fa-home nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="registro-auto.html" class="nav-item">
+                    <i class="fas fa-clipboard-list nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="ordenes-trabajo.html" class="nav-item active">
+                    <i class="fas fa-tasks nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="mis-trabajos.html" class="nav-item">
+                    <i class="fas fa-chart-bar nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="perfil.html" class="nav-item">
+                    <i class="fas fa-id-badge nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-sign-out-alt nav-icon"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="js/controllers/ordenes-trabajoController.js"></script>
+</body>
+</html>

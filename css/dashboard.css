@@ -1,0 +1,33 @@
+/* Estilos generales para el modo oscuro */
+:root {
+    --background-color: #121212;
+    --text-color: #e0e0e0;
+    --card-background: #1e1e1e;
+    --card-border: #333;
+}
+
+/* Modo oscuro */
+body.dark-mode {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.card.dark-mode {
+    background-color: var(--card-background);
+    color: var(--text-color);
+    border: 1px solid var(--card-border);
+}
+
+/* Estilos para el modo claro (opcional) */
+body.light-mode {
+    background-color: white;
+    color: black;
+}
+
+.card.light-mode {
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+}
+
+/* ...existing code... */

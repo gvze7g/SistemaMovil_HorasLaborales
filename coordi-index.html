@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SGMA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/coordi-index.css" />
+</head>
+
+<body>
+    <main class="contenido-principal-coordi">
+        <div class="info-usuario-header">
+            <div class="avatar-usuario-header">
+                <img src="imgs/defaul-user.webp" alt="Avatar" id="userAvatar">
+            </div>
+            <div class="datos-usuario-header">
+                <span class="nombre-usuario-header" id="userNameHeader">Cargando...</span>
+                <span class="rol-usuario-header" id="userRolHeader">Cargando...</span>
+                <span class="detalle-usuario-header" id="userDetailsHeader">Cargando...</span>
+            </div>
+        </div>
+
+        <section class="tarjeta-principal">
+            <div class="header-tarjeta">
+                <h2>Información general vehículos</h2>
+            </div>
+            <div class="contenido-tarjeta">
+                <div class="resumen-estado">
+                    <div class="caja-estado">
+                        <span class="cantidad" id="allVehicles">...</span>
+                        <span class="etiqueta">Vehículos registrados en el año</span>
+                    </div>
+                    <div class="caja-estado">
+                        <span class="cantidad" id="ptcVehicles">...</span>
+                        <span class="etiqueta">Vehículos PTC</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tarjeta-principal">
+            <div class="header-tarjeta">
+                <h2>Personal del taller Mantenimiento Automotriz</h2>
+            </div>
+            <div class="contenido-tarjeta">
+                <div class="resumen-estado">
+                    <div class="caja-estado">
+                        <span class="cantidad" id="registeredStudents">...</span>
+                        <span class="etiqueta">Alumnos</span>
+                    </div>
+                    <div class="caja-estado">
+                        <span class="cantidad" id="registeredInstructors">...</span>
+                        <span class="etiqueta">Docentes</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tarjeta-principal">
+            <div class="header-tarjeta">
+                <h2>Módulos y Progreso</h2>
+                <div class="filtros-modulos">
+                    <button class="boton-filtro activo" data-year="primer">Primer Año</button>
+                    <button class="boton-filtro" data-year="segundo">Segundo Año</button>
+                    <button class="boton-filtro" data-year="tercero">Tercer Año</button>
+                </div>
+            </div>
+            <div class="contenido-tarjeta">
+                <div class="lista-modulos">
+                    <!-- Los módulos se cargarán dinámicamente aquí -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li>
+                <a href="coordi-index.html" class="nav-item">
+                    <i class="fas fa-home nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="1er-año.html" class="nav-item active">
+                    <i class="fas fa-graduation-cap nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="reportes.html" class="nav-item">
+                    <i class="fas fa-chart-bar nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="perfil-coord.html" class="nav-item">
+                    <i class="fas fa-user nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="admin.html" class="nav-item">
+                    <i class="fas fa-wrench nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="authInstructors.html" class="nav-item">
+                    <i class="fas fa-sign-out-alt nav-icon"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="js/coordi-index.js"></script>
+
+</body>
+
+</html>

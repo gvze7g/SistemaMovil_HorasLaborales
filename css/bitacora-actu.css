@@ -1,0 +1,485 @@
+/* --- VARIABLES CSS --- */
+:root {
+    --bg-app: #121212; /* Fondo de la aplicación */
+    --bg-container: #1E1E1E; /* Fondo del contenedor principal */
+    --card-bg: #2D2D2D; /* Fondo de tarjetas/elementos */
+    --text-light: #FFFFFF;
+    --text-secondary: #B0B0B0;
+    --text-strong: #E0E0E0;
+    --accent-blue: #42A5F5; /* Azul para enlaces */
+    --accent-green: #6DD53D; /* Verde para completado */
+    --accent-red: #E57373; /* Rojo para atraso/rechazo */
+    --border-radius-main: 20px;
+    --border-radius-card: 16px;
+    --border-radius-button: 30px;
+    --border-radius-small: 10px;
+    --spacing-xs: 5px;
+    --spacing-s: 10px;
+    --spacing-m: 15px;
+    --spacing-l: 20px;
+    --spacing-xl: 30px;
+
+    --back-button-bg: #444; /* Un gris oscuro para el fondo del botón */
+}
+
+/* --- ESTILOS GENERALES Y DE BASE (MOBILE-FIRST) --- */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh; /* Ocupa al menos el 100% de la altura de la vista */
+    display: flex; /* Para centrar el main-container verticalmente si es necesario */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: flex-start; /* Alinea el contenido arriba */
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bg-app);
+    color: var(--text-light);
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.main-container {
+    background-color: var(--bg-container);
+    width: 100%; /* Ocupa todo el ancho en móviles */
+    max-width: 1000px; /* Ancho máximo para tablets/escritorios */
+    min-height: calc(100vh - (var(--spacing-l) * 2)); /* Ajusta la altura para ocupar la pantalla con padding */
+    padding: var(--spacing-l); /* Padding interior para móviles */
+    box-sizing: border-box;
+    display: flex; /* Por defecto, usamos flexbox para columnas en móviles */
+    flex-direction: column;
+    gap: var(--spacing-xl); /* Espacio entre secciones principales */
+    border-radius: var(--border-radius-main); /* Bordes redondeados para el contenedor principal */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Sombra principal */
+}
+
+.app-header {
+    background-color: var(--header-bg); /* Fondo de la cabecera */
+    display: flex;
+    align-items: center; /* Alinea verticalmente el botón y el título */
+    justify-content: center; /* Espacia el botón a la izquierda y el título al centro */
+    flex-shrink: 0; /* Evita que la cabecera se encoja si el contenido es grande */
+}
+
+.app-header h1 {
+    font-size: 1.3em; /* Tamaño de fuente para el título en la cabecera */
+    font-weight: 700;
+    color: var(--text-light);
+    flex-grow: 1; /* Permite que el título ocupe el espacio restante */
+    text-align: center; /* Centra el título */
+    /* Ajusta el margen si el botón es más grande o más pequeño, o usa absolute positioning para mayor control */
+    margin-left: -15px; /* Un ajuste para que el título se centre mejor teniendo en cuenta el botón */
+}
+
+.back-button {
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 0.6em 1em;
+    background-color: var(--back-button-bg);
+    border-radius: 8px;
+    font-size: 0.85em;
+    transition: background-color 0.2s ease;
+    display: flex; /* Para alinear el icono y el texto */
+    align-items: center;
+    gap: 0.5em; /* Espacio entre el icono y el texto */
+    flex-shrink: 0; /* Evita que el botón se encoja */
+    z-index: 10; /* Asegura que esté por encima del título si hay superposición */
+}
+
+.back-button:hover {
+    background-color: var(--back-button-hover);
+}
+
+.back-button i {
+    font-size: 1em;
+}
+
+
+
+h2 {
+    font-size: 1.2em;
+    font-weight: 500;
+    margin: 0 0 var(--spacing-s) 0;
+    color: var(--text-light);
+}
+
+p {
+    margin: 0;
+}
+
+/* --- TARJETA DE RESUMEN --- */
+.summary-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius-card);
+    display: flex;
+    flex-direction: column; /* Apilado por defecto en móviles */
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.card-image {
+    width: 100%;
+    height: 180px; /* Altura fija para la imagen en móvil */
+    position: relative;
+    overflow: hidden;
+    border-top-left-radius: var(--border-radius-card); /* Redondeado solo arriba */
+    border-top-right-radius: var(--border-radius-card);
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: var(--spacing-m);
+    box-sizing: border-box;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    color: var(--text-light);
+}
+
+.image-overlay .car-model {
+    font-weight: 700;
+    font-size: 1.1em;
+    margin: 0;
+}
+
+.image-overlay .owner-name {
+    font-size: 0.9em;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.card-details {
+    padding: var(--spacing-l);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: var(--spacing-s);
+}
+
+.info-line {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+}
+
+.info-line strong {
+    color: var(--text-strong);
+}
+
+.contact-link {
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-s);
+    margin-top: auto; /* Empuja el enlace al fondo */
+    align-self: flex-start;
+    padding: var(--spacing-xs) 0;
+    transition: color 0.2s ease;
+}
+
+.contact-link:hover {
+    color: #64B5F6;
+}
+
+.contact-link svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor; /* Usa el color del texto del enlace */
+}
+
+/* --- LISTA DE TAREAS --- */
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Por defecto, apiladas para móviles */
+    flex-direction: column;
+    gap: var(--spacing-s); /* Espacio entre las tareas */
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius-small);
+    padding: var(--spacing-m);
+    font-size: 1em;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.task-icon {
+    display: flex;
+    align-items: center;
+    margin-right: var(--spacing-m);
+    color: var(--accent-green); /* Color de los iconos de tarea */
+}
+
+.task-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+.task-name {
+    flex-grow: 1;
+    color: var(--text-strong);
+}
+
+/* --- ESTILO PERSONALIZADO PARA CHECKBOX --- */
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 22px; /* Tamaño del checkbox */
+    height: 22px;
+    background-color: #333;
+    border: 2px solid #555;
+    border-radius: 5px; /* Bordes redondeados del checkbox */
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--accent-green);
+    border-color: var(--accent-green);
+}
+
+input[type="checkbox"]:checked::before {
+    content: '✔';
+    font-size: 16px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* --- BARRA DE PROGRESO Y ACCIONES DE ATRASO --- */
+.progress-section {
+    background-color: var(--card-bg);
+    padding: var(--spacing-l);
+    border-radius: var(--border-radius-card);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    position: relative; /* Para el porcentaje */
+}
+
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-l);
+    font-size: 0.9em;
+    color: var(--text-secondary);
+}
+
+.progress-bar {
+    background-color: #3D3D3D;
+    border-radius: var(--border-radius-small);
+    height: 12px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    background: linear-gradient(90deg, var(--accent-red), #FFD166, var(--accent-green));
+    height: 100%;
+    border-radius: var(--border-radius-small);
+}
+
+.progress-percentage {
+    position: absolute;
+    top: calc(var(--spacing-l) + 50%); /* Ajuste de posición */
+    right: var(--spacing-l);
+    transform: translateY(-50%);
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--text-light);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+.delay-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-m);
+    margin-top: var(--spacing-s); /* Ajuste de margen superior */
+}
+
+.delay-button-icon {
+    background-color: #333;
+    border: 1px solid #555;
+    color: var(--text-light);
+    border-radius: var(--border-radius-small);
+    padding: var(--spacing-s) var(--spacing-m);
+    font-weight: 700;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.delay-button-icon:hover {
+    background-color: #444;
+    border-color: #666;
+}
+
+.delay-link {
+    color: var(--accent-red);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1em;
+    transition: color 0.2s ease;
+}
+
+.delay-link:hover {
+    color: #EF9A9A;
+}
+
+/* --- BOTONES INFERIORES --- */
+.footer-actions {
+    margin-top: auto; /* Empuja los botones al fondo */
+    display: flex;
+    flex-direction: column; /* Apila los botones en móvil */
+    gap: var(--spacing-s);
+    padding-top: var(--spacing-m);
+    border-top: 1px solid #333;
+}
+
+.btn {
+    flex-grow: 1;
+    padding: var(--spacing-m) var(--spacing-l);
+    border: none;
+    border-radius: var(--border-radius-button); /* Bordes muy redondeados para botones */
+    font-size: 1.1em;
+    font-weight: 700;
+    color: white;
+    background-color: #881F1E;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    text-align: center; /* Asegura que el texto esté centrado si no es un bloque completo */
+    text-decoration: none; /* Quita subrayado de los enlaces */
+}
+
+.btn:hover {
+    background-color: #A02B2A;
+    transform: translateY(-2px);
+}
+
+/* --- MEDIA QUERIES PARA ADAPTACIÓN A PANTALLAS MÁS GRANDES --- */
+
+/* Tabletas (generalmente 600px y más) */
+@media (min-width: 600px) {
+    .main-container {
+        padding: var(--spacing-xl); /* Más padding en tablets */
+    }
+
+    h1 {
+        font-size: 2.2em;
+    }
+
+    .summary-card {
+        flex-direction: row; /* Imagen y detalles lado a lado en tablets */
+        height: 200px; /* Altura fija para la tarjeta */
+    }
+
+    .card-image {
+        flex-shrink: 0;
+        width: 250px; /* Ancho de la imagen en layout horizontal */
+        height: 100%; /* Ocupa toda la altura de la tarjeta */
+        border-top-right-radius: 0; /* Anula redondez superior derecha */
+        border-bottom-left-radius: var(--border-radius-card); /* Redondea inferior izquierda */
+    }
+
+    .card-details {
+        padding: var(--spacing-xl);
+        justify-content: space-between;
+    }
+
+    h2 {
+        font-size: 1.3em;
+    }
+
+    .progress-percentage {
+        font-size: 1.2em;
+    }
+
+    .footer-actions {
+        flex-direction: row; /* Botones lado a lado en tablets */
+        gap: var(--spacing-xl);
+    }
+}
+
+/* Escritorios (generalmente 900px y más) */
+@media (min-width: 900px) {
+    .main-container {
+        display: grid; /* Cambia a grid para layout de dos columnas */
+        grid-template-columns: 1.5fr 1fr; /* Una columna más ancha para la info principal */
+        grid-template-rows: auto auto 1fr auto; /* Fila para título, summary, tasks/progress, footer */
+        gap: var(--spacing-xl); /* Espacio entre columnas y filas de la grid */
+        padding: var(--spacing-xl);
+    }
+
+    h1 {
+        grid-column: 1 / -1; /* Ocupa todas las columnas de la grid */
+        margin-bottom: var(--spacing-xl);
+    }
+
+    .summary-card {
+        grid-column: 1 / 2; /* Ocupa la primera columna */
+        flex-direction: column; /* Vuelve a apilar la imagen y detalles dentro de la columna */
+        height: auto; /* Altura automática en esta vista */
+    }
+
+    .card-image {
+        width: 100%; /* Ocupa todo el ancho de la columna */
+        height: 200px; /* Altura fija para la imagen en esta vista */
+        border-top-left-radius: var(--border-radius-card); /* Vuelve a redondear arriba */
+        border-top-right-radius: var(--border-radius-card);
+        border-bottom-left-radius: 0; /* Asegura que la parte inferior no esté redondeada */
+    }
+
+    .card-details {
+        padding: var(--spacing-l);
+    }
+
+    .task-list {
+        grid-column: 2 / 3; /* Ocupa la segunda columna */
+        /* Ajusta a una columna en grid si las tareas son largas, o a 2 si son cortas */
+        flex-direction: column; /* Asegura que las tareas se apilen verticalmente en esta columna */
+        gap: var(--spacing-s);
+    }
+
+    .progress-section {
+        grid-column: 1 / 2; /* Ocupa la primera columna, debajo del summary-card */
+        align-self: start; /* Alinea al inicio de la celda de la grid */
+    }
+
+    .delay-actions {
+        grid-column: 1 / 2; /* Debajo de progress-section */
+        margin-top: 0; /* El gap del grid maneja el espacio */
+    }
+
+    .footer-actions {
+        grid-column: 1 / -1; /* Vuelve a ocupar todas las columnas en la parte inferior */
+        flex-direction: row; /* Botones lado a lado */
+        justify-content: center;
+        gap: var(--spacing-xl);
+        padding-top: var(--spacing-xl);
+    }
+}
+
+/* Escritorios grandes (generalmente 1200px y más) */
+@media (min-width: 1200px) {
+    .main-container {
+        max-width: 1200px;
+        grid-template-columns: 2fr 1fr; /* Más espacio para la columna principal */
+    }
+}

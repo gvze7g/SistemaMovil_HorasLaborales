@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administración de Estudiantes</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="imgs/favicon/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="imgs/favicon/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="imgs/favicon/favicon-16x16.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <link rel="stylesheet" href="css/admin-students.css" />
+</head>
+
+<body>
+  <header class="app-header">
+    <a href="admin.html" class="back-button">
+      <i class="fas fa-arrow-left"></i>
+    </a>
+    <h1>Administración de Estudiantes</h1>
+    <div style="width: 80px;"></div>
+  </header>
+
+  <main class="contenedor-principal">
+
+    <!-- Form Card -->
+    <div class="glass-card form-container">
+      <form id="user-form" class="formulario-moderno">
+        <div class="campo-moderno">
+          <label class="etiqueta-moderna" for="fullName">
+            <i class="fas fa-user"></i>
+            Nombres
+          </label>
+          <input type="text" id="fullName" class="input-moderno" placeholder="Ingrese los nombres" required />
+        </div>
+        
+        <div class="campo-moderno">
+          <label class="etiqueta-moderna" for="apellidos">
+            <i class="fas fa-user-tag"></i>
+            Apellidos
+          </label>
+          <input type="text" id="apellidos" class="input-moderno" placeholder="Ingrese los apellidos" required />
+        </div>
+        
+        <div class="campo-moderno">
+          <label class="etiqueta-moderna" for="email">
+            <i class="fas fa-envelope"></i>
+            Email
+          </label>
+          <input type="email" id="email" class="input-moderno" placeholder="estudiante@ricaldone.edu.sv" required />
+        </div>
+        
+        <div class="campo-moderno" id="campo-contrasena">
+          <label class="etiqueta-moderna" for="password">
+            <i class="fas fa-lock"></i>
+            Contraseña
+          </label>
+          <input type="password" id="password" class="input-moderno" placeholder="Contraseña segura" required />
+        </div>
+        
+        <div class="campo-moderno">
+          <label class="etiqueta-moderna" for="studentCard">
+            <i class="fas fa-id-card"></i>
+            Carnet
+          </label>
+          <input type="text" id="studentCard" class="input-moderno" placeholder="Número de carnet" required />
+        </div>
+        
+        <div class="campo-moderno select-moderno">
+          <label class="etiqueta-moderna" for="idGrade">
+            <i class="fas fa-users"></i>
+            Grupo
+          </label>
+          <select id="idGrade" class="input-moderno" required>
+            <option value="">Seleccione un grupo</option>
+          </select>
+        </div>
+        
+        <input type="hidden" id="userId" />
+        
+        <div class="grupo-botones">
+          <button type="submit" id="btn-submit" class="boton-moderno boton-primario">
+            <i class="fas fa-user-plus"></i>
+            <span>Agregar Estudiante</span>
+          </button>
+          <button type="button" id="btn-cancel" class="boton-moderno boton-secundario" style="display: none;">
+            <i class="fas fa-times"></i>
+            <span>Cancelar</span>
+          </button>
+        </div>
+      </form>
+    </div>
+    
+    <!-- Filters Section -->
+    <div class="seccion-filtros">
+      <div class="filtros-grid">
+        <div class="buscador-container">
+          <i class="fas fa-search buscador-icon"></i>
+          <input type="text" id="buscador-usuarios" class="buscador-moderno" placeholder="Buscar estudiante..." />
+        </div>
+        <div class="select-moderno">
+          <select id="filtro-ano" class="input-moderno">
+            <option value="">Todos los años</option>
+          </select>
+        </div>
+        <div class="select-moderno">
+          <select id="filtro-grupo" class="input-moderno">
+            <option value="">Todos los grupos</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Mobile-Optimized Table -->
+    <div class="tabla-revolucionaria">
+      <div class="tabla-scroll">
+        <table class="tabla-futurista">
+          <thead>
+            <tr>
+              <th><i class="fas fa-id-card"></i> Carnet</th>
+              <th><i class="fas fa-user"></i> Nombres</th>
+              <th><i class="fas fa-user-tag"></i> Apellidos</th>
+              <th><i class="fas fa-envelope"></i> Email</th>
+              <th><i class="fas fa-users"></i> Grupo</th>
+              <th><i class="fas fa-cogs"></i> Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="users-tbody">
+            <tr>
+              <td colspan="6" class="loading-futurista">
+                <div class="spinner-futurista"></div>
+                <p>Cargando datos...</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="js/admin-students.js"></script>
+</body>
+
+</html>

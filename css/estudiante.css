@@ -1,0 +1,451 @@
+:root {
+    --fondo-app: #f5f5f5;
+    --fondo-oscuro: #302d2d;
+    --fondo-cabecera: #2c3e50;
+    --fondo-tarjeta:  #2D2D2D; /* Color de tarjeta oscuro */
+    --texto-claro: white;
+    --texto-oscuro: #dcdcdc; /* Texto más claro para el fondo oscuro */
+    --texto-resaltado: #ffffff;
+    --fondo-boton:#ad3531;
+    --fondo-boton-hover:#ad3531;
+    --fondo-boton-volver: #444;
+    --fondo-boton-volver-hover: #555;
+    --tamano-fuente-bienvenida: 1.3rem;
+    --tamano-foto-perfil: 100px;
+    --altura-cabecera: 0px;
+    --ancho-sidebar: 90px;
+    --rojo-primario: #ad3531;
+    --color-texto-botones-nav: white;
+    --color-texto-activo-nav: #2c3e50;
+
+    --fondo-encabezado: #2c3e50;
+    --fondo-barra-lateral: #2D2D2D;
+    --fondo-contenido-principal: #1e1c1c; /* Fondo negro suave */
+    --fondo-sidebar: #1a1a1a;
+
+    --texto-secundario: #a0a0a0; /* Texto secundario más claro */
+    --texto-fuerte: #ffffff; /* Texto fuerte blanco */
+
+    --acento-rojo: #ad3531;
+    --acento-verde: #66BB6A;
+    --acento-azul: #42A5F5;
+    --acento-rojo-oscuro: #ad3531;
+    --acento-naranja: #ff9800;
+
+    --color-borde-oscuro: #3A3A3A;
+    --color-borde-claro: #333333; /* Borde más oscuro para el fondo */
+    --color-borde-navbar: #ffffff;
+
+    --radio-borde-principal: 20px;
+    --radio-borde-tarjeta: 16px;
+    --radio-borde-entrada: 10px;
+    --radio-borde-boton: 30px;
+    --radio-borde-pequeno: 8px;
+    --radio-borde-avatar: 50%;
+    --radio-borde-navbar-boton: 8px;
+
+    --espaciado-xs: 5px;
+    --espaciado-s: 10px;
+    --espaciado-m: 15px;
+    --espaciado-l: 20px;
+    --espaciado-xl: 30px;
+    --espaciado-xxl: 40px;
+
+    --acento-primario: #A32F2A;
+    --acento-primario-hover: #A32F2A;
+    --primary-red: #881F1E;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--fondo-contenido-principal);
+    color: var(--texto-oscuro);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.contenido-principal-estudiantes {
+    flex: 1;
+    padding: var(--espaciado-xl);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaciado-xl);
+}
+
+.seccion-bienvenida {
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--espaciado-l);
+}
+
+.tarjeta-bienvenida {
+    background: linear-gradient(135deg, var(--acento-rojo), var(--acento-rojo-oscuro));
+    color: white;
+    padding: var(--espaciado-xxl);
+    border-radius: var(--radio-borde-principal);
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+}
+
+.icono-bienvenida {
+    font-size: 4rem;
+    margin-bottom: var(--espaciado-l);
+    opacity: 0.9;
+}
+
+.titulo-bienvenida {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: var(--espaciado-m);
+}
+
+.descripcion-bienvenida {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    line-height: 1.5;
+}
+
+.seccion-estadisticas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--espaciado-l);
+    margin-bottom: var(--espaciado-l);
+}
+
+.estadistica-item {
+    background: var(--fondo-tarjeta);
+    padding: var(--espaciado-l);
+    border-radius: var(--radio-borde-tarjeta);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: var(--espaciado-m);
+    transition: transform 0.3s ease;
+}
+
+.estadistica-item:hover {
+    transform: translateY(-2px);
+}
+
+.estadistica-icono {
+    width: 70px;
+    height: 70px;
+    border-radius: var(--radio-borde-avatar);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+}
+
+.estadistica-item:nth-child(1) .estadistica-icono {
+    background: var(--acento-azul);
+}
+
+.estadistica-item:nth-child(2) .estadistica-icono {
+    background: var(--acento-naranja);
+}
+
+.estadistica-item:nth-child(3) .estadistica-icono {
+    background: var(--acento-verde);
+}
+
+.estadistica-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.estadistica-numero {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--texto-fuerte);
+}
+
+.estadistica-label {
+    font-size: 0.9rem;
+    color: var(--texto-secundario);
+}
+
+.seccion-acciones {
+    margin-bottom: var(--espaciado-l);
+}
+
+.titulo-seccion {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--texto-fuerte);
+    margin-bottom: var(--espaciado-l);
+    text-align: center;
+}
+
+.contenedor-tarjetas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--espaciado-l);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.tarjeta {
+    background-color: var(--fondo-tarjeta);
+    border-radius: var(--radio-borde-principal);
+    padding: var(--espaciado-xl);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--color-borde-claro);
+}
+
+.tarjeta:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.tarjeta-icono {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radio-borde-avatar);
+    background: linear-gradient(135deg, var(--acento-rojo), var(--acento-rojo-oscuro));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--espaciado-l);
+    font-size: 2.5rem;
+    color: white;
+}
+
+.tarjeta-titulo {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--texto-fuerte);
+    margin-bottom: var(--espaciado-m);
+}
+
+.tarjeta-descripcion {
+    color: var(--texto-secundario);
+    margin-bottom: var(--espaciado-l);
+    line-height: 1.5;
+}
+
+.boton {
+    background: linear-gradient(135deg, var(--acento-rojo), var(--acento-rojo-oscuro));
+    color: var(--texto-claro);
+    border: none;
+    border-radius: var(--radio-borde-boton);
+    padding: var(--espaciado-m) var(--espaciado-xl);
+    font-size: 1rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: var(--espaciado-s);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+.boton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+.flecha {
+    transition: transform 0.3s ease;
+}
+
+.boton:hover .flecha {
+    transform: translateX(3px);
+}
+
+.seccion-acceso-rapido {
+    margin-top: var(--espaciado-l);
+}
+
+.contenedor-acceso-rapido {
+    display: flex;
+    justify-content: center;
+    gap: var(--espaciado-l);
+    flex-wrap: wrap;
+}
+
+.enlace-rapido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espaciado-s);
+    background: var(--fondo-tarjeta);
+    padding: var(--espaciado-l);
+    border-radius: var(--radio-borde-tarjeta);
+    text-decoration: none;
+    color: var(--texto-fuerte);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    min-width: 120px;
+}
+
+.enlace-rapido:hover {
+    transform: translateY(-3px);
+    color: var(--acento-rojo);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.enlace-rapido i {
+    font-size: 2rem;
+}
+
+.enlace-rapido span {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    border-radius: 50px;
+    padding: 10px 20px;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.bottom-nav ul {
+    list-style: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+    display: flex; /* Make list items arrange horizontally */
+    justify-content: space-around; /* Distribute items evenly */
+    width: 100%; /* Ensure the ul takes full width of its parent */
+}
+
+.bottom-nav li {
+    flex-grow: 1; /* Allow list items to grow and take equal space */
+    text-align: center; /* Center the icons within each list item */
+    margin: 0 15px; /* Adjust spacing between items */
+}
+
+.bottom-nav .nav-item {
+    display: flex;
+    flex-direction: column; /* Apila el icono y el texto (aunque el texto se quitará del HTML) */
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0;
+    color: #888; /* Color por defecto del icono */
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+    /* Remover font-size, font-weight, etc. si estaban ahí y solo quieres iconos */
+}
+
+.bottom-nav .nav-item:hover {
+    transform: translateY(-3px); /* Pequeño efecto al pasar el ratón */
+    color: var(--primary-red); /* Color al pasar el ratón, usa la variable de tu CSS */
+}
+
+.bottom-nav .nav-item .nav-icon {
+    font-size: 28px; /* Tamaño del icono, más grande para compensar la falta de texto */
+    margin-bottom: 0px; /* Asegura que no haya margen debajo del icono si no hay texto */
+    color: #888; /* Color del icono por defecto */
+    transition: color 0.3s ease;
+}
+
+.bottom-nav .nav-item.active {
+    color: var(--primary-red); /* Color del icono activo*/
+}
+
+.bottom-nav .nav-item.active .nav-icon {
+    color: var(--primary-red); /* Color del icono activo*/
+}
+
+.botones {
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1em;
+    font-weight: 700;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    background-color: #881F1E;
+}
+
+/* Mobile Styles */
+@media (max-width: 767px) {
+    .contenido-principal-estudiantes {
+        padding: var(--espaciado-l);
+        gap: var(--espaciado-l);
+        padding-bottom: 90px; /* Evita que el contenido se oculte detrás de la barra de navegación inferior */
+    }
+
+    .estadistica-icono {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .tarjeta-icono {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+    }
+
+    .icono-bienvenida {
+        font-size: 3rem;
+    }
+
+    .tarjeta-bienvenida {
+        padding: var(--espaciado-l);
+    }
+
+    .titulo-bienvenida {
+        font-size: 1.5rem;
+    }
+
+    .descripcion-bienvenida {
+        font-size: 1rem;
+    }
+
+    .seccion-estadisticas {
+        grid-template-columns: 1fr;
+        gap: var(--espaciado-m);
+    }
+
+    .contenedor-tarjetas {
+        grid-template-columns: 1fr;
+        gap: var(--espaciado-l);
+    }
+
+    .contenedor-acceso-rapido {
+        gap: var(--espaciado-m);
+    }
+
+    .enlace-rapido {
+        min-width: 100px;
+        padding: var(--espaciado-m);
+    }
+
+    .enlace-rapido i {
+        font-size: 1.5rem;
+    }
+}

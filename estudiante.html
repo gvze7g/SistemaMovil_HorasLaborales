@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inicio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/estudiante.css" />
+</head>
+
+<body id="body">
+
+  <main class="contenido-principal-estudiantes">
+    <section class="seccion-bienvenida">
+      <div class="tarjeta-bienvenida">
+        <div class="icono-bienvenida">
+          <i class="fas fa-wrench"></i>
+        </div>
+        <h1 class="titulo-bienvenida">Bienvenido al Taller de Mantenimiento Automotriz</h1>
+        <p class="descripcion-bienvenida">Gestiona tus vehículos y revisa el progreso de tus trabajos de
+          mantenimiento</p>
+      </div>
+    </section>
+
+    <section class="seccion-estadisticas">
+      <div class="estadistica-item">
+        <div class="estadistica-icono">
+          <i class="fas fa-car"></i>
+        </div>
+        <div class="estadistica-info">
+          <span class="estadistica-numero" id="allVehicles">0</span>
+          <span class="estadistica-label">Vehículos Registrados</span>
+        </div>
+      </div>
+      <div class="estadistica-item">
+        <div class="estadistica-icono">
+          <i class="fas fa-tools"></i>
+        </div>
+        <div class="estadistica-info">
+          <span class="estadistica-numero" id="activeWorks">0</span>
+          <span class="estadistica-label">Trabajos en Progreso</span>
+        </div>
+      </div>
+      <div class="estadistica-item">
+        <div class="estadistica-icono">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="estadistica-info">
+          <span class="estadistica-numero" id="completeWorks">0</span>
+          <span class="estadistica-label">Trabajos Completados</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion-acciones">
+      <h2 class="titulo-seccion">Acciones Principales</h2>
+      <div class="contenedor-tarjetas">
+        <div class="tarjeta">
+          <div class="tarjeta-icono">
+            <i class="fas fa-plus-circle"></i>
+          </div>
+          <h3 class="tarjeta-titulo">Registrar Vehículo</h3>
+          <p class="tarjeta-descripcion">Añade un nuevo vehículo al sistema para su mantenimiento</p>
+          <a class="boton" href="registro-auto.html">
+            Registrar vehículo
+            <span class="flecha">
+              <i class="fas fa-arrow-right"></i>
+            </span>
+          </a>
+        </div>
+
+        <div class="tarjeta">
+          <div class="tarjeta-icono">
+            <i class="fas fa-clipboard-list"></i>
+          </div>
+          <h3 class="tarjeta-titulo">Mis Trabajos</h3>
+          <p class="tarjeta-descripcion">Revisa el estado y progreso de tus vehículos</p>
+          <a class="boton" href="mis-trabajos.html">
+            Ver trabajos
+            <span class="flecha">
+              <i class="fas fa-arrow-right"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion-acceso-rapido">
+      <h2 class="titulo-seccion">Acceso Rápido</h2>
+      <div class="contenedor-acceso-rapido">
+        <a href="perfil.html" class="enlace-rapido">
+          <i class="fas fa-user-cog"></i>
+          <span>Mi Perfil</span>
+        </a>
+        <a href="mis-trabajos.html" class="enlace-rapido">
+          <i class="fas fa-history"></i>
+          <span>Historial</span>
+        </a>
+        <!--<a href="#" class="enlace-rapido" onclick="mostrarAyuda()">
+          <i class="fas fa-question-circle"></i>
+          <span>Ayuda</span>
+        </a>-->
+      </div>
+    </section>
+
+
+  <nav class="bottom-nav">
+    <ul>
+      <li>
+        <a href="estudiante.html" class="nav-item active">
+          <i class="fas fa-home nav-icon"></i>
+        </a>
+      </li>
+      <li>
+        <a href="registro-auto.html" class="nav-item">
+          <i class="fas fa-clipboard-list nav-icon"></i>
+        </a>
+      </li>
+      <li>
+        <a href="ordenes-trabajo.html" class="nav-item ">
+          <i class="fas fa-tasks nav-icon"></i>
+        </a>
+      </li>
+      <li>
+        <a href="mis-trabajos.html" class="nav-item">
+          <i class="fas fa-chart-bar nav-icon"></i>
+        </a>
+      </li>
+      <li>
+        <a href="perfil.html" class="nav-item">
+          <i class=" fas fa-id-badge nav-icon"></i>
+        </a>
+      </li>
+      <li>
+        <a href="index.html" class="nav-item">
+          <i class="fas fa-sign-out-alt nav-icon"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script type="module" src="js/estudiante.js"></script>
+</body>
+
+</html>

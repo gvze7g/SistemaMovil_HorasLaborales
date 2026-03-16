@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registros</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="css/1er-año.css">
+</head>
+
+<body>
+    <div class="contenedor-principal">
+        <div class="contenido-layout">
+            <aside class="panel-lateral">
+                <div class="tarjeta-sidebar">
+                    <div class="header-sidebar">
+                        <h3 id="sidebar-title">Pendientes de Revisión</h3>
+                        <span class="badge-contador">0</span>
+                    </div>
+                    <div class="lista-registros">
+                        <!-- El contenido se llena dinámicamente con JS -->
+                    </div>
+                </div>
+
+                <!-- Nueva tarjeta para órdenes de trabajo -->
+                <div class="tarjeta-sidebar">
+                    <div class="header-sidebar">
+                        <h3 id="work-orders-sidebar-title">Órdenes Pendientes</h3>
+                        <span class="badge-contador" id="work-orders-badge">0</span>
+                    </div>
+                    <div class="lista-registros" id="work-orders-list">
+                        <!-- Las órdenes de trabajo se llenan dinámicamente con JS -->
+                    </div>
+                </div>
+            </aside>
+
+            <main class="contenido-principal">
+                <section class="tarjeta-principal">
+                    <div class="header-tarjeta">
+                        <h2><i class="fas fa-clipboard-list"></i> Registro de Vehículos</h2>
+                        <div class="controles-header">
+                            <!--<button class="btn-exportar">
+                                <i class="fas fa-download"></i>
+                                Exportar
+                            </button>-->
+                        </div>
+                    </div>
+                    
+                    <div class="controles-filtro">
+                        <div class="buscador">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="buscarRegistro" placeholder="Buscar por placa, marca, modelo, estudiante, propietario o estado...">
+                        </div>
+                        <div class="filtros">
+                            <select id="filtroEstado" class="select-filtro">
+                                <option value="all">Todos los estados</option>
+                                <option value="1,2">En aprobación</option>
+                                <option value="3">Aprobado</option>
+                                <option value="4">Rechazado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="tabla-container">
+                        <table class="tabla-moderna">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="checkbox-all"></th>
+                                    <th>Placa</th>
+                                    <th>Marca</th>
+                                    <th>Modelo</th>
+                                    <th>Tipo</th>
+                                    <th>Estado</th>
+                                    <th>Estudiante</th>
+                                    <th>Propietario</th>
+                                    <th>Tel. Propietario</th>
+                                    <th>Imagen</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Los datos se llenan dinámicamente con JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="paginacion">
+                        <div class="info-paginacion">
+                            Mostrando 1-2 de 24 registros
+                        </div>
+                        <div class="controles-paginacion">
+                            <button class="btn-paginacion" disabled>
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="btn-paginacion activo">1</button>
+                            <button class="btn-paginacion">2</button>
+                            <button class="btn-paginacion">3</button>
+                            <button class="btn-paginacion">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal mejorado -->
+    <div id="modalVehiculo" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Detalles del Vehículo</h3>
+                <button class="btn-cerrar-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-tabs">
+                    <button class="tab-btn activo" data-tab="vehiculo">Información del Vehículo</button>
+                    <button class="tab-btn" data-tab="orden">Orden de Trabajo</button>
+                </div>
+                
+                <div class="tab-content activo" id="tab-vehiculo">
+                    <!-- Contenido del vehículo se llena dinámicamente -->
+                </div>
+            </div>
+            <div class="modal-footer">
+               <!-- <button class="btn-imprimir" id="btn-imprimir-reporte">
+                    <i class="fas fa-print"></i>
+                    Imprimir Reporte
+                </button>-->
+                <button class="btn-modal secundario">Rechazar</button>
+                <button class="btn-modal primario">Aprobar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para órdenes de trabajo -->
+    <div id="modalWorkOrder" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Detalles de la Orden de Trabajo</h3>
+                <button class="btn-cerrar-modal" id="btn-cerrar-work-order-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="work-order-content">
+                    <!-- Contenido de la orden de trabajo se llena dinámicamente -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal secundario" id="btn-rechazar-orden">
+                    <i class="fas fa-times"></i>
+                    Rechazar
+                </button>
+                <button class="btn-modal primario" id="btn-aprobar-orden">
+                    <i class="fas fa-check"></i>
+                    Aprobar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Espaciador para separar el bottom nav de la tabla -->
+    <div style="height: 64px;"></div>
+    <nav class="bottom-nav">
+        <ul>
+            <li>
+                <a href="coordi-index.html" class="nav-item">
+                    <i class="fas fa-home nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="1er-año.html" class="nav-item active">
+                    <i class="fas fa-graduation-cap nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="reportes.html" class="nav-item">
+                    <i class="fas fa-chart-bar nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="perfil-coord.html" class="nav-item">
+                    <i class="fas fa-user nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="admin.html" class="nav-item">
+                    <i class="fas fa-wrench nav-icon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="authInstructors.html" class="nav-item">
+                    <i class="fas fa-sign-out-alt nav-icon"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="js/1er-año.js"></script>
+</body>
+
+</html>

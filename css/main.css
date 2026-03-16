@@ -1,0 +1,60 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Navbar superior */
+.navbar {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+}
+
+.navbar .nav-item {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.navbar .nav-item.active {
+    font-weight: bold;
+}
+
+/* Sección principal */
+.content {
+    padding: 20px;
+}
+
+/* Tarjetas */
+.card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.card.dark-mode {
+    background-color: black;
+    color: white;
+}
+
+/* Modo oscuro */
+body.dark-mode {
+    background-color: black;
+    color: white;
+}
+
+/* ...existing code... */

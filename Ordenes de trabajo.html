@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitácora del Vehículo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/Ordenes de trabajo.css">
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+        <div class="main-container">
+            <header class="app-header">
+                <a href="entradas.html" class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <h1>Ordenes de Trabajo</h1>
+            </header>
+
+            <div class="summary-card">
+                <div class="card-image">
+                    <img src="imgs/audi.jpg" alt="Imagen del Vehículo">
+                    <div class="image-overlay">
+                        <p class="car-info">
+                            <span class="car-model">Nissan Rogue</span> • <span class="car-plate">P215-987</span>
+                        </p>
+                        <p class="owner-info">
+                            Propietario: Ana C. <br>
+                            Teléfono: <a href="tel:5551234567" class="phone-link">555-123-4567</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <p class="info-line"><strong>Tarjeta de Circulación:</strong> #0123456789</p>
+                    <p class="info-line"><strong>Instructor:</strong> Ricardo L.</p>
+                    <p class="info-line"><strong>Alumno:</strong> Javier G.</p>
+                </div>
+            </div>
+
+            <section class="log-section">
+                <h2>Trabajos Asignados</h2>
+                <div class="log-entries-container">
+                    <div class="log-entry">
+                        <div class="entry-header">
+                            <p class="entry-date"><strong></strong>Cambio de Frenos</p>
+                            <p class="entry-user"><strong>Por:</strong> Javier G.</p>
+                        </div>
+                        <div class="entry-details">
+                            <p class="entry-text">
+                                Se realizó diagnóstico inicial del sistema de frenos y se identificó desgaste en las
+                                pastillas delanteras.
+                                Se procedió a solicitar las piezas de repuesto.
+                            </p>
+                            <a href="#" class="entry-action-link">
+                                Ver Órdenes de Trabajo <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="log-entry">
+                        <div class="entry-header">
+                            <p class="entry-date"><strong></strong>Revisión de Suspensión</p>
+                            <p class="entry-user"><strong>Por:</strong> Ricardo L.</p>
+                        </div>
+                        <div class="entry-details">
+                            <p class="entry-text">
+                                Inspección detallada de amortiguadores, bujes y rótulas. Reemplazo de amortiguadores
+                                traseros y alineación del vehículo.
+                            </p>
+                            <a href="#" class="entry-action-link">
+                                Ver Órdenes de Trabajo <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="log-entry">
+                        <div class="entry-header">
+                            <p class="entry-date"><strong></strong>Mantenimiento del Motor</p>
+                            <p class="entry-user"><strong>Por:</strong> Diego L.</p>
+                        </div>
+                        <div class="entry-details">
+                            <p class="entry-text">
+                                Reemplazo de filtro de aire, filtro de aceite y aceite del motor. Comprobación de
+                                correas y
+                                niveles de fluidos.
+                            </p>
+                            <a href="#" class="entry-action-link">
+                                Ver Órdenes de Trabajo <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div id="task-modal" class="modal" style="display:none;">
+                        <div class="modal-content">
+                            <span class="close-button">&times;</span>
+                            <div class="modal-header">
+                                <h3>Nueva Orden de Trabajo</h3>
+                            </div>
+                            <form id="task-form">
+                                <div class="form-group">
+                                    <label for="module-select">Módulos:</label>
+                                    <select id="module-select" name="module" class="styled-select" required>
+                                        <option value="" disabled selected>Selecciona un módulo</option>
+                                        <option value="revision">Revisión de Suspensión</option>
+                                        <option value="frenos">Cambio de Frenos</option>
+                                        <option value="motor">Mantenimiento del Motor</option>
+                                        <option value="alineacion">Alineación y Balanceo</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="task-description">Descripción del Trabajo:</label>
+                                    <textarea id="task-description" name="taskDescription" rows="5" class="styled-input"
+                                        required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Imágenes del Vehículo (4 fotos):</label>
+                                    <div class="image-previews-container">
+                                        <div class="image-preview" data-slot="1">
+                                            <i class="fas fa-camera"></i>
+                                            <span>Tomar Foto 1</span>
+                                            <input type="file" accept="image/*" capture="camera" class="photo-input">
+                                        </div>
+                                        <div class="image-preview" data-slot="2">
+                                            <i class="fas fa-camera"></i>
+                                            <span>Tomar Foto 2</span>
+                                            <input type="file" accept="image/*" capture="camera" class="photo-input">
+                                        </div>
+                                        <div class="image-preview" data-slot="3">
+                                            <i class="fas fa-camera"></i>
+                                            <span>Tomar Foto 3</span>
+                                            <input type="file" accept="image/*" capture="camera" class="photo-input">
+                                        </div>
+                                        <div class="image-preview" data-slot="4">
+                                            <i class="fas fa-camera"></i>
+                                            <span>Tomar Foto 4</span>
+                                            <input type="file" accept="image/*" capture="camera" class="photo-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-buttons">
+                                    <button type="submit" class="save-button">Guardar Orden</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+            <button class="fab">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+
+
+    </div>
+    <script src="js/Ordenes de trabajo.js"></script>
+    <script>
+    // Modal control: solo se abre al hacer clic en el botón FAB
+    document.addEventListener('DOMContentLoaded', function () {
+        var modal = document.getElementById('task-modal');
+        var fab = document.querySelector('.fab');
+        var closeBtn = document.querySelector('.close-button');
+
+        fab.addEventListener('click', function () {
+            modal.style.display = 'flex';
+        });
+
+        closeBtn.addEventListener('click', function () {
+            modal.style.display = 'none';
+        });
+
+        // Cerrar modal al hacer clic fuera del contenido
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+    </script>
+</body>
+
+</html>
