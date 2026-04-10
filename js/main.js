@@ -45,7 +45,7 @@ function getStatusClass(statusId) {
 
 // Update vehicle status
 async function updateVehicleStatus(vehicleId, newStatus) {
-    try {
+    try {//CAMBIAR
         const response = await fetch(`https://sgma-66ec41075156.herokuapp.com/api/vehicles/updateStatusVehicle/${vehicleId}?newStatus=${newStatus}`, {
             method: 'PUT',
             credentials: 'include',
@@ -160,4 +160,4 @@ document.addEventListener('DOMContentLoaded', async function() {
     await fetchAllVehicles();
 });
 
-// ... rest of your existing code ...
+

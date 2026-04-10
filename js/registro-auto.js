@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     // --- Configuración Global ---
-    const API_BASE_URL = "https://sgma-66ec41075156.herokuapp.com";
+    const API_BASE_URL = "https://sgma-66ec41075156.herokuapp.com"; //CAMBIAR
     
     // Referencias a elementos del DOM
     const botonEnviar = document.getElementById("boton-enviar-solicitud");
@@ -318,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const fd = new FormData();
       fd.append('image', archivo);
       fd.append('folder', 'vehicles');
-      try {
+      try {//CAMBIAR
         const res = await fetch('https://sgma-66ec41075156.herokuapp.com/api/images/upload-to-folder', {
           method: 'POST',
           credentials: 'include',

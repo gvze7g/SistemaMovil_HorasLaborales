@@ -118,6 +118,7 @@ class OrdenesTrabajoController {
 
     async loadUserVehicles() {
         try {
+            //API CAMBIAR!
             const response = await fetch(`https://sgma-66ec41075156.herokuapp.com/api/vehicles/getVehiclesByStudentId/${this.user.student.id}`, {
                 credentials: 'include'
             });
@@ -331,6 +332,7 @@ class OrdenesTrabajoController {
 
     async loadModules() {
         try {
+            //CAMBIAR!!
             const response = await fetch('https://sgma-66ec41075156.herokuapp.com/api/modules/getAllModules', {
                 credentials: 'include'
             });
@@ -424,7 +426,7 @@ class OrdenesTrabajoController {
     async loadWorkOrders() {
         try {
             console.log('Cargando órdenes de trabajo del estudiante:', this.user.student.id);
-            
+            //CAMBIAR!!
             const response = await fetch(`https://sgma-66ec41075156.herokuapp.com/api/workOrders/getWorkOrdersByStudentId/${this.user.student.id}`, {
                 credentials: 'include'
             });
@@ -847,7 +849,7 @@ class OrdenesTrabajoController {
         
         try {
             console.log('Enviando imagen a Cloudinary...');
-            const res = await fetch('https://sgma-66ec41075156.herokuapp.com/api/images/upload-to-folder', {
+            const res = await fetch('https://sgma-66ec41075156.herokuapp.com/api/images/upload-to-folder', {    //CAMBIAR!!
                 method: 'POST',
                 credentials: 'include',
                 body: fd
@@ -1032,7 +1034,7 @@ class OrdenesTrabajoController {
             console.log('Iniciando petición HTTP...');
             console.log('Enviando orden de trabajo:', workOrderData);
 
-            const response = await fetch('https://sgma-66ec41075156.herokuapp.com/api/workOrders/newWorkOrder', {
+            const response = await fetch('https://sgma-66ec41075156.herokuapp.com/api/workOrders/newWorkOrder', { //CAMBIAR!!
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

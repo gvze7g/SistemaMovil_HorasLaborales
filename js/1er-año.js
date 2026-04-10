@@ -274,7 +274,9 @@ function bindTablePaginationEvents() {
     });
 }
 
-// Obtiene todos los vehículos - usando la API correcta
+
+
+// Obtiene todos los vehículos - usando la API correcta. CAMBIAR!!!
 function fetchAllVehicles() {
     console.log('Ejecutando fetchAllVehicles...');
     
@@ -318,7 +320,7 @@ function fetchAllVehicles() {
     });
 }
 
-// Obtiene órdenes de trabajo según el rol
+// Obtiene órdenes de trabajo según el rol. CAMBIAR!!
 function fetchWorkOrdersByRole() {
     console.log('Ejecutando fetchWorkOrdersByRole para rol:', userRole);
     
@@ -514,7 +516,7 @@ function getWorkOrderStatusText(statusId) {
     }
 }
 
-// Función genérica para actualizar el estado de una orden de trabajo
+// Función genérica para actualizar el estado de una orden de trabajo. CAMBIAR!!
 async function updateOrderStatus(orderId, newStatus) {
     const response = await fetch(`https://sgma-66ec41075156.herokuapp.com/api/workOrders/${orderId}/status`, {
         method: 'PUT',
@@ -793,7 +795,7 @@ function bindEventListeners() {
         });
     }
 
-    // Botón de aprobar
+    // Botón de aprobar CAMBIAR!!
     const btnAprobar = document.querySelector('.btn-modal.primario');
     if (btnAprobar) {
         btnAprobar.addEventListener('click', async function() {
@@ -873,7 +875,7 @@ function bindEventListeners() {
         });
     }
 
-    // Botón de rechazar
+    // Botón de rechazar CAMBIAR!!
     const btnRechazar = document.querySelector('.btn-modal.secundario');
     if (btnRechazar) {
         btnRechazar.addEventListener('click', async function() {
@@ -1088,7 +1090,7 @@ function bindEventListeners() {
     }
 }
 
-// Búsqueda por placa específica
+// Búsqueda por placa específica CAMBIAR!!
 function searchByPlate(plate) {
     if (plate.length === 0) {
         fetchAllVehicles();

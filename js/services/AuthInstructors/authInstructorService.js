@@ -1,3 +1,4 @@
+//CAMBIAR
 const API_AUTH = "https://sgma-66ec41075156.herokuapp.com/api/instructorsAuth";
 const API_INSTRUCTORS = "https://sgma-66ec41075156.herokuapp.com/api/instructors";
 

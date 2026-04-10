@@ -1,7 +1,7 @@
 // Import the auth service
 import { me } from './services/AuthInstructors/authInstructorService.js';
 
-//Variable para la URL base de la API
+//Variable para la URL base de la API ---CAMBIAR!!---
 const API_BASE = "https://sgma-66ec41075156.herokuapp.com/api";
 
 // Endpoints

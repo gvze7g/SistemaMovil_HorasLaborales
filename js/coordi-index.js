@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://sgma-66ec41075156.herokuapp.com/api';
+const API_BASE_URL = 'https://sgma-66ec41075156.herokuapp.com/api'; //CAMBIAR
 
 // Import the authentication service
 import { me } from './services/AuthInstructors/authInstructorService.js';
@@ -224,7 +224,7 @@ async function cargarModulosYMostrar() {
     if (lista) lista.innerHTML = '<div style="color:#888;text-align:center;">Cargando módulos...</div>';
 
     try {
-        const res = await fetch('https://sgma-66ec41075156.herokuapp.com/api/modules/getAllModules', {
+        const res = await fetch('https://sgma-66ec41075156.herokuapp.com/api/modules/getAllModules', { //CAMBIAR
             method: 'GET',
             credentials: 'include'
         });

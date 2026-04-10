@@ -1,4 +1,4 @@
-// Funciones para manejo de órdenes de trabajo (temporalmente aquí)
+// Funciones para manejo de órdenes de trabajo (temporalmente aquí) ----CAMBIAR----
 const API_BASE_URL = 'https://sgma-66ec41075156.herokuapp.com';
 
 async function getWorkOrdersByPlate(plateNumber) {
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
     async function pruebaConDatosMock() {
         console.log('🧪 Probando con datos mock...');
         
-        // Datos mock que simulan la respuesta de la API
+        // Datos mock que simulan la respuesta de la API --CAMBIAR---
         const mockWorkOrders = [{
             "workOrderId": 23,
             "vehicleId": 36,

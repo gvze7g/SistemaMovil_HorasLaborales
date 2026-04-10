@@ -59,7 +59,7 @@ class MisTrabajosController {
     async loadWorkOrders() {
         try {
             console.log('Cargando órdenes de trabajo del estudiante:', this.user.student.id);
-            
+            //CAMBIAR
             const response = await fetch(`https://sgma-66ec41075156.herokuapp.com/api/workOrders/getWorkOrdersByStudentId/${this.user.student.id}`, {
                 credentials: 'include'
             });
@@ -566,7 +566,6 @@ class MisTrabajosController {
             });
         } catch (error) {
             console.error('Error loading observations:', error);
-            // Show modal without observations
             Swal.fire({
                 title: `Orden de Trabajo #${order.workOrderId}`,
                 html: `
@@ -739,7 +738,7 @@ class MisTrabajosController {
             if (imageFile) {
                 const formData = new FormData();
                 formData.append('image', imageFile);
-
+                //CAMBIAR
                 const imageResponse = await fetch('https://sgma-66ec41075156.herokuapp.com/api/images/upload', {
                     method: 'POST',
                     body: formData,
@@ -759,7 +758,7 @@ class MisTrabajosController {
                 observacion: description,  // Cambiar 'description' por 'observacion'
                 imageUrl: imageUrl        // Cambiar 'observationImage' por 'imageUrl'
             };
-
+            //CAMBIAR
             const response = await fetch('https://sgma-66ec41075156.herokuapp.com/api/observations/create', {
                 method: 'POST',
                 headers: {
@@ -803,7 +802,7 @@ class MisTrabajosController {
     }
 
     async getObservations(workOrderId) {
-        try {
+        try {//CAMBIAR
             const response = await fetch(`https://sgma-66ec41075156.herokuapp.com/api/observations/workOrder/${workOrderId}`, {
                 credentials: 'include'
             });

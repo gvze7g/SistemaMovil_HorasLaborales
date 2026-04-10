@@ -1,4 +1,4 @@
-// URL base para los endpoints de autenticación de instructores
+// URL base para los endpoints de autenticación de instructores -------CAMBIAR!!--------
 const API_AUTH = "https://sgma-66ec41075156.herokuapp.com/api/studentsAuth";
 
 // Realiza el inicio de sesión con email y password
