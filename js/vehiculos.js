@@ -59,19 +59,40 @@ class VehiculosMobile {
     }
 
     async loadVehiculos() {
-        try {
-            // Simulate API call - replace with actual API endpoint
-            const response = await fetch('/api/vehiculos');
-            this.vehiculos = await response.json();
-            this.filteredVehiculos = [...this.vehiculos];
-            this.renderVehiculos();
-            this.updatePendingCount();
-        } catch (error) {
-            console.error('Error loading vehicles:', error);
-            // Use mock data for demo
-            this.loadMockData();
-        }
+    try {
+        // Simulate API call - replace with actual API endpoint
+        const response = await fetch('http://localhost:8080/api/vehicles/getAllVehicles', {
+            method: 'GET',
+            credentials: 'include'
+        });
+
+        const data = await response.json();
+        const vehicles = data.data?.content || data.data || data || [];
+
+        this.vehiculos = vehicles.map(v => ({
+            id: v.vehicleId,
+            placa: v.plateNumber,
+            marca: v.brand,
+            modelo: v.model,
+            tipo: v.typeName,
+            estado: v.idStatus,
+            estudiante: `${v.studentName || ''} ${v.studentLastName || ''}`.trim(),
+            propietario: v.ownerName,
+            telefono: v.ownerPhone,
+            imagen: v.vehicleImage || 'imgs/default-car.png',
+            fecha: v.createdAt || v.entryDate || 'Sin fecha'
+        }));
+
+        this.filteredVehiculos = [...this.vehiculos];
+        this.renderVehiculos();
+        this.updatePendingCount();
+
+    } catch (error) {
+        console.error('Error loading vehicles:', error);
+        // Use mock data for demo
+        this.loadMockData();
     }
+}
 
     loadMockData() {
         // Mock data for demonstration

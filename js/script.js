@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             try {//CAMBIAR
-                const response = await fetch('https://sgma-66ec41075156.herokuapp.com/api/instructorAuth/instructorLogin', {
+                const response = await fetch('http://localhost:8080/api/instructorsAuth/instructorLogin', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

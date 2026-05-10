@@ -1,6 +1,6 @@
 //CAMBIAR
-const API_AUTH = "https://sgma-66ec41075156.herokuapp.com/api/instructorsAuth";
-const API_INSTRUCTORS = "https://sgma-66ec41075156.herokuapp.com/api/instructors";
+const API_AUTH = "http://localhost:8080/api/instructorsAuth";
+const API_INSTRUCTORS = "http://localhost:8080/api/instructors";
 
 // Login de instructor
 export async function login({ email, password }) {

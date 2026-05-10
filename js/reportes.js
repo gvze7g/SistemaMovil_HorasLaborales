@@ -1,4 +1,4 @@
-const API_BASE = "https://sgma-66ec41075156.herokuapp.com/api"; //CAMBIAR
+const API_BASE = "http://localhost:8080/api"; //CAMBIAR
 
 // API Service functions
 async function getEstudiantes() {

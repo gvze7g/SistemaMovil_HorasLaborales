@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectedGradoText = document.getElementById('selected-grado-text');
 
     // 1. Cargar años desde la API y llenar el combobox --CAMBIAR--
-    fetch('https://sgma-66ec41075156.herokuapp.com/api/grades/getAllGrades')
+    fetch('http://localhost:8080/api/grades/getAllGrades')
         .then(res => res.json())
         .then(data => {
             // Suponiendo que data es un array de objetos con propiedad 'year'
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Enviar a la API
         try {//CAMBIAR
-            const res = await fetch('https://sgma-66ec41075156.herokuapp.com/api/students/addNewStudent', {
+            const res = await fetch('http://localhost:8080/api/students/newStudent', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(estudiante)

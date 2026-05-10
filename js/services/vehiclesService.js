@@ -1,14 +1,14 @@
-const API_BASE_URL = "https://sgma-66ec41075156.herokuapp.com/api"; //CAMBIAR
+const API_BASE_URL = "http://localhost:8080/api"; //CAMBIAR
 
 export async function getVehiclesByStudentId(studentId) {
-  const res = await fetch(`${API_BASE_URL}/getVehiclesByStudentId/${studentId}`, {
+  const res = await fetch(`${API_BASE_URL}/vehicles/getVehiclesByStudentId/${studentId}`, {
     credentials: "include",
   });
   return res.json();
 }
 
 export async function createVehicle(data) {
-  await fetch(`${API_BASE_URL}/newVehicle`, {
+  await fetch(`${API_BASE_URL}/vehicles/newVehicle`, {
     credentials: "include",
     method: "POST",
     headers: { "Content-Type": "application/json" },

@@ -1,18 +1,18 @@
-import { me } from './service/authServiceStudents.js';
+import { me } from './services/authServiceStudents.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Load real user data
     try {
         const userData = await me();
+
         if (userData && userData.student) {
             const student = userData.student;
-            document.getElementById('nombreCompletouser').textContent = `${student.names} ${student.lastNames}`;
-            document.getElementById('userEmail').textContent = student.email;
-            document.getElementById('userRole').textContent = 'Estudiante';
+
+            document.getElementById('nombreCompletoUsuario').textContent = `${student.names} ${student.lastNames}`;
+            document.getElementById('correoUsuario').textContent = student.email;
+            document.getElementById('rolUsuario').textContent = 'Estudiante';
         }
     } catch (error) {
         console.error('Error loading user data:', error);
-        // Keep default values if there's an error
     }
 
     const formularioCambioContrasena = document.getElementById('formularioCambioContrasena');
@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         let isValid = true;
         let errorMessage = '';
 
-        // Reset previous error styles
         contrasenaActualInput.style.borderColor = '';
         nuevaContrasenaInput.style.borderColor = '';
         confirmarNuevaContrasenaInput.style.borderColor = '';
@@ -64,5 +63,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             nuevaContrasenaInput.style.borderColor = 'red';
             confirmarNuevaContrasenaInput.style.borderColor = 'red';
         }
+
+        if (!isValid) {
+            mensajeContrasenaDiv.innerHTML = errorMessage;
+            mensajeContrasenaDiv.style.display = 'block';
+            mensajeContrasenaDiv.classList.add('error');
+            return;
+        }
+
+        mensajeContrasenaDiv.innerHTML = 'Contraseña validada correctamente.';
+        mensajeContrasenaDiv.style.display = 'block';
+        mensajeContrasenaDiv.classList.add('success');
     });
 });

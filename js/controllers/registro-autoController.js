@@ -1,7 +1,7 @@
 import { me } from "../services/authServiceStudents.js";
 
 //cambiar!!
-const API_BASE = "https://sgma-66ec41075156.herokuapp.com/api";
+const API_BASE = "http://localhost:8080/api";
 
 let currentUser = null;
 

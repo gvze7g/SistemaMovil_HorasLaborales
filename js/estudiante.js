@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://sgma-66ec41075156.herokuapp.com/api'; //CAMBIAR
+const API_BASE_URL = 'http://localhost:8080/api'; //CAMBIAR
 
 import { me } from './services/authServiceStudents.js';
 
@@ -72,7 +72,7 @@ async function cargarTrabajosCompletados() {
     try {
         console.log('Cargando trabajos completados...');
         //CAMBIAR
-        const response = await fetch(`https://sgma-66ec41075156.herokuapp.com/api/workOrders/getWorkOrdersByStudentIdAndStatus4/${user.student.id}`, {
+        const response = await fetch(`${API_BASE_URL}/workOrders/getWorkOrdersByStudentIdAndStatus4/${user.student.id}`, {
             method: 'GET',
             credentials: 'include'
         });
@@ -112,7 +112,7 @@ async function cargarTrabajosEnProgreso() {
     try {
         console.log('Cargando trabajos en progreso...');
         //CAMBIAR
-        const response = await fetch(`https://sgma-66ec41075156.herokuapp.com/api/workOrders/getWorkOrdersByStudentIdAndStatus3/${user.student.id}`, {
+        const response = await fetch(`${API_BASE_URL}/workOrders/getWorkOrdersByStudentIdAndStatus3/${user.student.id}`, {
             method: 'GET',
             credentials: 'include'
         });
@@ -153,7 +153,7 @@ async function cargarVehiculosRegistrados() {
     try {
         console.log('Cargando vehículos registrados...');
         //CAMBIAR
-        const response = await fetch(`https://sgma-66ec41075156.herokuapp.com/api/vehicles/getVehiclesByStudentId/${user.student.id}`, {
+        const response = await fetch(`${API_BASE_URL}/vehicles/getVehiclesByStudentId/${user.student.id}`, {
             method: 'GET',
             credentials: 'include'
         });

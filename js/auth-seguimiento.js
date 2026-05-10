@@ -1,5 +1,5 @@
 // Funciones para manejo de órdenes de trabajo (temporalmente aquí) ----CAMBIAR----
-const API_BASE_URL = 'https://sgma-66ec41075156.herokuapp.com';
+const API_BASE_URL = 'http://localhost:8080';
 
 async function getWorkOrdersByPlate(plateNumber) {
     try {

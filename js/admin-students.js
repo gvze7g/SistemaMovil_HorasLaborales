@@ -2,7 +2,7 @@
 import { me } from './services/AuthInstructors/authInstructorService.js';
 
 //CAMBIAR!!
-const API_BASE_URL = 'https://sgma-66ec41075156.herokuapp.com';
+const API_BASE_URL = 'http://localhost:8080';
 
 // API URLs
 const STUDENTS_API_URL = `${API_BASE_URL}/api/students/getAllStudents`;
@@ -192,20 +192,16 @@ async function cargarLevels() {
 
 function populateYearFilter() {
     if (!filtroAnoEl) return;
-    
+
     filtroAnoEl.innerHTML = '<option value="">Todos los años</option>';
-    
-    if (!levels || levels.length === 0) {
-        return;
-    }
-    
+
     levels.forEach(level => {
-        if (level && level.id && level.levelName) { 
-            const option = document.createElement('option');
-            option.value = level.id;
-            option.textContent = level.levelName;
-            filtroAnoEl.appendChild(option);
-        }
+        console.log('Level:', level);
+
+        const option = document.createElement('option');
+        option.value = level.levelId || level.id || level.LEVELID;
+        option.textContent = level.levelName || level.name || level.LEVELNAME;
+        filtroAnoEl.appendChild(option);
     });
 }
 
@@ -256,26 +252,46 @@ async function cargarEstudiantes() {
 
 function filtrarYMostrarEstudiantes() {
     let lista = studentsOriginal.slice();
-    
+
     const levelId = filtroAnoEl ? filtroAnoEl.value : '';
-    if (levelId) {
-        lista = lista.filter(i => String(i.levelId) === levelId);
-    }
-    
     const grupo = filtroGrupoEl ? filtroGrupoEl.value : '';
-    if (grupo) {
-        lista = lista.filter(i => String(i.gradeGroup) === grupo);
-    }
-    
     const texto = buscadorUsuariosEl ? buscadorUsuariosEl.value.trim().toLowerCase() : '';
+
+    console.log('Año seleccionado:', levelId);
+    console.log('Grades:', grades);
+    console.log('Primer estudiante:', studentsOriginal[0]);
+
+    if (levelId) {
+        const gradeIdsDelLevel = grades
+            .filter(g => String(g.levelId) === String(levelId))
+            .map(g => Number(g.gradeId));
+
+        console.log('Grade IDs del año seleccionado:', gradeIdsDelLevel);
+
+        lista = lista.filter(student => {
+            const studentGradeId = Number(
+                student.gradeId ||
+                student.idGrade ||
+                student.grade?.gradeId ||
+                student.grade?.id
+            );
+
+            return gradeIdsDelLevel.includes(studentGradeId);
+        });
+    }
+
+    if (grupo) {
+        lista = lista.filter(student => String(student.gradeGroup) === String(grupo));
+    }
+
     if (texto) {
-        lista = lista.filter(i =>
-            `${i.firstName} ${i.lastName}`.toLowerCase().includes(texto) ||
-            (i.email && i.email.toLowerCase().includes(texto)) ||
-            (i.studentCard && i.studentCard.toLowerCase().includes(texto))
+        lista = lista.filter(student =>
+            `${student.firstName || ''} ${student.lastName || ''}`.toLowerCase().includes(texto) ||
+            (student.email && student.email.toLowerCase().includes(texto)) ||
+            (student.studentCard && student.studentCard.toLowerCase().includes(texto))
         );
     }
-    
+
     cargarTablaEstudiantes(lista);
 }
 
@@ -493,7 +509,7 @@ async function handleFormSubmit(e) {
         lastName: apellidosEl.value.trim(),
         email: emailEl.value.trim(),
         gradeId: Number(idGradeEl.value),
-        roleId: 5
+        roleId: 1
     };
     
     if (!isEditing || (isEditing && passwordEl.value.trim())) {

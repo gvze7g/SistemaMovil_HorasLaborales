@@ -1,5 +1,7 @@
 import { me } from './services/authServiceStudents.js';
 
+const API_BASE_URL = 'http://localhost:8080/api';
+
 class MisTrabajosController {
     constructor() {
         this.user = null;
@@ -60,7 +62,7 @@ class MisTrabajosController {
         try {
             console.log('Cargando órdenes de trabajo del estudiante:', this.user.student.id);
             //CAMBIAR
-            const response = await fetch(`https://sgma-66ec41075156.herokuapp.com/api/workOrders/getWorkOrdersByStudentId/${this.user.student.id}`, {
+            const response = await fetch(`${API_BASE_URL}/workOrders/getWorkOrdersByStudentId/${this.user.student.id}`, {
                 credentials: 'include'
             });
 
@@ -739,7 +741,7 @@ class MisTrabajosController {
                 const formData = new FormData();
                 formData.append('image', imageFile);
                 //CAMBIAR
-                const imageResponse = await fetch('https://sgma-66ec41075156.herokuapp.com/api/images/upload', {
+                const imageResponse = await fetch(`${API_BASE_URL}/images/uploadImages`, {
                     method: 'POST',
                     body: formData,
                     credentials: 'include'
@@ -759,7 +761,7 @@ class MisTrabajosController {
                 imageUrl: imageUrl        // Cambiar 'observationImage' por 'imageUrl'
             };
             //CAMBIAR
-            const response = await fetch('https://sgma-66ec41075156.herokuapp.com/api/observations/create', {
+            const response = await fetch(`${API_BASE_URL}/observations/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -803,7 +805,7 @@ class MisTrabajosController {
 
     async getObservations(workOrderId) {
         try {//CAMBIAR
-            const response = await fetch(`https://sgma-66ec41075156.herokuapp.com/api/observations/workOrder/${workOrderId}`, {
+            const response = await fetch(`${API_BASE_URL}/observations/workOrder/${workOrderId}`, {
                 credentials: 'include'
             });
 

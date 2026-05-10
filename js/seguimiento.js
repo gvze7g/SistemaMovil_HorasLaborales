@@ -1,5 +1,5 @@
 // Funciones para manejo de órdenes de trabajo (temporalmente aquí)
-const API_BASE_URL = 'https://sgma-66ec41075156.herokuapp.com'; //CAMBIAR
+const API_BASE_URL = 'http://localhost:8080'; //CAMBIAR
 
 /**
  * Obtiene las órdenes de trabajo por número de placa

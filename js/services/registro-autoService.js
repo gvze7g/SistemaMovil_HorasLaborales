@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://sgma-66ec41075156.herokuapp.com/api"; //CAMBIAR
+const API_BASE_URL = "http://localhost:8080/api"; //CAMBIAR
 
 export async function createVehicle(payload) {
   await fetch(`${API_BASE_URL}/vehicles/newVehicle`, {

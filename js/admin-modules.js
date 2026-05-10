@@ -2,7 +2,7 @@
 import { me } from './services/AuthInstructors/authInstructorService.js';
 
 //CAMBIAR!
-const API_BASE_URL = 'https://sgma-66ec41075156.herokuapp.com';
+const API_BASE_URL = 'http://localhost:8080';
 
 // -----------------------------------------------------
 // REFERENCIAS A ELEMENTOS DEL DOM

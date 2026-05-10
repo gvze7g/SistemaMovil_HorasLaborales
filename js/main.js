@@ -1,5 +1,7 @@
 import { me } from './service/authService.js';
 
+const API_BASE_URL = 'http://localhost:8080/api';
+
 let allVehicles = [];
 let userRole = null;
 let selectedVehicleId = null;
@@ -46,7 +48,7 @@ function getStatusClass(statusId) {
 // Update vehicle status
 async function updateVehicleStatus(vehicleId, newStatus) {
     try {//CAMBIAR
-        const response = await fetch(`https://sgma-66ec41075156.herokuapp.com/api/vehicles/updateStatusVehicle/${vehicleId}?newStatus=${newStatus}`, {
+        const response = await fetch(`${API_BASE_URL}/vehicles/updateStatusVehicle/`, {
             method: 'PUT',
             credentials: 'include',
             headers: {

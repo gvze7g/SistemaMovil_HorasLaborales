@@ -2,10 +2,10 @@
 import { me } from './services/AuthInstructors/authInstructorService.js';
 
 //Variable para la URL base de la API ---CAMBIAR!!---
-const API_BASE = "https://sgma-66ec41075156.herokuapp.com/api";
+const API_BASE = "http://localhost:8080/api";
 
 // Endpoints
-const ROLES_API_URL = `${API_BASE}/Roles/getAllRoles`;
+const ROLES_API_URL = `${API_BASE}/roles/getAllRoles`;
 const INSTRUCTORS_API_URL = `${API_BASE}/instructors/getAllInstructors`;
 const LEVELS_API_URL = `${API_BASE}/levels/getAllLevels`;
 const GRADES_API_URL = `${API_BASE}/grades/getAllGrades`;
@@ -424,13 +424,21 @@ async function subirImagen(archivo) {
   const fd = new FormData();
   fd.append('image', archivo);
   fd.append('folder', 'instructors');
+
   try {
     const res = await fetch(`${API_BASE}/images/upload-to-folder`, {
       method: 'POST',
       credentials: 'include',
       body: fd
     });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`Error ${res.status}: ${errorText}`);
+    }
+
     const obj = await res.json();
+
     if (obj.url) {
       return obj.url;
     } else {
@@ -438,10 +446,11 @@ async function subirImagen(archivo) {
     }
   } catch (error) {
     console.error('Error al subir imagen:', error);
+
     Swal.fire({
       icon: 'error',
       title: 'Error de Subida',
-      text: 'No se pudo subir la imagen. Intenta de nuevo.',
+      text: error.message || 'No se pudo subir la imagen. Intenta de nuevo.',
       customClass: {
         popup: 'swal-custom-popup',
         title: 'swal-custom-title',
@@ -449,6 +458,7 @@ async function subirImagen(archivo) {
         confirmButton: 'swal-custom-confirm-button'
       }
     });
+
     return null;
   }
 }

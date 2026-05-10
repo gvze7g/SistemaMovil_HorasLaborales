@@ -1,26 +1,18 @@
-// Helper para obtener el valor de una cookie por nombre
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-    return null;
-}
-
 // Función para obtener datos del perfil
 export async function me() {
     try {
-        const response = await fetch('/api/me', {
+        const response = await fetch('http://localhost:8080/api/instructorsAuth/meInstructor', {
             method: 'GET',
+            credentials: 'include',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getCookie('authToken')}`
+                'Content-Type': 'application/json'
             }
         });
-        
+
         if (!response.ok) {
             throw new Error('Error en la respuesta del servidor');
         }
-        
+
         return await response.json();
     } catch (error) {
         console.error('Error en me():', error);
@@ -31,23 +23,22 @@ export async function me() {
 // Función para cambiar contraseña
 export async function changePassword(instructorId, currentPassword, newPassword) {
     try {
-        const response = await fetch('/api/change-password', {
-            method: 'POST',
+        const response = await fetch(`http://localhost:8080/api/instructors/update/${instructorId}/password`, {
+            method: 'PUT',
+            credentials: 'include',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getCookie('authToken')}`
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                instructorId,
                 currentPassword,
                 newPassword
             })
         });
-        
+
         if (!response.ok) {
             throw new Error('Error en la respuesta del servidor');
         }
-        
+
         return await response.json();
     } catch (error) {
         console.error('Error en changePassword():', error);

@@ -1,5 +1,5 @@
 // Servicio para manejar las operaciones de órdenes de trabajo ------CAMBIAR-------
-const API_BASE_URL = 'https://sgma-66ec41075156.herokuapp.com';
+const API_BASE_URL = 'http://localhost:8080';
 
 /**
  * Obtiene las órdenes de trabajo por número de placa

@@ -1,4 +1,6 @@
-import { me } from '../AuthInstructors/authInstructorService.js';
+import { me } from './services/AuthInstructors/authInstructorService.js';
+
+const API_BASE_URL = 'http://localhost:8080/api';
 
 let allVehicles = [];
 let userRole = null;
@@ -279,8 +281,8 @@ function bindTablePaginationEvents() {
 // Obtiene todos los vehículos - usando la API correcta. CAMBIAR!!!
 function fetchAllVehicles() {
     console.log('Ejecutando fetchAllVehicles...');
+    fetch(`${API_BASE_URL}/vehicles/getAllVehicles`, {
     
-    fetch('https://sgma-66ec41075156.herokuapp.com/api/vehicles/getAllVehicles', {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -326,9 +328,9 @@ function fetchWorkOrdersByRole() {
     
     let endpoint = '';
     if (userRole === 'Animador') {
-        endpoint = 'https://sgma-66ec41075156.herokuapp.com/api/workOrders/getWorkOrdersByStatus1';
+        endpoint = `${API_BASE_URL}/workOrders/getWorkOrdersByStatus1`;
     } else if (userRole === 'Coordinador') {
-        endpoint = 'https://sgma-66ec41075156.herokuapp.com/api/workOrders/getWorkOrdersByStatus2';
+        endpoint = `${API_BASE_URL}/workOrders/getWorkOrdersByStatus2`;
     } else {
         console.log('Rol no válido para órdenes de trabajo:', userRole);
         return;
@@ -518,7 +520,7 @@ function getWorkOrderStatusText(statusId) {
 
 // Función genérica para actualizar el estado de una orden de trabajo. CAMBIAR!!
 async function updateOrderStatus(orderId, newStatus) {
-    const response = await fetch(`https://sgma-66ec41075156.herokuapp.com/api/workOrders/${orderId}/status`, {
+    const response = await fetch(`http://localhost:8080/api/workOrders/${orderId}/status`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -811,14 +813,14 @@ function bindEventListeners() {
                 
                 const newStatus = userRole === 'Animador' ? 2 : 3;
                 
-                const response = await fetch(`https://sgma-66ec41075156.herokuapp.com/api/vehicles/updateStatusVehicle/${vehiculoSeleccionado.vehicleId}?newStatus=${newStatus}`, {
-                    method: 'PUT',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
-                });
+                const response = await fetch(`http://localhost:8080/api/vehicles/updateStatusVehicle/${vehiculoSeleccionado.vehicleId}?newStatus=${newStatus}`, {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
                 
                 console.log('Response status:', response.status);
                 console.log('Response ok:', response.ok);
@@ -889,14 +891,14 @@ function bindEventListeners() {
                     return;
                 }
                 
-                const response = await fetch(`https://sgma-66ec41075156.herokuapp.com/api/vehicles/updateStatusVehicle/${vehiculoSeleccionado.vehicleId}?newStatus=4`, {
-                    method: 'PUT',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
-                });
+                const response = await fetch(`http://localhost:8080/api/vehicles/updateStatusVehicle/${vehiculoSeleccionado.vehicleId}?newStatus=4`, {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+                }
+            });
                 
                 console.log('Response status:', response.status);
                 console.log('Response ok:', response.ok);
@@ -1097,7 +1099,7 @@ function searchByPlate(plate) {
         return;
     }
     
-    fetch(`https://sgma-66ec41075156.herokuapp.com/api/vehicles/plate/${plate}`, {
+    fetch(`http://localhost:8080/api/vehicles/plate/${plate}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
