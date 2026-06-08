@@ -359,9 +359,20 @@ function cargarTabla(instructores) {
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
-  // Primero obtener información del usuario
   await getUserInfo();
-  
+
+  if (userRole === 'Instructors') {
+    Swal.fire({
+      icon: 'error',
+      title: 'Acceso denegado',
+      text: 'No tiene permisos para acceder a esta página.'
+    }).then(() => {
+      window.location.href = 'coordi-index.html'; // o la página que quieras
+    });
+
+    return;
+  }
+
   await cargarRoles();
   await cargarLevels();
   await cargarGrupos();

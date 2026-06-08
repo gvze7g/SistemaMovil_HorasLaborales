@@ -614,6 +614,7 @@ async function cargarParaEditarEstudiante(id) {
     }
 }
 
+
 // -----------------------------------------------------
 // UTILITY FUNCTIONS
 // -----------------------------------------------------
@@ -658,33 +659,28 @@ function showMessage(message, type) {
 
 window.addEventListener('DOMContentLoaded', async () => {
     await getUserInfo();
-    
+
+    // Solo Leader y Admin pueden entrar
+    if (userRole === 'Instructors') {
+        await Swal.fire({
+            icon: 'warning',
+            title: 'Acceso restringido',
+            text: 'Esta sección solo está disponible para Líderes y Administradores.',
+            confirmButtonText: 'Entendido'
+        });
+
+        window.location.href = 'coordi-index.html'; // cambia por la página que quieras
+        return;
+    }
+
     await Promise.all([
         cargarLevels(),
         cargarGrupos()
     ]);
-    
+
     await cargarEstudiantes();
     setupEventListeners();
 });
-
-function setupEventListeners() {
-    if (form) {
-        form.addEventListener('submit', handleFormSubmit);
-    }
-    if (cancelBtn) {
-        cancelBtn.addEventListener('click', resetForm);
-    }
-    if (filtroAnoEl) {
-        filtroAnoEl.addEventListener('change', filtrarYMostrarEstudiantes);
-    }
-    if (filtroGrupoEl) {
-        filtroGrupoEl.addEventListener('change', filtrarYMostrarEstudiantes);
-    }
-    if (buscadorUsuariosEl) {
-        buscadorUsuariosEl.addEventListener('input', debounce(filtrarYMostrarEstudiantes, 300));
-    }
-}
 
 // Export functions for global use
 window.cargarParaEditarEstudiante = cargarParaEditarEstudiante;

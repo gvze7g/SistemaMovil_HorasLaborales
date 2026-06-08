@@ -613,14 +613,28 @@ function showMessage(message, type) {
 
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('DOM cargado, iniciando carga de datos...');
-    
+
     await getUserInfo();
-    
+
+    // Bloquear a los instructores
+    if (userRole === 'Instructors') {
+        await Swal.fire({
+            icon: 'warning',
+            title: 'Acceso restringido',
+            text: 'No tiene permisos para acceder al mantenimiento de módulos.',
+            confirmButtonText: 'Entendido'
+        });
+
+        window.location.href = 'coordi-index.html'; // cambia la ruta
+        return;
+    }
+
     await Promise.all([
         loadLevels(),
-        loadInstructors() 
+        loadInstructors()
     ]);
-    await loadModules(); // Carga inicial con paginación
+
+    await loadModules();
     setupEventListeners();
 });
 
