@@ -13,7 +13,7 @@ async function inicializarApp() {
         
         if (!user || !user.student) {
             console.error('Usuario no autenticado o sin datos de estudiante');
-            window.location.href = 'loginEstudiante.html';
+            window.location.href = 'index.html';
             return;
         }
 
@@ -28,7 +28,7 @@ async function inicializarApp() {
     } catch (error) {
         console.error('Error al inicializar la aplicación:', error);
         // En caso de error de autenticación, redirigir al login
-        window.location.href = 'loginEstudiante.html';
+        window.location.href = 'index.html';
     }
 }
 

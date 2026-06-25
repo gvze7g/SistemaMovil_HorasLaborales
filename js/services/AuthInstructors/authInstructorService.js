@@ -43,15 +43,18 @@ export async function logoutInstructor() {
   }
 }
 
-//  Cambio de contraseña (opcional)
-export async function changePassword(instructorId, newPassword) {
-  const r = await fetch(`${API_INSTRUCTORS}/update/${instructorId}/password`, {
+//  Cambio de contraseña
+export async function changePassword(instructorId, oldPassword, newPassword) {
+  const r = await fetch(`http://localhost:8080/api/instructors/changePassword/${instructorId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
-    body: JSON.stringify({ password: newPassword }),
+    body: JSON.stringify({ oldPassword, newPassword }),
   });
 
-  if (!r.ok) throw new Error(await r.text().catch(() => "Error al cambiar contraseña"));
-  return r.json();
+  if (!r.ok) {
+      const errText = await r.json().catch(() => ({ message: "Error al cambiar contraseña" }));
+      throw new Error(errText.message || "Error al cambiar contraseña");
+  }
+  return await r.json();
 }

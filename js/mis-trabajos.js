@@ -37,7 +37,7 @@ class MisTrabajosController {
             }
         } catch (error) {
             console.error('Error de autenticación:', error);
-            window.location.href = 'loginEstudiante.html';
+            window.location.href = 'index.html';
             throw error;
         }
     }
@@ -638,6 +638,62 @@ class MisTrabajosController {
                 this.showCreateObservationModal(order.workOrderId);
             }
         });
+    }
+
+    async completeOrder(workOrderId) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/workOrders/${workOrderId}/status`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ idStatus: 4 }),
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al finalizar la orden');
+            }
+
+            await Swal.fire({
+                icon: 'success',
+                title: '¡Orden Finalizada!',
+                text: 'La orden ha sido finalizada exitosamente'
+            });
+
+            this.loadWorkOrders();
+        } catch (error) {
+            console.error('Error:', error);
+            this.showError('No se pudo finalizar la orden');
+        }
+    }
+
+    async delayOrder(workOrderId) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/workOrders/${workOrderId}/status`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ idStatus: 6 }),
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al atrasar la orden');
+            }
+
+            await Swal.fire({
+                icon: 'success',
+                title: '¡Orden Atrasada!',
+                text: 'El estado de la orden ha sido actualizado a Atrasado'
+            });
+
+            this.loadWorkOrders();
+        } catch (error) {
+            console.error('Error:', error);
+            this.showError('No se pudo atrasar la orden');
+        }
     }
 
     showCreateObservationModal(workOrderId) {

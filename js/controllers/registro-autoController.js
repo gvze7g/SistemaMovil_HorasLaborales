@@ -31,7 +31,73 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     // Configurar envío de formulario
     configurarFormulario();
+    
+    // Configurar formateo de inputs
+    configurarFormatosInputs();
 });
+
+function configurarFormatosInputs() {
+    const duiInput = document.getElementById('duiDueño');
+    const telInput = document.getElementById('telDueño');
+
+    const placaInput = document.getElementById('placa');
+
+    if (placaInput) {
+        placaInput.addEventListener('input', function(e) {
+            // Remove any spaces and special characters, keep only letters and numbers
+            let value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            // Limit to 8 chars
+            if (value.length > 8) {
+                value = value.substring(0, 8);
+            }
+            e.target.value = value;
+        });
+    }
+
+    if (duiInput) {
+        duiInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+            if (value.length > 8) {
+                value = value.substring(0, 8) + '-' + value.substring(8, 9);
+            }
+            e.target.value = value;
+        });
+    }
+
+    if (telInput) {
+        // Establecer prefijo inicial si está vacío
+        telInput.addEventListener('focus', function(e) {
+            if (e.target.value === '') {
+                e.target.value = '+503 ';
+            }
+        });
+
+        telInput.addEventListener('input', function(e) {
+            let value = e.target.value;
+            // Si el usuario intenta borrar el prefijo, lo restauramos
+            if (!value.startsWith('+503 ')) {
+                // Extraer solo los números de lo que quede
+                let numbers = value.replace(/\D/g, '').replace(/^503/, '');
+                value = '+503 ' + numbers;
+            }
+            
+            // Extraer números después del prefijo
+            let rest = value.substring(5).replace(/\D/g, '');
+            if (rest.length > 4) {
+                rest = rest.substring(0, 4) + '-' + rest.substring(4, 8);
+            }
+            
+            e.target.value = '+503 ' + rest;
+        });
+
+        telInput.addEventListener('keydown', function(e) {
+            // Evitar que el usuario borre el prefijo
+            if ((e.key === 'Backspace' || e.key === 'Delete') && e.target.selectionStart <= 5 && e.target.selectionEnd <= 5) {
+                e.preventDefault();
+            }
+        });
+    }
+}
 
 async function cargarTiposVehiculo() {
     const selectTipo = document.getElementById('tipo');
@@ -157,18 +223,18 @@ async function procesarRegistro() {
     const aceptarTerminos = document.getElementById('aceptarTerminos').checked;
     const nombreProp = document.getElementById('dueñoVehiculo').value.trim();
     const duiProp = document.getElementById('duiDueño').value.trim();
-    const telProp = document.getElementById('telDueño').value.trim();
+    const telPropFull = document.getElementById('telDueño').value.trim();
+    // Remover el +503 para la base de datos (límite de 10 caracteres)
+    const telProp = telPropFull.replace('+503 ', '');
 
     // Validaciones detalladas basadas en el DTO
     const errores = [];
 
     // Validación de placa
     if (!placa) {
-        errores.push('El número de placa es obligatorio');
-    } else if (placa.length > 10) {
-        errores.push('La placa no puede exceder 10 caracteres');
-    } else if (!/^[A-Z]{1,3}[0-9]{3,4}$/.test(placa)) {
-        errores.push('Formato de placa inválido (ej: ABC1234)');
+        errores.push('La placa es obligatoria');
+    } else if (!/^[A-Z]{1,2}[A-Z0-9]{3,6}$/.test(placa)) {
+        errores.push('La placa debe tener 1 o 2 letras seguidas de 3 a 6 números/letras (Ej: P123456, P452AAA)');
     }
 
     // Validación de marca
@@ -224,15 +290,15 @@ async function procesarRegistro() {
         errores.push('El DUI del propietario es obligatorio');
     } else if (duiProp.length !== 10) {
         errores.push('El DUI debe tener exactamente 10 caracteres');
-    } else if (!/^[0-9]{8}-[0-9]$/.test(duiProp)) {
+    } else if (!/^\d{8}-\d$/.test(duiProp)) {
         errores.push('El formato del DUI es inválido (ej: 12345678-9)');
     }
 
     // Validación de teléfono
-    if (!telProp) {
+    if (!telPropFull || telPropFull === '+503 ') {
         errores.push('El teléfono del propietario es obligatorio');
-    } else if (telProp.length < 7 || telProp.length > 10) {
-        errores.push('El teléfono debe tener entre 7 y 10 caracteres');
+    } else if (telPropFull.length !== 14) { // +503 XXXX-XXXX
+        errores.push('El teléfono debe tener el formato +503 XXXX-XXXX');
     }
 
     // Validación de imagen
@@ -314,19 +380,21 @@ async function procesarRegistro() {
             // Manejar diferentes tipos de errores
             if (response.status === 403) {
                 errorMessage = 'No tiene permisos para realizar esta acción. Verifique su sesión.';
-            } else if (response.status === 400) {
+            } else if (response.status === 400 || response.status === 500) {
                 try {
                     const errorData = await response.json();
                     if (errorData.message) {
                         errorMessage = errorData.message;
+                    } else if (errorData.error) {
+                        errorMessage = errorData.error;
                     }
                 } catch (e) {
-                    errorMessage = 'Los datos enviados no son válidos';
+                    errorMessage = 'Los datos enviados no son válidos o ocurrió un error interno en el servidor';
                 }
             } else if (response.status === 401) {
                 errorMessage = 'Su sesión ha expirado. Por favor, inicie sesión nuevamente.';
                 setTimeout(() => {
-                    window.location.href = 'loginEstudiante.html';
+                    window.location.href = 'index.html';
                 }, 2000);
             }
             

@@ -1,4 +1,4 @@
-import { me } from './services/authServiceStudents.js';
+import { me, changePassword } from './services/authServiceStudents.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (userData && userData.student) {
             const student = userData.student;
+            window.studentId = student.id;
 
             document.getElementById('nombreCompletoUsuario').textContent = `${student.names} ${student.lastNames}`;
             document.getElementById('correoUsuario').textContent = student.email;
@@ -71,8 +72,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        mensajeContrasenaDiv.innerHTML = 'Contraseña validada correctamente.';
-        mensajeContrasenaDiv.style.display = 'block';
-        mensajeContrasenaDiv.classList.add('success');
+        // Hacer la petición a la API
+        changePassword(window.studentId, contrasenaActual, nuevaContrasena)
+            .then(() => {
+                mensajeContrasenaDiv.innerHTML = 'Contraseña actualizada correctamente.';
+                mensajeContrasenaDiv.style.display = 'block';
+                mensajeContrasenaDiv.classList.remove('error');
+                mensajeContrasenaDiv.classList.add('success');
+                formularioCambioContrasena.reset();
+            })
+            .catch((error) => {
+                mensajeContrasenaDiv.innerHTML = error.message;
+                mensajeContrasenaDiv.style.display = 'block';
+                mensajeContrasenaDiv.classList.remove('success');
+                mensajeContrasenaDiv.classList.add('error');
+            });
     });
 });

@@ -348,8 +348,8 @@ async function manejarCambioContrasena(event) {
             }
         });
         
-        // Usar la función de tu servicio existente (solo requiere instructorId y newPassword)
-        const result = await changePassword(window.instructorId, nuevaContrasena);
+        // Usar la función de tu servicio existente
+        const result = await changePassword(window.instructorId, contrasenaActual, nuevaContrasena);
         
         showSuccessAlert('Contraseña actualizada correctamente.');
         

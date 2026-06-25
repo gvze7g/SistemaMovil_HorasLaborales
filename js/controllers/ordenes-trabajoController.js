@@ -46,7 +46,7 @@ class OrdenesTrabajoController {
             }
         } catch (error) {
             console.error('Error de autenticación:', error);
-            window.location.href = 'loginEstudiante.html';
+            window.location.href = 'index.html';
             throw error;
         }
     }

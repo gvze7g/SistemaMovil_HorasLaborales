@@ -43,3 +43,20 @@ export async function logout() {
     return false;
   }
 }
+
+// Cambia la contraseña del estudiante
+export async function changePassword(id, oldPassword, newPassword) {
+  const r = await fetch(`http://localhost:8080/api/students/changePassword/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ oldPassword, newPassword }),
+  });
+
+  if (!r.ok) {
+    const errText = await r.json().catch(() => ({ message: "Error desconocido" }));
+    throw new Error(errText.message || "Error al cambiar contraseña");
+  }
+
+  return await r.json();
+}
