@@ -45,7 +45,7 @@ export async function logoutInstructor() {
 
 //  Cambio de contraseña
 export async function changePassword(instructorId, oldPassword, newPassword) {
-  const r = await fetch(`http://localhost:8080/api/instructors/changePassword/${instructorId}`, {
+  const r = await fetch(`http://localhost:8080/api/instructorsAuth/changePassword/${instructorId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     credentials: "include",

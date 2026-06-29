@@ -46,7 +46,7 @@ export async function logout() {
 
 // Cambia la contraseña del estudiante
 export async function changePassword(id, oldPassword, newPassword) {
-  const r = await fetch(`http://localhost:8080/api/students/changePassword/${id}`, {
+  const r = await fetch(`http://localhost:8080/api/studentsAuth/changePassword/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
