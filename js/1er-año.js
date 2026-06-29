@@ -323,45 +323,48 @@ function fetchAllVehicles() {
 }
 
 // Obtiene órdenes de trabajo según el rol. CAMBIAR!!
-function fetchWorkOrdersByRole() {
-    console.log('Ejecutando fetchWorkOrdersByRole para rol:', userRole);
-    
-    let endpoint = '';
-    if (userRole === 'Animador') {
-        endpoint = `${API_BASE_URL}/workOrders/getWorkOrdersByStatus1`;
-    } else if (userRole === 'Coordinador') {
-        endpoint = `${API_BASE_URL}/workOrders/getWorkOrdersByStatus2`;
-    } else {
-        console.log('Rol no válido para órdenes de trabajo:', userRole);
-        return;
-    }
+function normalizeRole(role) {
+  return (role || '').trim().toLowerCase();
+}
 
-    fetch(endpoint, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json'
-        }
+function fetchWorkOrdersByRole() {
+  const role = normalizeRole(userRole);
+  let endpoint = '';
+
+  if (role === 'animador') {
+    endpoint = `${API_BASE_URL}/workOrders/animador/pending`; // <-- cambia por tu ruta real
+  } else if (role === 'coordinador') {
+    endpoint = `${API_BASE_URL}/workOrders/coordinador/pending`; // <-- cambia por tu ruta real
+  } else if (role === 'leader' || role === 'admin') {
+    endpoint = `${API_BASE_URL}/workOrders/getWorkOrdersByStatus1`; // o la que uses
+  } else {
+    allWorkOrders = [];
+    renderSidebarWorkOrders([]);
+    return;
+  }
+
+  fetch(endpoint, {
+    method: 'GET',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' }
+  })
+    .then(async (res) => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
     })
-    .then(res => {
-        console.log('Respuesta recibida de órdenes de trabajo:', res);
-        return res.json();
+    .then((data) => {
+      const workOrders =
+        data?.workOrders ??
+        data?.data?.workOrders ??
+        data?.data?.content ??
+        (Array.isArray(data) ? data : []);
+      allWorkOrders = workOrders;
+      renderSidebarWorkOrders(workOrders);
     })
-    .then(data => {
-        console.log('Datos de órdenes de trabajo:', data);
-        
-        let workOrders = [];
-        if (data && data.workOrders && Array.isArray(data.workOrders)) {
-            workOrders = data.workOrders;
-        }
-        
-        allWorkOrders = workOrders;
-        renderSidebarWorkOrders(workOrders);
-    })
-    .catch(err => {
-        console.error('Error al obtener órdenes de trabajo:', err);
-        allWorkOrders = [];
-        renderSidebarWorkOrders([]);
+    .catch((err) => {
+      console.error('Error al cargar órdenes:', err);
+      allWorkOrders = [];
+      renderSidebarWorkOrders([]);
     });
 }
 
@@ -1125,28 +1128,20 @@ function searchByPlate(plate) {
 }
 
 // Inicialización
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     bindEventListeners();
-    
-    // Inicializa la funcionalidad de búsqueda
+
     const searchInput = document.getElementById('buscarRegistro');
     if (searchInput) {
-        searchInput.addEventListener('input', function(e) {
-            applyFilters();
-        });
-    }
-    
-    // Inicializa la funcionalidad de filtro
-    const statusFilter = document.getElementById('filtroEstado');
-    if (statusFilter) {
-        statusFilter.addEventListener('change', function(e) {
-            applyFilters();
-        });
+        searchInput.addEventListener('input', applyFilters);
     }
 
-    // Inicialización de datos
-    getUserInfo().then(() => {
-        fetchAllVehicles();
-        fetchWorkOrdersByRole();
-    });
+    const statusFilter = document.getElementById('filtroEstado');
+    if (statusFilter) {
+        statusFilter.addEventListener('change', applyFilters);
+    }
+
+    await getUserInfo();
+    fetchAllVehicles();
+    fetchWorkOrdersByRole();
 });

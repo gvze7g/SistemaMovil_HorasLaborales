@@ -3,6 +3,7 @@ import { login, me } from '../services/authServiceStudents.js';
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('loginForm');
     const loginButton = document.getElementById('login-btn');
+    const trackingButton = document.getElementById('vehicle-tracking-btn');
     const passwordInput = document.getElementById('password');
     const togglePassword = document.getElementById('toggle-password');
 
@@ -15,6 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 icon.classList.toggle('fa-eye');
                 icon.classList.toggle('fa-eye-slash');
             }
+        });
+    }
+
+    if (trackingButton) {
+        trackingButton.addEventListener('click', () => {
+            window.location.href = 'auth-seguimiento.html';
         });
     }
 
@@ -34,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
             loginButton.textContent = 'Ingresando...';
 
             await login({ email, password });
-
             const info = await me();
 
             if (info.authenticated) {
