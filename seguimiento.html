@@ -3,101 +3,77 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Seguimiento de Vehículo</title>
+    <title>Mis Vehículos en el Taller</title>
     <link rel="stylesheet" href="css/seguimiento.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <link rel="stylesheet" href="css/Modos-claro-oscuro.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-      /* Fix rápido para texto sobre texto si el CSS viejo no contempla spacing */
-      #repairTasksGrid {
+      .galeria-fotos-orden {
         display: grid;
-        grid-template-columns: 1fr;
-        gap: 12px;
-        margin-top: 14px;
-      }
-
-      #repairTasksGrid .tarjeta-tarea {
-        background: rgba(255, 255, 255, 0.04);
-        border-radius: 10px;
-        padding: 12px;
-        line-height: 1.35;
-        overflow-wrap: anywhere;
-      }
-
-      #repairTasksGrid .barra-progreso {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
         width: 100%;
-        height: 10px;
-        background: #2b2b2b;
-        border-radius: 8px;
-        overflow: hidden;
-        margin: 8px 0;
+        max-width: 420px;
       }
 
-      #repairTasksGrid .relleno-progreso {
-        height: 100%;
-        background: #c00000;
-        transition: width 0.3s ease;
+      .galeria-fotos-orden figure {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
       }
 
-      #updatesList li {
-        margin-bottom: 10px;
-        line-height: 1.4;
-        overflow-wrap: anywhere;
+      .galeria-fotos-orden img {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 2px solid var(--status-green);
       }
 
-      .info-contacto {
-        margin-top: 8px;
+      .galeria-fotos-orden figcaption {
+        font-size: 0.65rem;
+        color: var(--text-mid);
+        text-align: center;
+      }
+
+      .tarjeta-vehiculo-seguimiento {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+      }
+
+      #listaVehiculos {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5em;
+      }
+
+      .estado-vacio,
+      .estado-cargando {
+        text-align: center;
+        color: var(--text-mid);
+        padding: 2em 1em;
       }
     </style>
   </head>
   <body>
     <div class="contenedor-aplicacion">
       <header class="encabezado-seguimiento">
-        <a href="auth-seguimiento.html" class="boton-volver">
-          <i class="fas fa-arrow-left"></i> Volver
+        <a href="#" id="btnCerrarSesion" class="boton-volver">
+          <i class="fas fa-sign-out-alt"></i> Cerrar sesión
         </a>
-        <h1>Seguimiento del Vehículo</h1>
-        <button id="btnNuevaBusqueda" class="boton-nueva-busqueda" style="display: none;">
-          <i class="fas fa-search"></i> Nueva Búsqueda
-        </button>
+        <h1>Mis Vehículos en el Taller</h1>
       </header>
 
       <main class="contenido-principal-seguimiento">
-        <div class="tarjeta-info-vehiculo">
-          <div class="encabezado-tarjeta">
-            <span class="numero-registro">
-              Registro número: <span id="recordNumber">N/A</span>
-            </span>
-          </div>
-
-          <div class="detalles-vehiculo-contenedor">
-            <div class="imagen-vehiculo-envoltorio">
-              <img src="imgs/default-car.png" alt="Imagen del Vehículo" id="vehicleImage" loading="lazy" />
-            </div>
-
-            <div class="info-vehiculo-texto">
-              <h2 id="infoModelo">Cargando...</h2>
-              <p class="estado-ajuste" id="adjustmentStatus">Estado del ajuste: Cargando...</p>
-              <p>Placa: <span id="infoPlaca">Cargando...</span></p>
-              <p>Estudiante Asignado: <span id="assignedStudent">Cargando...</span></p>
-              <p>Módulo: <span id="assignedModule">Cargando...</span></p>
-              <div class="info-contacto">
-                <p>Propietario: <span id="ownerName">Cargando...</span></p>
-              </div>
-            </div>
-          </div>
-
-          <div class="cuadricula-tareas-reparacion" id="repairTasksGrid"></div>
-        </div>
-
-        <div class="seccion-actualizaciones">
-          <h2>Actualizaciones Recientes</h2>
-          <ul id="updatesList">
-            <li>Cargando actualizaciones...</li>
-          </ul>
+        <div id="listaVehiculos">
+          <p class="estado-cargando">Cargando tus vehículos...</p>
         </div>
       </main>
 
@@ -106,6 +82,6 @@
       </footer>
     </div>
 
-    <script src="js/seguimiento.js"></script>
+    <script type="module" src="js/seguimiento.js"></script>
   </body>
 </html>

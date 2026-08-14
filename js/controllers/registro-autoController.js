@@ -182,22 +182,25 @@ async function cargarTiposVehiculo() {
 }
 
 function configurarPrevisualización() {
-    const fotoInput = document.getElementById('foto1');
-    const vistaPrevia = document.getElementById('vista-previa-1');
-    
-    fotoInput.addEventListener('change', function() {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                vistaPrevia.src = e.target.result;
-                vistaPrevia.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        } else {
-            vistaPrevia.src = '#';
-            vistaPrevia.style.display = 'none';
-        }
+    ['1', '2', '3', '4'].forEach((n) => {
+        const fotoInput = document.getElementById(`foto${n}`);
+        const vistaPrevia = document.getElementById(`vista-previa-${n}`);
+        if (!fotoInput || !vistaPrevia) return;
+
+        fotoInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    vistaPrevia.src = e.target.result;
+                    vistaPrevia.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                vistaPrevia.src = '#';
+                vistaPrevia.style.display = 'none';
+            }
+        });
     });
 }
 
@@ -219,11 +222,15 @@ async function procesarRegistro() {
     const color = document.getElementById('color').value.trim();
     const tarjeta = document.getElementById('tarjetaCirculacion').value.trim();
     const mantenimientoExpo = document.getElementById('mantenimientoExpo').checked;
-    const fotoInput = document.getElementById('foto1');
+    const fotoInput1 = document.getElementById('foto1');
+    const fotoInput2 = document.getElementById('foto2');
+    const fotoInput3 = document.getElementById('foto3');
+    const fotoInput4 = document.getElementById('foto4');
     const aceptarTerminos = document.getElementById('aceptarTerminos').checked;
     const nombreProp = document.getElementById('dueñoVehiculo').value.trim();
     const duiProp = document.getElementById('duiDueño').value.trim();
     const telPropFull = document.getElementById('telDueño').value.trim();
+    const correoProp = document.getElementById('correoDueño').value.trim();
     // Remover el +503 para la base de datos (límite de 10 caracteres)
     const telProp = telPropFull.replace('+503 ', '');
 
@@ -301,9 +308,25 @@ async function procesarRegistro() {
         errores.push('El teléfono debe tener el formato +503 XXXX-XXXX');
     }
 
-    // Validación de imagen
-    if (!fotoInput.files[0]) {
-        errores.push('La imagen del vehículo es obligatoria');
+    // Validación de correo del propietario
+    if (!correoProp) {
+        errores.push('El correo del propietario es obligatorio');
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correoProp)) {
+        errores.push('El correo del propietario no tiene un formato válido');
+    }
+
+    // Validación de las 4 imágenes del vehículo
+    if (!fotoInput1.files[0]) {
+        errores.push('La foto frontal del vehículo es obligatoria');
+    }
+    if (!fotoInput2.files[0]) {
+        errores.push('La foto lateral izquierda del vehículo es obligatoria');
+    }
+    if (!fotoInput3.files[0]) {
+        errores.push('La foto lateral derecha del vehículo es obligatoria');
+    }
+    if (!fotoInput4.files[0]) {
+        errores.push('La foto trasera del vehículo es obligatoria');
     }
 
     // Validación de términos
@@ -336,13 +359,18 @@ async function procesarRegistro() {
     });
 
     try {
-        // Subir imagen a Cloudinary
-        const imageUrl = await subirImagen(fotoInput.files[0]);
-        
-        if (!imageUrl) {
-            throw new Error('No se pudo obtener la URL de la imagen');
+        // Subir las 4 fotos a Cloudinary
+        const [imageUrlFront, imageUrlLeft, imageUrlRight, imageUrlBack] = await Promise.all([
+            subirImagen(fotoInput1.files[0]),
+            subirImagen(fotoInput2.files[0]),
+            subirImagen(fotoInput3.files[0]),
+            subirImagen(fotoInput4.files[0]),
+        ]);
+
+        if (!imageUrlFront || !imageUrlLeft || !imageUrlRight || !imageUrlBack) {
+            throw new Error('No se pudo obtener la URL de una o más imágenes');
         }
-        
+
         // Preparar datos del vehículo con la estructura correcta
         const vehicleData = {
             plateNumber: placa,
@@ -354,7 +382,11 @@ async function procesarRegistro() {
             ownerName: nombreProp,
             ownerDui: duiProp,
             ownerPhone: telProp,
-            vehicleImage: imageUrl,
+            ownerEmail: correoProp,
+            vehicleImage: imageUrlFront,
+            vehicleImageLeft: imageUrlLeft,
+            vehicleImageRight: imageUrlRight,
+            vehicleImageBack: imageUrlBack,
             studentId: currentUser.id,
             maintenanceEXPO: mantenimientoExpo ? 1 : 0,
             idStatus: 1
