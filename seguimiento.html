@@ -12,55 +12,102 @@
     <link rel="stylesheet" href="css/Modos-claro-oscuro.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-      .galeria-fotos-orden {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
-        width: 100%;
-        max-width: 420px;
-      }
+  .galeria-fotos-orden {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 480px;
+  }
 
-      .galeria-fotos-orden figure {
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 4px;
-      }
+  .galeria-fotos-orden figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
 
-      .galeria-fotos-orden img {
-        width: 100%;
-        aspect-ratio: 1 / 1;
-        object-fit: cover;
-        border-radius: 10px;
-        border: 2px solid var(--status-green);
-      }
+  .galeria-fotos-orden img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid var(--status-green);
+  }
 
-      .galeria-fotos-orden figcaption {
-        font-size: 0.65rem;
-        color: var(--text-mid);
-        text-align: center;
-      }
+  .galeria-fotos-orden figcaption {
+    font-size: 0.95rem;
+    color: var(--text-mid);
+    text-align: center;
+  }
 
-      .tarjeta-vehiculo-seguimiento {
-        display: flex;
-        flex-direction: column;
-        gap: 1em;
-      }
+  @media (min-width: 480px) {
+    .galeria-fotos-orden {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
 
-      #listaVehiculos {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5em;
-      }
+  .tarjeta-vehiculo-seguimiento {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2em;
+    padding: 1.8em !important;
+  }
 
-      .estado-vacio,
-      .estado-cargando {
-        text-align: center;
-        color: var(--text-mid);
-        padding: 2em 1em;
-      }
-    </style>
+  .tarjeta-vehiculo-seguimiento .info-vehiculo-texto h2 {
+    font-size: 1.6em;
+  }
+
+  .tarjeta-vehiculo-seguimiento .info-vehiculo-texto p {
+    font-size: 1.05em;
+  }
+
+  #listaVehiculos {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+  }
+
+  .encabezado-seguimiento {
+    padding: 1.3em !important;
+  }
+
+  .encabezado-seguimiento h1 {
+    font-size: 1.3em !important;
+  }
+
+  #btnCerrarSesion.boton-volver {
+    font-size: 1.05em;
+    padding: 0.9em 1.4em;
+  }
+
+  .contenedor-barra-progreso {
+    height: 22px !important;
+  }
+
+  #progressPercentage {
+    font-size: 1em !important;
+  }
+
+  .elemento-tarea {
+    font-size: 1.05em;
+    padding: 1.2em 1.4em;
+  }
+
+  .seccion-actualizaciones ul li {
+    font-size: 1em !important;
+    padding: 1em 1.2em !important;
+  }
+
+  .estado-vacio,
+  .estado-cargando {
+    text-align: center;
+    color: var(--text-mid);
+    padding: 2em 1em;
+    font-size: 1.1em;
+  }
+</style>
   </head>
   <body>
     <div class="contenedor-aplicacion">

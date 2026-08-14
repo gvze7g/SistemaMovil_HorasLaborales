@@ -139,6 +139,7 @@ label {
 input[type="text"],
 input[type="number"],
 input[type="tel"],
+input[type="email"],
 select {
     width: 100%;
     padding: 14px 12px;
@@ -155,7 +156,8 @@ select {
 
 input[type="text"]::placeholder,
 input[type="number"]::placeholder,
-input[type="tel"]::placeholder {
+input[type="tel"]::placeholder,
+input[type="email"]::placeholder {
     color: #888;
 }
 
