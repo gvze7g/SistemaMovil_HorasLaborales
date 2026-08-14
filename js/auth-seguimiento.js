@@ -1,172 +1,107 @@
-const API_BASE_URL = 'http://localhost:8080';
+import { login, register, me } from "./services/authServiceParents.js";
 
-// ================= API =================
-async function getWorkOrdersByPlate(plateNumber) {
-  const response = await fetch(
-    `${API_BASE_URL}/api/workOrders/getWorkOrdersByPlate/${encodeURIComponent(plateNumber)}`,
-    {
-      method: 'GET',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' }
+document.addEventListener("DOMContentLoaded", async () => {
+  // Si ya hay sesión de papá/mamá iniciada, saltar directo al seguimiento
+  try {
+    const info = await me();
+    if (info.authenticated) {
+      window.location.href = "seguimiento.html";
+      return;
     }
-  );
+  } catch (_) {}
 
-  if (!response.ok) {
-    const txt = await response.text().catch(() => '');
-    throw new Error(`HTTP ${response.status} ${txt || response.statusText}`);
+  const tabLogin = document.getElementById("tabLogin");
+  const tabRegister = document.getElementById("tabRegister");
+  const formLogin = document.getElementById("formLogin");
+  const formRegister = document.getElementById("formRegister");
+
+  function showLogin() {
+    tabLogin.classList.add("activa");
+    tabRegister.classList.remove("activa");
+    tabLogin.setAttribute("aria-selected", "true");
+    tabRegister.setAttribute("aria-selected", "false");
+    formLogin.style.display = "flex";
+    formRegister.style.display = "none";
   }
 
-  return response.json();
-}
-
-async function getObservationsByWorkOrder(workOrderId) {
-  // Ajusta endpoint si el tuyo es diferente
-  const possibleEndpoints = [
-    `${API_BASE_URL}/api/workOrderObservations/getByWorkOrder/${encodeURIComponent(workOrderId)}`,
-    `${API_BASE_URL}/api/workOrders/getObservationsByWorkOrder/${encodeURIComponent(workOrderId)}`
-  ];
-
-  for (const endpoint of possibleEndpoints) {
-    try {
-      const res = await fetch(endpoint, {
-        method: 'GET',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' }
-      });
-      if (!res.ok) continue;
-      const data = await res.json();
-
-      if (Array.isArray(data)) return data;
-      if (Array.isArray(data?.observations)) return data.observations;
-      if (Array.isArray(data?.data)) return data.data;
-      if (Array.isArray(data?.data?.content)) return data.data.content;
-    } catch (_) {}
+  function showRegister() {
+    tabRegister.classList.add("activa");
+    tabLogin.classList.remove("activa");
+    tabRegister.setAttribute("aria-selected", "true");
+    tabLogin.setAttribute("aria-selected", "false");
+    formRegister.style.display = "flex";
+    formLogin.style.display = "none";
   }
 
-  return [];
-}
+  tabLogin.addEventListener("click", showLogin);
+  tabRegister.addEventListener("click", showRegister);
 
-// ================= Helpers =================
-function normalizeWorkOrders(data) {
-  if (Array.isArray(data?.workOrders)) return data.workOrders;
-  if (Array.isArray(data?.data?.workOrders)) return data.data.workOrders;
-  if (Array.isArray(data?.data?.content)) return data.data.content;
-  if (Array.isArray(data)) return data;
-  return [];
-}
+  formLogin.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
 
-function getProgressByStatus(idStatus) {
-  switch (idStatus) {
-    case 1: return 10;   // pendiente
-    case 2: return 50;   // en progreso
-    case 3: return 100;  // completada
-    case 4: return 30;   // pausada
-    case 5: return 0;    // rechazada
-    default: return 25;
-  }
-}
-
-function getStatusText(idStatus, statusName) {
-  if (statusName) return statusName;
-  switch (idStatus) {
-    case 1: return 'Pendiente';
-    case 2: return 'En progreso';
-    case 3: return 'Completada';
-    case 4: return 'Pausada';
-    case 5: return 'Rechazada';
-    default: return 'Sin información';
-  }
-}
-
-async function buildTrackingPayload(workOrders, plateNumber) {
-  if (!workOrders.length) return null;
-
-  const main = workOrders[0];
-  const observations = await getObservationsByWorkOrder(main.workOrderId);
-
-  return {
-    plateNumber,
-    workOrders,
-    mainOrder: {
-      workOrderId: main.workOrderId,
-      vehicleImage: main.workOrderImage || main.vehicleImage || 'imgs/default-car.png',
-      vehicleBrand: main.vehicleBrand || '',
-      vehicleModel: main.vehicleModel || '',
-      vehicleYear: main.vehicleYear || '',
-      vehiclePlateNumber: main.vehiclePlateNumber || main.plateNumber || plateNumber,
-      studentName: main.studentName || '',
-      studentLastName: main.studentLastName || '',
-      moduleName: main.moduleName || '',
-      description: main.description || '',
-      idStatus: main.idStatus ?? null,
-      statusName: getStatusText(main.idStatus, main.statusName),
-      progress: getProgressByStatus(main.idStatus)
-    },
-    observations
-  };
-}
-
-// ================= UI =================
-document.addEventListener('DOMContentLoaded', () => {
-  const plateInput = document.getElementById('placa');
-  const searchButton = document.getElementById('verSeguimientoBtn');
-
-  if (!plateInput || !searchButton) {
-    console.error('No se encontró #placa o #verSeguimientoBtn en auth-seguimiento.html');
-    return;
-  }
-
-  // Texto solo por placa (como pediste)
-  plateInput.setAttribute('placeholder', 'P000-000');
-  plateInput.setAttribute('aria-label', 'Número de placa');
-
-  const description = document.querySelector('.descripcion-principal');
-  if (description) {
-    description.textContent = 'Ingresa tu número de placa.';
-  }
-
-  async function doSearch() {
-    const plate = (plateInput.value || '').trim().toUpperCase();
-
-    if (!plate) {
-      Swal.fire('Dato requerido', 'Ingresa una placa válida.', 'warning');
+    if (!email || !password) {
+      Swal.fire("Datos incompletos", "Ingresa tu correo y contraseña.", "warning");
       return;
     }
 
-    const originalText = searchButton.textContent;
+    const btn = document.getElementById("loginBtn");
+    const originalText = btn.textContent;
     try {
-      searchButton.disabled = true;
-      searchButton.textContent = 'Buscando...';
-
-      const rawResponse = await getWorkOrdersByPlate(plate);
-      const workOrders = normalizeWorkOrders(rawResponse);
-
-      if (!workOrders.length) {
-        Swal.fire('Sin resultados', `No se encontraron órdenes para la placa "${plate}".`, 'info');
-        return;
-      }
-
-      const payload = await buildTrackingPayload(workOrders, plate);
-
-      localStorage.setItem('trackingPayload', JSON.stringify(payload));
-      localStorage.setItem('workOrdersData', JSON.stringify(workOrders)); // compatibilidad
-      localStorage.setItem('trackingSearchMeta', JSON.stringify({ plate, searchedAt: new Date().toISOString() }));
-
-      window.location.href = `seguimiento.html?placa=${encodeURIComponent(plate)}`;
+      btn.disabled = true;
+      btn.textContent = "Iniciando sesión...";
+      await login({ email, password });
+      window.location.href = "seguimiento.html";
     } catch (error) {
-      console.error('Error en búsqueda de seguimiento:', error);
-      Swal.fire('Error', error.message || 'No se pudo consultar el seguimiento.', 'error');
+      Swal.fire("Error", error.message || "No se pudo iniciar sesión.", "error");
     } finally {
-      searchButton.disabled = false;
-      searchButton.textContent = originalText || 'Ver seguimiento';
+      btn.disabled = false;
+      btn.textContent = originalText;
     }
-  }
+  });
 
-  searchButton.addEventListener('click', doSearch);
-  plateInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      doSearch();
+  formRegister.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const firstName = document.getElementById("registerFirstName").value.trim();
+    const lastName = document.getElementById("registerLastName").value.trim();
+    const email = document.getElementById("registerEmail").value.trim();
+    const dui = document.getElementById("registerDui").value.trim();
+    const password = document.getElementById("registerPassword").value;
+    const passwordConfirm = document.getElementById("registerPasswordConfirm").value;
+
+    if (!firstName || !lastName || !email || !dui || !password || !passwordConfirm) {
+      Swal.fire("Datos incompletos", "Completa todos los campos para crear tu cuenta.", "warning");
+      return;
+    }
+
+    if (!/^[0-9]{8}-[0-9]$/.test(dui)) {
+      Swal.fire("DUI inválido", "El formato del DUI debe ser 12345678-9.", "warning");
+      return;
+    }
+
+    if (password.length < 8) {
+      Swal.fire("Contraseña muy corta", "La contraseña debe tener al menos 8 caracteres.", "warning");
+      return;
+    }
+
+    if (password !== passwordConfirm) {
+      Swal.fire("Las contraseñas no coinciden", "Verifica que ambas contraseñas sean iguales.", "warning");
+      return;
+    }
+
+    const btn = document.getElementById("registerBtn");
+    const originalText = btn.textContent;
+    try {
+      btn.disabled = true;
+      btn.textContent = "Creando cuenta...";
+      await register({ firstName, lastName, email, password, dui });
+      window.location.href = "seguimiento.html";
+    } catch (error) {
+      Swal.fire("Error", error.message || "No se pudo crear la cuenta.", "error");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = originalText;
     }
   });
 });

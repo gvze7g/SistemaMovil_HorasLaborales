@@ -59,10 +59,16 @@ class OrdenesTrabajoController {
         this.listaVehiculos = document.getElementById('lista-vehiculos');
         this.listaOrdenes = document.getElementById('lista-ordenes');
         
-        // Previsualización de imagen
+        // Previsualización de imágenes (frontal, izquierda, derecha, trasera)
         this.imagenInput = document.getElementById('imagen-trabajo');
         this.vistaPrevia = document.getElementById('vista-previa-imagen');
-        
+        this.imagenInputIzq = document.getElementById('imagen-trabajo-izq');
+        this.vistaPreviaIzq = document.getElementById('vista-previa-imagen-izq');
+        this.imagenInputDer = document.getElementById('imagen-trabajo-der');
+        this.vistaPreviaDer = document.getElementById('vista-previa-imagen-der');
+        this.imagenInputTras = document.getElementById('imagen-trabajo-tras');
+        this.vistaPreviaTras = document.getElementById('vista-previa-imagen-tras');
+
         // Buscador
         this.searchInput = document.getElementById('search-orders');
     }
@@ -101,9 +107,18 @@ class OrdenesTrabajoController {
             this.handleCreateWorkOrder();
         });
 
-        // Previsualización de imagen
+        // Previsualización de las 4 imágenes
         this.imagenInput.addEventListener('change', (e) => {
-            this.handleImagePreview(e);
+            this.handleImagePreview(e, this.vistaPrevia);
+        });
+        this.imagenInputIzq.addEventListener('change', (e) => {
+            this.handleImagePreview(e, this.vistaPreviaIzq);
+        });
+        this.imagenInputDer.addEventListener('change', (e) => {
+            this.handleImagePreview(e, this.vistaPreviaDer);
+        });
+        this.imagenInputTras.addEventListener('change', (e) => {
+            this.handleImagePreview(e, this.vistaPreviaTras);
         });
 
         // Buscador de órdenes
@@ -824,20 +839,22 @@ class OrdenesTrabajoController {
         // Restaurar scroll del body y mostrar bottom-nav
         document.body.classList.remove('modal-open');
         this.form.reset();
-        this.vistaPrevia.style.display = 'none';
+        [this.vistaPrevia, this.vistaPreviaIzq, this.vistaPreviaDer, this.vistaPreviaTras].forEach((el) => {
+            if (el) el.style.display = 'none';
+        });
     }
 
-    handleImagePreview(event) {
+    handleImagePreview(event, vistaPreviaEl) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
-                this.vistaPrevia.src = e.target.result;
-                this.vistaPrevia.style.display = 'block';
+                vistaPreviaEl.src = e.target.result;
+                vistaPreviaEl.style.display = 'block';
             };
             reader.readAsDataURL(file);
         } else {
-            this.vistaPrevia.style.display = 'none';
+            vistaPreviaEl.style.display = 'none';
         }
     }
 
@@ -892,6 +909,9 @@ class OrdenesTrabajoController {
             const descripcionEl = document.getElementById('descripcion-trabajo');
             const tiempoEstimadoEl = document.getElementById('tiempo-estimado');
             const imagenFileEl = document.getElementById('imagen-trabajo');
+            const imagenFileIzqEl = document.getElementById('imagen-trabajo-izq');
+            const imagenFileDerEl = document.getElementById('imagen-trabajo-der');
+            const imagenFileTrasEl = document.getElementById('imagen-trabajo-tras');
 
             // Debug: Verificar que los elementos existen
             console.log('Elementos del formulario encontrados:', {
@@ -908,6 +928,9 @@ class OrdenesTrabajoController {
             const descripcion = descripcionEl ? descripcionEl.value.trim() : '';
             const tiempoEstimado = tiempoEstimadoEl ? tiempoEstimadoEl.value.trim() : '';
             const imagenFile = imagenFileEl ? imagenFileEl.files[0] : null;
+            const imagenFileIzq = imagenFileIzqEl ? imagenFileIzqEl.files[0] : null;
+            const imagenFileDer = imagenFileDerEl ? imagenFileDerEl.files[0] : null;
+            const imagenFileTras = imagenFileTrasEl ? imagenFileTrasEl.files[0] : null;
 
             console.log('Valores RAW extraídos del formulario:', {
                 vehicleId: vehicleId,
@@ -950,6 +973,12 @@ class OrdenesTrabajoController {
             }
             console.log('✓ Tiempo estimado validado:', `"${tiempoEstimado}"`, 'parsed:', parseFloat(tiempoEstimado));
 
+            // Validar las 4 fotos (frontal, izquierda, derecha, trasera)
+            if (!imagenFile || !imagenFileIzq || !imagenFileDer || !imagenFileTras) {
+                this.showError('Debe adjuntar las 4 fotos del vehículo (frontal, lateral izquierda, lateral derecha y trasera)');
+                return;
+            }
+
             console.log('✓ Todas las validaciones pasaron correctamente');
 
             // Mostrar alerta de carga
@@ -969,28 +998,30 @@ class OrdenesTrabajoController {
                 }
             });
 
-            console.log('SweetAlert mostrado, procesando imagen...');
+            console.log('SweetAlert mostrado, procesando imágenes...');
 
-            // Subir imagen si existe
-            let workOrderImage = null;
-            if (imagenFile) {
-                console.log('Subiendo imagen...');
-                try {
-                    workOrderImage = await this.subirImagen(imagenFile);
-                    if (!workOrderImage) {
-                        console.log('Falló la subida de imagen - sin URL');
-                        Swal.close();
-                        return;
-                    }
-                    console.log('Imagen subida exitosamente:', workOrderImage);
-                } catch (error) {
-                    console.error('Error en subida de imagen:', error);
+            // Subir las 4 imágenes (frontal, izquierda, derecha, trasera)
+            let workOrderImage, workOrderImageLeft, workOrderImageRight, workOrderImageBack;
+            try {
+                [workOrderImage, workOrderImageLeft, workOrderImageRight, workOrderImageBack] = await Promise.all([
+                    this.subirImagen(imagenFile),
+                    this.subirImagen(imagenFileIzq),
+                    this.subirImagen(imagenFileDer),
+                    this.subirImagen(imagenFileTras),
+                ]);
+
+                if (!workOrderImage || !workOrderImageLeft || !workOrderImageRight || !workOrderImageBack) {
+                    console.log('Falló la subida de una o más imágenes - sin URL');
                     Swal.close();
-                    this.showError('Error al subir la imagen: ' + error.message);
+                    this.showError('No se pudo subir una o más de las fotos. Intenta de nuevo.');
                     return;
                 }
-            } else {
-                console.log('No hay imagen para subir');
+                console.log('Imágenes subidas exitosamente');
+            } catch (error) {
+                console.error('Error en subida de imágenes:', error);
+                Swal.close();
+                this.showError('Error al subir las imágenes: ' + error.message);
+                return;
             }
 
             console.log('Preparando DTO de orden de trabajo...');
@@ -1030,8 +1061,11 @@ class OrdenesTrabajoController {
                 vehicleId: parseInt(vehicleId),
                 moduleId: parseInt(moduleId),
                 estimatedTime: parseFloat(tiempoEstimado),
-                description: descripcion || "", 
-                workOrderImage: workOrderImage || "sin_imagen",
+                description: descripcion || "",
+                workOrderImage: workOrderImage,
+                workOrderImageLeft: workOrderImageLeft,
+                workOrderImageRight: workOrderImageRight,
+                workOrderImageBack: workOrderImageBack,
                 idStatus: 1
             };
 

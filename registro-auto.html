@@ -42,14 +42,22 @@
 
                 <div class="grupo-formulario">
                     <label for="marca">Marca *</label>
-                    <input class="mi-entrada" type="text" id="marca" placeholder="Toyota" maxlength="50" />
-                    <small>Mínimo 3 caracteres, máximo 50</small>
+                    <div class="envoltorio-seleccion">
+                        <select id="marca">
+                            <option value="">Seleccionar marca...</option>
+                        </select>
+                    </div>
+                    <small>Campo obligatorio</small>
                 </div>
 
                 <div class="grupo-formulario">
                     <label for="modelo">Modelo *</label>
-                    <input class="mi-entrada" type="text" id="modelo" placeholder="Corolla" maxlength="50" />
-                    <small>Mínimo 3 caracteres, máximo 50</small>
+                    <div class="envoltorio-seleccion">
+                        <select id="modelo" disabled>
+                            <option value="">Selecciona primero una marca...</option>
+                        </select>
+                    </div>
+                    <small>Campo obligatorio</small>
                 </div>
 
                 <div class="grupo-formulario">
@@ -92,11 +100,38 @@
         <section id="fotos-vehiculo" class="seccion">
             <h1 class="titulo-seccion">Fotos del Vehículo</h1>
             <div class="grupo-formulario">
-                <label for="foto1">Foto 1 (Frontal)</label>
-                <input class="mi-entrada" type="file" id="foto1" accept="image/*" capture="environment"
-                    class="entrada-foto" required />
+                <label for="foto1">Foto 1 (Frontal) *</label>
+                <input class="mi-entrada entrada-foto" type="file" id="foto1" accept="image/*" capture="environment"
+                    required />
                 <div class="contenedor-vista-previa-foto">
                     <img id="vista-previa-1" class="vista-previa-foto" src="#" alt="Previsualización Foto 1"
+                        style="display: none" />
+                </div>
+            </div>
+            <div class="grupo-formulario">
+                <label for="foto2">Foto 2 (Lateral Izquierda) *</label>
+                <input class="mi-entrada entrada-foto" type="file" id="foto2" accept="image/*" capture="environment"
+                    required />
+                <div class="contenedor-vista-previa-foto">
+                    <img id="vista-previa-2" class="vista-previa-foto" src="#" alt="Previsualización Foto 2"
+                        style="display: none" />
+                </div>
+            </div>
+            <div class="grupo-formulario">
+                <label for="foto3">Foto 3 (Lateral Derecha) *</label>
+                <input class="mi-entrada entrada-foto" type="file" id="foto3" accept="image/*" capture="environment"
+                    required />
+                <div class="contenedor-vista-previa-foto">
+                    <img id="vista-previa-3" class="vista-previa-foto" src="#" alt="Previsualización Foto 3"
+                        style="display: none" />
+                </div>
+            </div>
+            <div class="grupo-formulario">
+                <label for="foto4">Foto 4 (Trasera) *</label>
+                <input class="mi-entrada entrada-foto" type="file" id="foto4" accept="image/*" capture="environment"
+                    required />
+                <div class="contenedor-vista-previa-foto">
+                    <img id="vista-previa-4" class="vista-previa-foto" src="#" alt="Previsualización Foto 4"
                         style="display: none" />
                 </div>
             </div>
@@ -168,6 +203,11 @@
                     <label for="telDueño">Teléfono del Propietario *</label>
                     <input class="mi-entrada" type="tel" id="telDueño" placeholder="+503 7890-1234" maxlength="14" />
                     <small>Formato: +503 XXXX-XXXX</small>
+                </div>
+                <div class="grupo-formulario">
+                    <label for="correoDueño">Correo Electrónico del Propietario *</label>
+                    <input class="mi-entrada" type="email" id="correoDueño" placeholder="propietario@correo.com" maxlength="150" />
+                    <small>Si el propietario crea su cuenta de padre/madre con este mismo correo, podrá ver este vehículo en su seguimiento</small>
                 </div>
 
                 <div class="grupo-formulario">

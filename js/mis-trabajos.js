@@ -413,7 +413,7 @@ class MisTrabajosController {
     }
 
     showApprovalMessage(order) {
-        const statusText = order.idStatus === 1 ? 'animador' : 'coordinadora';
+        const statusText = order.idStatus === 1 ? 'animador' : 'coordinador';
         
         Swal.fire({
             icon: 'info',

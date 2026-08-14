@@ -149,6 +149,33 @@ body::before {
   padding: 0 10px;
 }
 
+.pestañas-auth {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.pestaña-auth {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text-light);
+  padding: 12px 8px;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.pestaña-auth.activa {
+  background: var(--primary-red);
+  color: var(--text-light);
+  font-weight: 600;
+}
+
 .formulario-entrada {
   display: flex;
   flex-direction: column;

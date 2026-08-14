@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Seguimiento de vehículo</title>
+  <title>Cuenta de Padre/Madre</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <link rel="stylesheet" href="css/auth-seguimiento.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -21,22 +21,51 @@
     <main class="contenido-principal-autenticacion">
       <div class="envoltorio-contenido">
         <img src="imgs/logo rical.png" alt="Logo Ricaldone" class="logo-empresa" />
-        <span class="titulo-principal">Sistema de Gestión de Vehículos</span>
+        <span class="titulo-principal">Seguimiento de Vehículo</span>
         <p class="descripcion-principal">
-          Ingresa tu número de placa
+          Inicia sesión o crea tu cuenta de padre/madre para ver los vehículos de tu familia dentro del taller
         </p>
-        <div class="formulario-entrada">
-          <input id="placa" name="placa" placeholder="P000-000" type="text"
-            aria-label="Número de placa" />
-          <button type="button" class="boton-accion" id="verSeguimientoBtn">
-            Ver seguimiento
+
+        <div class="pestañas-auth" role="tablist">
+          <button type="button" class="pestaña-auth activa" id="tabLogin" role="tab" aria-selected="true">
+            Iniciar sesión
           </button>
-          
+          <button type="button" class="pestaña-auth" id="tabRegister" role="tab" aria-selected="false">
+            Crear cuenta
+          </button>
         </div>
+
+        <form class="formulario-entrada" id="formLogin">
+          <input id="loginEmail" name="loginEmail" placeholder="Correo electrónico" type="email"
+            autocomplete="email" required />
+          <input id="loginPassword" name="loginPassword" placeholder="Contraseña" type="password"
+            autocomplete="current-password" required />
+          <button type="submit" class="boton-accion" id="loginBtn">
+            Iniciar sesión
+          </button>
+        </form>
+
+        <form class="formulario-entrada" id="formRegister" style="display: none;">
+          <input id="registerFirstName" name="registerFirstName" placeholder="Nombres" type="text"
+            autocomplete="given-name" required />
+          <input id="registerLastName" name="registerLastName" placeholder="Apellidos" type="text"
+            autocomplete="family-name" required />
+          <input id="registerEmail" name="registerEmail" placeholder="Correo electrónico" type="email"
+            autocomplete="email" required />
+          <input id="registerDui" name="registerDui" placeholder="DUI (12345678-9)" type="text" maxlength="10"
+            required />
+          <input id="registerPassword" name="registerPassword" placeholder="Contraseña (mínimo 8 caracteres)"
+            type="password" autocomplete="new-password" required />
+          <input id="registerPasswordConfirm" name="registerPasswordConfirm" placeholder="Confirmar contraseña"
+            type="password" autocomplete="new-password" required />
+          <button type="submit" class="boton-accion" id="registerBtn">
+            Crear cuenta
+          </button>
+        </form>
       </div>
     </main>
   </div>
-  <script src="js/auth-seguimiento.js"></script>
+  <script type="module" src="js/auth-seguimiento.js"></script>
 </body>
 
 </html>

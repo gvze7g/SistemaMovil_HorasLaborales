@@ -25,7 +25,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Cargar tipos de vehículo
     await cargarTiposVehiculo();
-    
+
+    // Cargar marcas y encadenar el combobox de modelos
+    await cargarMarcas();
+    configurarComboMarcaModelo();
+
     // Configurar previsualización de imagen
     configurarPrevisualización();
     
@@ -181,23 +185,111 @@ async function cargarTiposVehiculo() {
     }
 }
 
-function configurarPrevisualización() {
-    const fotoInput = document.getElementById('foto1');
-    const vistaPrevia = document.getElementById('vista-previa-1');
-    
-    fotoInput.addEventListener('change', function() {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                vistaPrevia.src = e.target.result;
-                vistaPrevia.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        } else {
-            vistaPrevia.src = '#';
-            vistaPrevia.style.display = 'none';
+async function cargarMarcas() {
+    const selectMarca = document.getElementById('marca');
+
+    try {
+        selectMarca.innerHTML = '<option value="">Cargando...</option>';
+
+        const response = await fetch(`${API_BASE}/brands/getAllBrands`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
         }
+
+        const data = await response.json();
+        const marcas = Array.isArray(data.data) ? data.data : (Array.isArray(data) ? data : []);
+
+        selectMarca.innerHTML = '<option value="">Seleccionar marca...</option>';
+
+        marcas.forEach((marca) => {
+            const option = document.createElement('option');
+            option.value = marca.brandId;
+            option.textContent = marca.brandName;
+            selectMarca.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error al cargar marcas:', error);
+        selectMarca.innerHTML = '<option value="">Error al cargar</option>';
+    }
+}
+
+async function cargarModelosPorMarca(brandId) {
+    const selectModelo = document.getElementById('modelo');
+
+    if (!brandId) {
+        selectModelo.innerHTML = '<option value="">Selecciona primero una marca...</option>';
+        selectModelo.disabled = true;
+        return;
+    }
+
+    try {
+        selectModelo.disabled = true;
+        selectModelo.innerHTML = '<option value="">Cargando...</option>';
+
+        const response = await fetch(`${API_BASE}/vehicleModels/getModelsByBrand/${brandId}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const modelos = Array.isArray(data.data) ? data.data : (Array.isArray(data) ? data : []);
+
+        selectModelo.innerHTML = '<option value="">Seleccionar modelo...</option>';
+
+        if (modelos.length === 0) {
+            selectModelo.innerHTML += '<option value="" disabled>Sin modelos para esta marca</option>';
+        } else {
+            modelos.forEach((modelo) => {
+                const option = document.createElement('option');
+                option.value = modelo.modelId;
+                option.textContent = modelo.modelName;
+                selectModelo.appendChild(option);
+            });
+            selectModelo.disabled = false;
+        }
+    } catch (error) {
+        console.error('Error al cargar modelos:', error);
+        selectModelo.innerHTML = '<option value="">Error al cargar</option>';
+    }
+}
+
+function configurarComboMarcaModelo() {
+    const selectMarca = document.getElementById('marca');
+    selectMarca.addEventListener('change', () => {
+        cargarModelosPorMarca(selectMarca.value);
+    });
+}
+
+function configurarPrevisualización() {
+    ['1', '2', '3', '4'].forEach((n) => {
+        const fotoInput = document.getElementById(`foto${n}`);
+        const vistaPrevia = document.getElementById(`vista-previa-${n}`);
+        if (!fotoInput || !vistaPrevia) return;
+
+        fotoInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    vistaPrevia.src = e.target.result;
+                    vistaPrevia.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                vistaPrevia.src = '#';
+                vistaPrevia.style.display = 'none';
+            }
+        });
     });
 }
 
@@ -213,17 +305,27 @@ function configurarFormulario() {
 async function procesarRegistro() {
     // Obtener datos del formulario
     const placa = document.getElementById('placa').value.trim().toUpperCase();
-    const marca = document.getElementById('marca').value.trim();
-    const modelo = document.getElementById('modelo').value.trim();
+    const marcaSelect = document.getElementById('marca');
+    const modeloSelect = document.getElementById('modelo');
+    const brandId = marcaSelect.value;
+    const vehicleModelId = modeloSelect.value;
+    // La marca/modelo en texto se derivan de la opción elegida en los combobox
+    // (se siguen mandando como texto porque el DTO todavía los requiere por compatibilidad)
+    const marca = brandId ? marcaSelect.options[marcaSelect.selectedIndex].textContent.trim() : '';
+    const modelo = vehicleModelId ? modeloSelect.options[modeloSelect.selectedIndex].textContent.trim() : '';
     const tipo = document.getElementById('tipo').value;
     const color = document.getElementById('color').value.trim();
     const tarjeta = document.getElementById('tarjetaCirculacion').value.trim();
     const mantenimientoExpo = document.getElementById('mantenimientoExpo').checked;
-    const fotoInput = document.getElementById('foto1');
+    const fotoInput1 = document.getElementById('foto1');
+    const fotoInput2 = document.getElementById('foto2');
+    const fotoInput3 = document.getElementById('foto3');
+    const fotoInput4 = document.getElementById('foto4');
     const aceptarTerminos = document.getElementById('aceptarTerminos').checked;
     const nombreProp = document.getElementById('dueñoVehiculo').value.trim();
     const duiProp = document.getElementById('duiDueño').value.trim();
     const telPropFull = document.getElementById('telDueño').value.trim();
+    const correoProp = document.getElementById('correoDueño').value.trim();
     // Remover el +503 para la base de datos (límite de 10 caracteres)
     const telProp = telPropFull.replace('+503 ', '');
 
@@ -301,9 +403,25 @@ async function procesarRegistro() {
         errores.push('El teléfono debe tener el formato +503 XXXX-XXXX');
     }
 
-    // Validación de imagen
-    if (!fotoInput.files[0]) {
-        errores.push('La imagen del vehículo es obligatoria');
+    // Validación de correo del propietario
+    if (!correoProp) {
+        errores.push('El correo del propietario es obligatorio');
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correoProp)) {
+        errores.push('El correo del propietario no tiene un formato válido');
+    }
+
+    // Validación de las 4 imágenes del vehículo
+    if (!fotoInput1.files[0]) {
+        errores.push('La foto frontal del vehículo es obligatoria');
+    }
+    if (!fotoInput2.files[0]) {
+        errores.push('La foto lateral izquierda del vehículo es obligatoria');
+    }
+    if (!fotoInput3.files[0]) {
+        errores.push('La foto lateral derecha del vehículo es obligatoria');
+    }
+    if (!fotoInput4.files[0]) {
+        errores.push('La foto trasera del vehículo es obligatoria');
     }
 
     // Validación de términos
@@ -336,25 +454,35 @@ async function procesarRegistro() {
     });
 
     try {
-        // Subir imagen a Cloudinary
-        const imageUrl = await subirImagen(fotoInput.files[0]);
-        
-        if (!imageUrl) {
-            throw new Error('No se pudo obtener la URL de la imagen');
+        // Subir las 4 fotos a Cloudinary
+        const [imageUrlFront, imageUrlLeft, imageUrlRight, imageUrlBack] = await Promise.all([
+            subirImagen(fotoInput1.files[0]),
+            subirImagen(fotoInput2.files[0]),
+            subirImagen(fotoInput3.files[0]),
+            subirImagen(fotoInput4.files[0]),
+        ]);
+
+        if (!imageUrlFront || !imageUrlLeft || !imageUrlRight || !imageUrlBack) {
+            throw new Error('No se pudo obtener la URL de una o más imágenes');
         }
-        
+
         // Preparar datos del vehículo con la estructura correcta
         const vehicleData = {
             plateNumber: placa,
             brand: marca,
             model: modelo,
+            vehicleModelId: parseInt(vehicleModelId),
             typeId: parseInt(tipo), // Enviar como Long, no como objeto
             color: color,
             circulationCardNumber: tarjeta, // Nombre correcto del campo
             ownerName: nombreProp,
             ownerDui: duiProp,
             ownerPhone: telProp,
-            vehicleImage: imageUrl,
+            ownerEmail: correoProp,
+            vehicleImage: imageUrlFront,
+            vehicleImageLeft: imageUrlLeft,
+            vehicleImageRight: imageUrlRight,
+            vehicleImageBack: imageUrlBack,
             studentId: currentUser.id,
             maintenanceEXPO: mantenimientoExpo ? 1 : 0,
             idStatus: 1

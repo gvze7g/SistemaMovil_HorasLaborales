@@ -1,14 +1,20 @@
-const API_BASE_URL = 'http://localhost:8080';
+import { me, logout } from "./services/authServiceParents.js";
+
+const API_BASE_URL = "http://localhost:8080";
 
 // ---------------------- utils ----------------------
-function getQueryParam(param) {
-  return new URLSearchParams(window.location.search).get(param);
-}
-
-function safeText(v, fallback = 'No registrado') {
+function safeText(v, fallback = "No registrado") {
   if (v === null || v === undefined) return fallback;
   const s = String(v).trim();
   return s ? s : fallback;
+}
+
+function normalizeVehicles(data) {
+  if (Array.isArray(data?.data?.vehiculos)) return data.data.vehiculos;
+  if (Array.isArray(data?.vehiculos)) return data.vehiculos;
+  if (Array.isArray(data?.data)) return data.data;
+  if (Array.isArray(data)) return data;
+  return [];
 }
 
 function normalizeWorkOrders(data) {
@@ -22,66 +28,85 @@ function normalizeWorkOrders(data) {
 function getStatusText(idStatus, statusName) {
   if (statusName) return statusName;
   switch (idStatus) {
-    case 1: return 'Pendiente';
-    case 2: return 'Aprobado';
-    case 3: return 'Aprobado - En Progreso';
-    case 4: return 'Completado';
-    case 5: return 'Rechazado';
-    case 6: return 'Atrasado';
-    default: return 'Sin información';
+    case 1: return "Pendiente";
+    case 2: return "Aprobado";
+    case 3: return "Aprobado - En Progreso";
+    case 4: return "Completado";
+    case 5: return "Rechazado";
+    case 6: return "Atrasado";
+    default: return "Sin información";
   }
 }
 
-function getProgressByStatus(idStatus) {
+function getProgress(idStatus, progressPercent) {
+  if (typeof progressPercent === "number") return progressPercent;
   switch (idStatus) {
-    case 1: return 10;
-    case 2: return 35;
-    case 3: return 60;
+    case 1: return 25;
+    case 2: return 50;
+    case 3: return 75;
     case 4: return 100;
     case 5: return 0;
-    case 6: return 45;
-    default: return 25;
+    case 6: return 50;
+    default: return 0;
   }
 }
 
-function resolveImageUrl(workOrder) {
-  const raw = workOrder?.workOrderImage || workOrder?.vehicleImage || '';
-  const val = String(raw || '').trim();
+// Las órdenes "activas" (aún dentro del taller) son las que no están
+// completadas ni rechazadas.
+function isActiveOrder(order) {
+  return ![4, 5].includes(order.idStatus);
+}
 
-  if (!val || val.toLowerCase() === 'null' || val.toLowerCase() === 'undefined') {
-    return 'imgs/default-car.png';
+function pickCurrentOrder(orders) {
+  if (!orders.length) return null;
+  const active = orders.filter(isActiveOrder);
+  const pool = active.length ? active : orders;
+  return pool.reduce((latest, current) =>
+    (current.workOrderId || 0) > (latest.workOrderId || 0) ? current : latest
+  );
+}
+
+function resolveImageUrl(rawValue, fallback = "imgs/default-car.png") {
+  const val = String(rawValue || "").trim();
+
+  if (!val || val.toLowerCase() === "null" || val.toLowerCase() === "undefined" || val === "sin_imagen") {
+    return fallback;
   }
 
-  // URL absoluta o dataURL
-  if (val.startsWith('http://') || val.startsWith('https://') || val.startsWith('data:image/')) {
+  if (val.startsWith("http://") || val.startsWith("https://") || val.startsWith("data:image/")) {
     return val;
   }
 
-  // Base64 puro
   if (/^[A-Za-z0-9+/=\r\n]+$/.test(val) && val.length > 80) {
-    return `data:image/jpeg;base64,${val.replace(/\s/g, '')}`;
+    return `data:image/jpeg;base64,${val.replace(/\s/g, "")}`;
   }
 
-  // Ruta relativa
   return val;
 }
 
 // ---------------------- api ----------------------
+async function getMyVehicles() {
+  const response = await fetch(`${API_BASE_URL}/api/vehicles/myVehicles`, {
+    method: "GET",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Error ${response.status} al consultar tus vehículos`);
+  }
+
+  const data = await response.json();
+  return normalizeVehicles(data);
+}
+
 async function getWorkOrdersByPlate(plateNumber) {
   const response = await fetch(
     `${API_BASE_URL}/api/workOrders/getWorkOrdersByPlate/${encodeURIComponent(plateNumber)}`,
-    {
-      method: 'GET',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' }
-    }
+    { method: "GET", credentials: "include", headers: { "Content-Type": "application/json" } }
   );
 
-  if (!response.ok) {
-    const txt = await response.text().catch(() => '');
-    throw new Error(`Error ${response.status}: ${txt || response.statusText}`);
-  }
-
+  if (!response.ok) return [];
   const data = await response.json();
   return normalizeWorkOrders(data);
 }
@@ -89,15 +114,10 @@ async function getWorkOrdersByPlate(plateNumber) {
 async function getObservationsByWorkOrder(workOrderId) {
   const response = await fetch(
     `${API_BASE_URL}/api/observations/workOrder/${encodeURIComponent(workOrderId)}`,
-    {
-      method: 'GET',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' }
-    }
+    { method: "GET", credentials: "include", headers: { "Content-Type": "application/json" } }
   );
 
   if (!response.ok) return [];
-
   const data = await response.json();
   if (Array.isArray(data?.observations)) return data.observations;
   if (Array.isArray(data)) return data;
@@ -105,186 +125,151 @@ async function getObservationsByWorkOrder(workOrderId) {
 }
 
 // ---------------------- render ----------------------
-function renderVehicleInfo(workOrder, plateFromQuery) {
-  const recordNumberEl = document.getElementById('recordNumber');
-  const vehicleImageEl = document.getElementById('vehicleImage');
-  const infoModeloEl = document.getElementById('infoModelo');
-  const adjustmentStatusEl = document.getElementById('adjustmentStatus');
-  const infoPlacaEl = document.getElementById('infoPlaca');
-  const assignedStudentEl = document.getElementById('assignedStudent');
-  const assignedModuleEl = document.getElementById('assignedModule');
-  const ownerNameEl = document.getElementById('ownerName');
+function renderPhotoGallery(order, vehicle) {
+  // Las fotos que se muestran son las de la orden de trabajo (tomadas al
+  // crear la orden), no las del ingreso del vehículo al taller.
+  const source = order || {};
+  const fallback = vehicle?.vehicleImage || "imgs/default-car.png";
 
-  const studentFullName =
-    `${safeText(workOrder.studentName, '')} ${safeText(workOrder.studentLastName, '')}`.trim() || 'No registrado';
+  const photos = [
+    { label: "Frontal", value: source.workOrderImage },
+    { label: "Izquierda", value: source.workOrderImageLeft },
+    { label: "Derecha", value: source.workOrderImageRight },
+    { label: "Trasera", value: source.workOrderImageBack },
+  ];
 
-  const ownerName = safeText(workOrder.ownerName, 'No registrado');
-  const status = getStatusText(workOrder.idStatus, workOrder.statusName);
-  const plate = safeText(plateFromQuery || workOrder.vehiclePlateNumber, 'N/A');
-  const model =
-    `${safeText(workOrder.vehicleBrand, '')} ${safeText(workOrder.vehicleModel, '')}`.trim() || 'Sin información';
-
-  if (recordNumberEl) recordNumberEl.textContent = safeText(workOrder.workOrderId, 'N/A');
-
-  if (vehicleImageEl) {
-    const fallback = 'imgs/default-car.png';
-    vehicleImageEl.src = resolveImageUrl(workOrder);
-
-    vehicleImageEl.onerror = function () {
-      // evita parpadeo/infinite loop
-      if (this.dataset.fallbackApplied === '1') return;
-      this.dataset.fallbackApplied = '1';
-      this.src = fallback;
-    };
-  }
-
-  if (infoModeloEl) infoModeloEl.textContent = model;
-  if (adjustmentStatusEl) adjustmentStatusEl.textContent = `Estado del ajuste: ${status}`;
-  if (infoPlacaEl) infoPlacaEl.textContent = plate;
-  if (assignedStudentEl) assignedStudentEl.textContent = studentFullName;
-  if (assignedModuleEl) assignedModuleEl.textContent = safeText(workOrder.moduleName, 'No asignado');
-  if (ownerNameEl) ownerNameEl.textContent = ownerName;
+  return `
+    <div class="galeria-fotos-orden">
+      ${photos
+        .map(
+          (p) => `
+        <figure>
+          <img src="${resolveImageUrl(p.value, fallback)}" alt="Foto ${p.label} de la orden"
+               onerror="this.onerror=null;this.src='imgs/default-car.png';" loading="lazy" />
+          <figcaption>${p.label}</figcaption>
+        </figure>`
+        )
+        .join("")}
+    </div>
+  `;
 }
 
-function renderTasks(workOrder) {
-  const grid = document.getElementById('repairTasksGrid');
-  if (!grid) return;
+function renderVehicleCard(vehicle, order, observations) {
+  const plate = safeText(vehicle.plateNumber, "Sin placa");
+  const model = `${safeText(vehicle.brand, "")} ${safeText(vehicle.model, "")}`.trim() || "Sin información";
+  const color = safeText(vehicle.color, "No registrado");
 
-  const progress = getProgressByStatus(workOrder.idStatus);
-  const status = getStatusText(workOrder.idStatus, workOrder.statusName);
-  const description = safeText(workOrder.description, 'Sin descripción registrada');
+  const hasOrder = !!order;
+  const moduleName = hasOrder ? safeText(order.moduleName, "No asignado") : "Sin orden de trabajo activa";
+  const description = hasOrder ? safeText(order.description, "Sin descripción registrada") : "Este vehículo no tiene una orden de trabajo activa en este momento.";
+  const studentName = hasOrder
+    ? `${safeText(order.studentName, "")} ${safeText(order.studentLastName, "")}`.trim() || "No registrado"
+    : "No aplica";
+  const instructorName = hasOrder ? safeText(order.instructorName, "No asignado") : "No aplica";
+  const status = hasOrder ? getStatusText(order.idStatus, order.statusName) : "Sin actividad";
+  const progress = hasOrder ? getProgress(order.idStatus, order.progressPercent) : 0;
 
-  grid.innerHTML = `
-    <div class="tarjeta-tarea">
-      <h3>Progreso de la reparación</h3>
-      <div class="barra-progreso" style="width:100%;height:10px;background:#2a2a2a;border-radius:8px;overflow:hidden;margin:8px 0;">
-        <div class="relleno-progreso" style="width:${progress}%;height:100%;background:#c00000;"></div>
+  const observationsHtml =
+    hasOrder && Array.isArray(observations) && observations.length
+      ? observations
+          .map((obs) => {
+            const text = safeText(obs.observacion, "Observación registrada");
+            const author = safeText(obs.studentName, "Sin autor");
+            return `<li><strong>${text}</strong><br><small>Por: ${author}</small></li>`;
+          })
+          .join("")
+      : `<li>${hasOrder ? "No hay observaciones registradas." : "No hay observaciones porque no hay una orden activa."}</li>`;
+
+  return `
+    <div class="tarjeta-info-vehiculo tarjeta-vehiculo-seguimiento">
+      <div class="encabezado-tarjeta">
+        <span class="numero-registro">Placa: ${plate}</span>
+        ${hasOrder ? `<span class="numero-registro">Orden #${safeText(order.workOrderId, "N/A")}</span>` : ""}
       </div>
-      <p><strong>${progress}%</strong> completado</p>
-    </div>
 
-    <div class="tarjeta-tarea">
-      <h3>Estado actual</h3>
-      <p>${status}</p>
-    </div>
+      ${renderPhotoGallery(order, vehicle)}
 
-    <div class="tarjeta-tarea">
-      <h3>Descripción del trabajo</h3>
-      <p>${description}</p>
+      <div class="info-vehiculo-texto">
+        <h2>${model}</h2>
+        <p class="estado-ajuste">Estado: ${status}</p>
+        <p>Color: <span>${color}</span></p>
+        <p>Módulo: <span>${moduleName}</span></p>
+        <p>Estudiante Asignado: <span>${studentName}</span></p>
+        <p>Profesor Asignado: <span>${instructorName}</span></p>
+      </div>
+
+      <div class="seccion-progreso">
+        <div class="contenedor-barra-progreso">
+          <div class="barra-progreso" style="width:${progress}%;"></div>
+          <span id="progressPercentage">${progress}%</span>
+        </div>
+      </div>
+
+      <div class="elemento-tarea">
+        <i class="fas fa-clipboard-list"></i>
+        <span>${description}</span>
+      </div>
+
+      <div class="seccion-actualizaciones" style="margin-top: 0;">
+        <h2>Observaciones</h2>
+        <ul>${observationsHtml}</ul>
+      </div>
     </div>
   `;
 }
 
-function ensureObservationsSection() {
-  let section = document.getElementById('observacionesSeccion');
-  if (section) return;
+async function loadVehiclesTracking() {
+  const container = document.getElementById("listaVehiculos");
+  const vehicles = await getMyVehicles();
 
-  const main = document.querySelector('.contenido-principal-seguimiento');
-  if (!main) return;
-
-  section = document.createElement('div');
-  section.className = 'seccion-actualizaciones';
-  section.id = 'observacionesSeccion';
-  section.innerHTML = `
-    <h2>Observaciones</h2>
-    <ul id="observacionesList"><li>Cargando observaciones...</li></ul>
-  `;
-  main.appendChild(section);
-}
-
-function renderObservations(observations) {
-  ensureObservationsSection();
-  const list = document.getElementById('observacionesList');
-  if (!list) return;
-
-  if (!Array.isArray(observations) || observations.length === 0) {
-    list.innerHTML = '<li>No hay observaciones registradas.</li>';
+  if (!vehicles.length) {
+    container.innerHTML = `<p class="estado-vacio">Todavía no tienes vehículos registrados a tu cuenta. Cuando registren un vehículo con tu correo, aparecerá aquí.</p>`;
     return;
   }
 
-  list.innerHTML = observations
-    .map(obs => {
-      const text = safeText(obs.observacion, 'Observación registrada');
-      const author = safeText(obs.studentName, 'Sin autor');
-      return `<li><strong>${text}</strong><br><small>Por: ${author}</small></li>`;
+  const cardsHtml = await Promise.all(
+    vehicles.map(async (vehicle) => {
+      const orders = await getWorkOrdersByPlate(vehicle.plateNumber);
+      const currentOrder = pickCurrentOrder(orders);
+      const observations = currentOrder?.workOrderId
+        ? await getObservationsByWorkOrder(currentOrder.workOrderId)
+        : [];
+      return renderVehicleCard(vehicle, currentOrder, observations);
     })
-    .join('');
-}
+  );
 
-function renderUpdatesFallback(workOrders) {
-  const updatesList = document.getElementById('updatesList');
-  if (!updatesList) return;
-
-  if (!Array.isArray(workOrders) || workOrders.length === 0) {
-    updatesList.innerHTML = '<li>No hay actualizaciones recientes.</li>';
-    return;
-  }
-
-  updatesList.innerHTML = workOrders
-    .map(
-      wo =>
-        `<li>Orden #${safeText(wo.workOrderId, 'N/A')} • ${getStatusText(wo.idStatus, wo.statusName)} • ${safeText(wo.moduleName, 'Sin módulo')}</li>`
-    )
-    .join('');
+  container.innerHTML = cardsHtml.join("");
 }
 
 // ---------------------- init ----------------------
-async function loadTracking() {
-  const plateFromQuery = (getQueryParam('placa') || '').trim().toUpperCase();
-
-  const btnNuevaBusqueda = document.getElementById('btnNuevaBusqueda');
-  if (btnNuevaBusqueda) {
-    btnNuevaBusqueda.style.display = 'inline-flex';
-    btnNuevaBusqueda.onclick = () => (window.location.href = 'auth-seguimiento.html');
-  }
-
-  let workOrders = [];
-  let mainOrder = null;
-
-  // 1) cache desde auth
+document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const payload = JSON.parse(localStorage.getItem('trackingPayload') || 'null');
-    if (payload?.mainOrder) {
-      mainOrder = payload.mainOrder;
-      workOrders = Array.isArray(payload.workOrders) ? payload.workOrders : [payload.mainOrder];
+    const info = await me();
+    if (!info.authenticated) {
+      window.location.href = "auth-seguimiento.html";
+      return;
     }
-  } catch (_) {}
-
-  // 2) cache raw
-  if (!mainOrder) {
-    try {
-      const raw = JSON.parse(localStorage.getItem('workOrdersData') || '[]');
-      if (Array.isArray(raw) && raw.length > 0) {
-        workOrders = raw;
-        mainOrder = raw[0];
-      }
-    } catch (_) {}
+  } catch (_) {
+    window.location.href = "auth-seguimiento.html";
+    return;
   }
 
-  // 3) api por placa
-  if (!mainOrder) {
-    if (!plateFromQuery) throw new Error('No se encontró placa para consultar seguimiento.');
-    workOrders = await getWorkOrdersByPlate(plateFromQuery);
-    if (!workOrders.length) throw new Error(`No se encontraron órdenes para la placa "${plateFromQuery}".`);
-    mainOrder = workOrders[0];
+  const btnCerrarSesion = document.getElementById("btnCerrarSesion");
+  if (btnCerrarSesion) {
+    btnCerrarSesion.addEventListener("click", async (e) => {
+      e.preventDefault();
+      await logout();
+      window.location.href = "auth-seguimiento.html";
+    });
   }
 
-  const observations = mainOrder?.workOrderId
-    ? await getObservationsByWorkOrder(mainOrder.workOrderId)
-    : [];
-
-  renderVehicleInfo(mainOrder, plateFromQuery);
-  renderTasks(mainOrder);
-  renderObservations(observations);
-  renderUpdatesFallback(workOrders);
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
   try {
-    await loadTracking();
+    await loadVehiclesTracking();
   } catch (error) {
-    console.error('Error seguimiento:', error);
-    const updatesList = document.getElementById('updatesList');
-    if (updatesList) updatesList.innerHTML = `<li>${safeText(error.message, 'No se pudo cargar el seguimiento.')}</li>`;
+    console.error("Error al cargar el seguimiento:", error);
+    const container = document.getElementById("listaVehiculos");
+    if (container) {
+      container.innerHTML = `<p class="estado-vacio">${safeText(error.message, "No se pudo cargar el seguimiento.")}</p>`;
+    }
   }
 });

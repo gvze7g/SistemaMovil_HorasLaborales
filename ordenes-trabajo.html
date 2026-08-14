@@ -120,12 +120,39 @@
                     </div>
 
                     <div class="grupo-formulario">
-                        <label for="imagen-trabajo">Imagen del vehiculo</label>
-                        <input class="mi-entrada" type="file" id="imagen-trabajo" accept="image/*" capture="environment" />
+                        <label for="imagen-trabajo">Foto 1 (Frontal) *</label>
+                        <input class="mi-entrada" type="file" id="imagen-trabajo" accept="image/*" capture="environment" required />
                         <div class="contenedor-vista-previa-foto">
                             <img id="vista-previa-imagen" class="vista-previa-foto" src="#" alt="Previsualización" style="display: none" />
                         </div>
-                        <small>Imagen obligatoria del vehiculo, en especial si el vehiculo tiene daños visibles (requerido)</small>
+                        <small>Foto frontal del vehículo al iniciar el trabajo (requerido)</small>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label for="imagen-trabajo-izq">Foto 2 (Lateral Izquierda) *</label>
+                        <input class="mi-entrada" type="file" id="imagen-trabajo-izq" accept="image/*" capture="environment" required />
+                        <div class="contenedor-vista-previa-foto">
+                            <img id="vista-previa-imagen-izq" class="vista-previa-foto" src="#" alt="Previsualización" style="display: none" />
+                        </div>
+                        <small>Foto lateral izquierda del vehículo al iniciar el trabajo (requerido)</small>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label for="imagen-trabajo-der">Foto 3 (Lateral Derecha) *</label>
+                        <input class="mi-entrada" type="file" id="imagen-trabajo-der" accept="image/*" capture="environment" required />
+                        <div class="contenedor-vista-previa-foto">
+                            <img id="vista-previa-imagen-der" class="vista-previa-foto" src="#" alt="Previsualización" style="display: none" />
+                        </div>
+                        <small>Foto lateral derecha del vehículo al iniciar el trabajo (requerido)</small>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label for="imagen-trabajo-tras">Foto 4 (Trasera) *</label>
+                        <input class="mi-entrada" type="file" id="imagen-trabajo-tras" accept="image/*" capture="environment" required />
+                        <div class="contenedor-vista-previa-foto">
+                            <img id="vista-previa-imagen-tras" class="vista-previa-foto" src="#" alt="Previsualización" style="display: none" />
+                        </div>
+                        <small>Foto trasera del vehículo al iniciar el trabajo (requerido)</small>
                     </div>
                 </form>
             </div>
