@@ -42,14 +42,22 @@
 
                 <div class="grupo-formulario">
                     <label for="marca">Marca *</label>
-                    <input class="mi-entrada" type="text" id="marca" placeholder="Toyota" maxlength="50" />
-                    <small>Mínimo 3 caracteres, máximo 50</small>
+                    <div class="envoltorio-seleccion">
+                        <select id="marca">
+                            <option value="">Seleccionar marca...</option>
+                        </select>
+                    </div>
+                    <small>Campo obligatorio</small>
                 </div>
 
                 <div class="grupo-formulario">
                     <label for="modelo">Modelo *</label>
-                    <input class="mi-entrada" type="text" id="modelo" placeholder="Corolla" maxlength="50" />
-                    <small>Mínimo 3 caracteres, máximo 50</small>
+                    <div class="envoltorio-seleccion">
+                        <select id="modelo" disabled>
+                            <option value="">Selecciona primero una marca...</option>
+                        </select>
+                    </div>
+                    <small>Campo obligatorio</small>
                 </div>
 
                 <div class="grupo-formulario">
