@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recuperar Cuenta de Padre/Madre</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="css/auth-seguimiento.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+  <div class="contenedor-app">
+    <header class="encabezado-autenticacion">
+      <a href="auth-seguimiento.html" class="boton-regresar">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+    </header>
+
+    <main class="contenido-principal-autenticacion">
+      <div class="envoltorio-contenido">
+        <img src="imgs/logo rical.png" alt="Logo Ricaldone" class="logo-empresa" />
+        <span class="titulo-principal">Recuperar Contraseña</span>
+        <p class="descripcion-principal">
+          Ingresa el correo de tu cuenta de padre/madre para recibir un código de recuperación
+        </p>
+
+        <form class="formulario-entrada" id="formRecoveryParent">
+          <div id="stepEmail">
+            <input id="recoveryEmail" name="recoveryEmail" placeholder="Correo electrónico" type="email" autocomplete="email" required />
+          </div>
+          <div id="stepOtp" style="display: none;">
+            <input type="text" id="otp" name="otp" inputmode="numeric" maxlength="6" placeholder="Ingresa el código de 6 dígitos">
+          </div>
+          <div id="stepPassword" style="display: none;">
+            <input type="password" id="newPassword" name="newPassword" placeholder="Nueva contraseña (mínimo 8)">
+          </div>
+          <div id="stepConfirmPassword" style="display: none;">
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirmar contraseña">
+          </div>
+          <button type="submit" class="boton-accion" id="recoveryBtn">
+            Enviar código OTP
+          </button>
+        </form>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="js/recovery-seguimiento.js"></script>
+</body>
+
+</html>

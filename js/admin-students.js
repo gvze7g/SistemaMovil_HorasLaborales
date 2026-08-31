@@ -7,6 +7,7 @@ const API_BASE_URL = 'http://localhost:8080';
 // API URLs
 const STUDENTS_API_URL = `${API_BASE_URL}/api/students/getAllStudents`;
 const ADD_STUDENT_API_URL = `${API_BASE_URL}/api/students/newStudent`;
+const BULK_STUDENTS_API_URL = `${API_BASE_URL}/api/students/bulkStudents`;
 const UPDATE_STUDENT_API_URL = `${API_BASE_URL}/api/students/updateStudent/`;
 const DELETE_STUDENT_API_URL = `${API_BASE_URL}/api/students/deleteStudent/`;
 const LEVELS_API_URL = `${API_BASE_URL}/api/levels/getAllLevels`;
@@ -437,6 +438,68 @@ async function deleteStudent(id) {
     }
 }
 
+function bulkStudents() {
+    const modal = document.getElementById('bulkModal');
+    const input = document.getElementById('bulkJsonInput');
+    const btnCancel = document.getElementById('btn-cancel-bulk');
+    const btnConfirm = document.getElementById('btn-confirm-bulk');
+    const closeBtn = document.getElementById('closeBulkModal');
+
+    input.value = ''; // clear previous
+    modal.classList.add('show');
+
+    const closeModal = () => modal.classList.remove('show');
+
+    btnCancel.onclick = closeModal;
+    closeBtn.onclick = closeModal;
+
+    btnConfirm.onclick = async () => {
+        const value = input.value.trim();
+        if (!value) {
+            showMessage('Pega el JSON primero', 'error');
+            return;
+        }
+        
+        let students;
+        try {
+            students = JSON.parse(value);
+            if (!Array.isArray(students)) {
+                throw new Error('El JSON debe ser un arreglo de estudiantes');
+            }
+        } catch (error) {
+            showMessage('JSON inválido: ' + error.message, 'error');
+            return;
+        }
+
+        try {
+            btnConfirm.disabled = true;
+            btnConfirm.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando...';
+
+            const response = await fetch(BULK_STUDENTS_API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify(students)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status} - ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            const data = result.data || result;
+            await cargarEstudiantes();
+            closeModal();
+            Swal.fire('Proceso completado', `Se cargaron ${data.created || 0} estudiantes.`, 'success');
+        } catch (error) {
+            showMessage('Error en carga masiva: ' + error.message, 'error');
+        } finally {
+            btnConfirm.disabled = false;
+            btnConfirm.innerHTML = '<i class="fas fa-upload"></i> <span>Cargar Datos</span>';
+        }
+    };
+}
+
 // -----------------------------------------------------
 // FORM HANDLING
 // -----------------------------------------------------
@@ -681,6 +744,28 @@ window.addEventListener('DOMContentLoaded', async () => {
     await cargarEstudiantes();
     setupEventListeners();
 });
+
+function setupEventListeners() {
+    if (form) {
+        form.addEventListener('submit', handleFormSubmit);
+    }
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', resetForm);
+    }
+    const bulkBtn = document.getElementById('btn-bulk');
+    if (bulkBtn) {
+        bulkBtn.addEventListener('click', bulkStudents);
+    }
+    if (filtroAnoEl) {
+        filtroAnoEl.addEventListener('change', filtrarYMostrarEstudiantes);
+    }
+    if (filtroGrupoEl) {
+        filtroGrupoEl.addEventListener('change', filtrarYMostrarEstudiantes);
+    }
+    if (buscadorUsuariosEl) {
+        buscadorUsuariosEl.addEventListener('input', debounce(filtrarYMostrarEstudiantes, 300));
+    }
+}
 
 // Export functions for global use
 window.cargarParaEditarEstudiante = cargarParaEditarEstudiante;

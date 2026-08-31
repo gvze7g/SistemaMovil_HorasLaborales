@@ -110,6 +110,17 @@ body {
     padding-right: 40px; /* Make space for the icon */
 }
 
+.grupo-campo select {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: var(--light-gray);
+    border: none;
+    border-radius: 5px;
+    color: var(--text-color-dark);
+    font-size: 1rem;
+    outline: none;
+}
+
 .grupo-campo input::placeholder {
     color: #888;
 }
@@ -218,6 +229,11 @@ body {
         font-size: 0.95rem;
     }
 
+    .grupo-campo select {
+        padding: 10px 15px;
+        font-size: 0.95rem;
+    }
+
     .toggle-password {
         font-size: 0.95rem; /* Adjust icon size */
         right: 10px; /* Bring icon closer to the edge */
@@ -260,6 +276,11 @@ body {
     }
 
     .grupo-campo input {
+        padding: 12px 15px;
+        font-size: 1rem;
+    }
+
+    .grupo-campo select {
         padding: 12px 15px;
         font-size: 1rem;
     }
@@ -312,6 +333,11 @@ body {
         font-size: 1.05rem;
     }
 
+    .grupo-campo select {
+        padding: 14px 18px;
+        font-size: 1.05rem;
+    }
+
     .toggle-password {
         font-size: 1.05rem;
         right: 18px;
@@ -356,6 +382,11 @@ body {
     }
 
     .grupo-campo input {
+        padding: 15px 20px;
+        font-size: 1.1rem;
+    }
+
+    .grupo-campo select {
         padding: 15px 20px;
         font-size: 1.1rem;
     }

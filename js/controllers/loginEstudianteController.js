@@ -25,6 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    document.querySelector('.enlace-recuperar-contrasena')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.location.href = 'recuperar-contrasena.html';
+    });
+
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
 

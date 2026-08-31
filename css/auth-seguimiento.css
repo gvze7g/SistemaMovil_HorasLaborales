@@ -37,7 +37,9 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  overflow: hidden;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
   position: relative;
 }
 
@@ -68,9 +70,14 @@ body::before {
 }
 
 @media (max-width: 500px) {
+  body {
+    align-items: stretch;
+  }
+
   .contenedor-app {
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
+    min-height: 100dvh;
     border-radius: 0;
   }
 }
@@ -201,6 +208,17 @@ body::before {
   box-shadow: 0 0 0 2px rgba(197, 26, 29, 0.3);
 }
 
+.enlace-recuperacion-seguimiento {
+  color: var(--yellow-text);
+  font-size: 1rem;
+  text-align: center;
+  text-decoration: none;
+}
+
+.enlace-recuperacion-seguimiento:hover {
+  text-decoration: underline;
+}
+
 .boton-accion {
   border: none;
   background: var(--primary-red);
@@ -227,11 +245,11 @@ body::before {
 /* Para celulares pequeños (ej. iPhone SE, etc.) */
 @media (max-width: 375px) {
     .contenido-principal-autenticacion {
-        padding: 20px 15px;
+        padding: 16px 12px;
     }
     .envoltorio-contenido {
         max-width: 300px;
-        gap: 20px;
+        gap: 16px;
     }
     .logo-empresa {
         width: 150px;
@@ -241,13 +259,21 @@ body::before {
     }
     .descripcion-principal {
         font-size: 1rem;
+        padding: 0 4px;
+    }
+    .pestañas-auth {
+        gap: 6px;
+    }
+    .pestaña-auth {
+        padding: 10px 6px;
+        font-size: 0.95rem;
     }
     .formulario-entrada input {
-        padding: 12px 15px;
+        padding: 12px 14px;
         font-size: 1rem;
     }
     .boton-accion {
-        padding: 15px;
+        padding: 14px;
         font-size: 1.1rem;
     }
 }
@@ -255,10 +281,26 @@ body::before {
 /* Para celulares medianos/grandes (ej. iPhone X, Samsung S22) */
 @media (min-width: 376px) and (max-width: 576px) {
     .contenido-principal-autenticacion {
-        padding: 25px 20px;
+        padding: 18px 14px;
     }
     .envoltorio-contenido {
         max-width: 360px;
+        gap: 18px;
+    }
+    .logo-empresa {
+        width: 160px;
+    }
+    .descripcion-principal {
+        padding: 0 6px;
+    }
+    .formulario-entrada {
+        gap: 16px;
+    }
+    .formulario-entrada input {
+        padding: 13px 15px;
+    }
+    .boton-accion {
+        padding: 15px;
     }
 }
 
