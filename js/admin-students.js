@@ -445,30 +445,166 @@ function bulkStudents() {
     const btnConfirm = document.getElementById('btn-confirm-bulk');
     const closeBtn = document.getElementById('closeBulkModal');
 
-    input.value = ''; // clear previous
+    // Tab elements
+    const tabBtns = modal.querySelectorAll('.bulk-tab-btn');
+    const panelJson = document.getElementById('panel-json');
+    const panelExcel = document.getElementById('panel-excel');
+
+    // Excel elements
+    const excelFileInput = document.getElementById('excelFileInput');
+    const excelDropzone = document.getElementById('excelDropzone');
+    const excelFileName = document.getElementById('excelFileName');
+    const excelFileNameText = document.getElementById('excelFileNameText');
+
+    let activeTab = 'json';
+    let excelParsedData = null;
+
+    // Reset state
+    input.value = '';
+    excelFileInput.value = '';
+    excelFileName.classList.remove('visible');
+    excelParsedData = null;
+
+    // Activate JSON tab by default
+    tabBtns.forEach(btn => btn.classList.remove('active'));
+    tabBtns[0].classList.add('active');
+    panelJson.classList.add('active');
+    panelExcel.classList.remove('active');
+    activeTab = 'json';
+
     modal.classList.add('show');
 
-    const closeModal = () => modal.classList.remove('show');
+    // ── Tab switching ──
+    tabBtns.forEach(btn => {
+        btn.onclick = () => {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeTab = btn.dataset.tab;
 
+            if (activeTab === 'json') {
+                panelJson.classList.add('active');
+                panelExcel.classList.remove('active');
+            } else {
+                panelExcel.classList.add('active');
+                panelJson.classList.remove('active');
+            }
+        };
+    });
+
+    // ── Drag & drop zone ──
+    excelDropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        excelDropzone.classList.add('dragover');
+    });
+    excelDropzone.addEventListener('dragleave', () => {
+        excelDropzone.classList.remove('dragover');
+    });
+    excelDropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        excelDropzone.classList.remove('dragover');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            handleExcelFile(files[0]);
+        }
+    });
+
+    excelFileInput.onchange = () => {
+        if (excelFileInput.files.length > 0) {
+            handleExcelFile(excelFileInput.files[0]);
+        }
+    };
+
+    function handleExcelFile(file) {
+        const validExts = ['.xlsx', '.xls'];
+        const ext = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+        if (!validExts.includes(ext)) {
+            showMessage('Formato no válido. Seleccione un archivo .xlsx o .xls', 'error');
+            return;
+        }
+
+        excelFileNameText.textContent = file.name;
+        excelFileName.classList.add('visible');
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                const jsonRows = XLSX.utils.sheet_to_json(firstSheet, { defval: '' });
+
+                if (!jsonRows || jsonRows.length === 0) {
+                    showMessage('El archivo Excel está vacío o no tiene datos válidos.', 'error');
+                    excelParsedData = null;
+                    return;
+                }
+
+                // Map rows to StudentDTO format
+                const requiredCols = ['studentCard', 'firstName', 'lastName', 'email', 'password', 'gradeId', 'roleId'];
+                const headers = Object.keys(jsonRows[0]);
+                const missingCols = requiredCols.filter(col => !headers.includes(col));
+
+                if (missingCols.length > 0) {
+                    showMessage(`Columnas faltantes en el Excel: ${missingCols.join(', ')}`, 'error');
+                    excelParsedData = null;
+                    return;
+                }
+
+                excelParsedData = jsonRows.map(row => ({
+                    studentCard: String(row.studentCard || '').trim(),
+                    firstName: String(row.firstName || '').trim(),
+                    lastName: String(row.lastName || '').trim(),
+                    email: String(row.email || '').trim(),
+                    password: String(row.password || '').trim(),
+                    gradeId: Number(row.gradeId),
+                    roleId: Number(row.roleId)
+                }));
+
+                showMessage(`Excel leído correctamente: ${excelParsedData.length} estudiante(s) detectado(s).`, 'success');
+            } catch (err) {
+                console.error('Error al parsear Excel:', err);
+                showMessage('Error al leer el archivo Excel: ' + err.message, 'error');
+                excelParsedData = null;
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    // ── Modal close ──
+    const closeModal = () => {
+        modal.classList.remove('show');
+        excelParsedData = null;
+    };
     btnCancel.onclick = closeModal;
     closeBtn.onclick = closeModal;
 
+    // ── Confirm upload ──
     btnConfirm.onclick = async () => {
-        const value = input.value.trim();
-        if (!value) {
-            showMessage('Pega el JSON primero', 'error');
-            return;
-        }
-        
         let students;
-        try {
-            students = JSON.parse(value);
-            if (!Array.isArray(students)) {
-                throw new Error('El JSON debe ser un arreglo de estudiantes');
+
+        if (activeTab === 'json') {
+            // JSON mode
+            const value = input.value.trim();
+            if (!value) {
+                showMessage('Pega el JSON primero', 'error');
+                return;
             }
-        } catch (error) {
-            showMessage('JSON inválido: ' + error.message, 'error');
-            return;
+            try {
+                students = JSON.parse(value);
+                if (!Array.isArray(students)) {
+                    throw new Error('El JSON debe ser un arreglo de estudiantes');
+                }
+            } catch (error) {
+                showMessage('JSON inválido: ' + error.message, 'error');
+                return;
+            }
+        } else {
+            // Excel mode
+            if (!excelParsedData || excelParsedData.length === 0) {
+                showMessage('Primero seleccione un archivo Excel válido', 'error');
+                return;
+            }
+            students = excelParsedData;
         }
 
         try {
